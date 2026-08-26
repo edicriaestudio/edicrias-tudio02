@@ -1,0 +1,33 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'Inter', system-ui, sans-serif;
+}
+
+::selection {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+html {
+  background: #0a0a0a;
+}
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Reveal animation base */
+.reveal-hidden {
+  transform: translateY(2rem);
+  opacity: 0;
+  will-change: transform;
+  transition: all 700ms ease-out;
+}
+
+.reveal-visible {
+  transform: translateY(0);
+  opacity: 1;
+}
