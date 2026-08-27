@@ -43,22 +43,22 @@ export function DiagnosticShuffler() {
   );
 }
 
+const TELEMETRY_LOGS = [
+  'SYSTEM.INIT: EdiCria Studio Core v2.4 initialized...',
+  'PERF.AUDIT: 100/100 Lighthouse Performance Index verified.',
+  'SCROLL.ENGINE: Canvas frame scrub active (60 FPS).',
+  'AI.GEN: Neural responsive layout grid synthesized.',
+  'DEPLOY.VERCEL: Edge CDN cached across global nodes.',
+];
+
 // 2. Telemetry Typewriter: Live monospace terminal feed (Ultra-Translucent Cyan Glass)
 export function TelemetryTypewriter() {
-  const logs = [
-    'SYSTEM.INIT: EdiCria Studio Core v2.4 initialized...',
-    'PERF.AUDIT: 100/100 Lighthouse Performance Index verified.',
-    'SCROLL.ENGINE: Canvas frame scrub active (60 FPS).',
-    'AI.GEN: Neural responsive layout grid synthesized.',
-    'DEPLOY.VERCEL: Edge CDN cached across global nodes.',
-  ];
-
   const [currentLineIndex, setCurrentLineIndex] = useState(0);
   const [currentCharIndex, setCurrentCharIndex] = useState(0);
   const [displayedText, setDisplayedText] = useState('');
 
   useEffect(() => {
-    const fullLine = logs[currentLineIndex];
+    const fullLine = TELEMETRY_LOGS[currentLineIndex];
     if (currentCharIndex < fullLine.length) {
       const timeout = setTimeout(() => {
         setDisplayedText((prev) => prev + fullLine[currentCharIndex]);
@@ -69,7 +69,7 @@ export function TelemetryTypewriter() {
       const timeout = setTimeout(() => {
         setDisplayedText('');
         setCurrentCharIndex(0);
-        setCurrentLineIndex((prev) => (prev + 1) % logs.length);
+        setCurrentLineIndex((prev) => (prev + 1) % TELEMETRY_LOGS.length);
       }, 2500);
       return () => clearTimeout(timeout);
     }

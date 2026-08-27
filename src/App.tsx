@@ -12,9 +12,16 @@ import PortfolioModal from './PortfolioModal';
 export default function App() {
   const [contactOpen, setContactOpen] = useState(false);
   const [portfolioOpen, setPortfolioOpen] = useState(false);
+  const [selectedTemplateName, setSelectedTemplateName] = useState<string | undefined>(undefined);
 
-  const handleOpenContact = () => setContactOpen(true);
-  const handleCloseContact = () => setContactOpen(false);
+  const handleOpenContact = (templateName?: string) => {
+    setSelectedTemplateName(templateName);
+    setContactOpen(true);
+  };
+  const handleCloseContact = () => {
+    setContactOpen(false);
+    setSelectedTemplateName(undefined);
+  };
 
   const handleOpenPortfolio = () => setPortfolioOpen(true);
   const handleClosePortfolio = () => setPortfolioOpen(false);
@@ -27,19 +34,19 @@ export default function App() {
       {/* Content layer */}
       <div className="relative z-10">
         <Navbar
-          onOpenContact={handleOpenContact}
+          onOpenContact={() => handleOpenContact()}
           onOpenPortfolio={handleOpenPortfolio}
         />
 
         <main>
           {/* Section 1: Hero + Live Telemetry + Diagnostic Shuffler */}
           <SectionOne
-            onOpenContact={handleOpenContact}
+            onOpenContact={() => handleOpenContact()}
             onOpenPortfolio={handleOpenPortfolio}
           />
 
           {/* Manifesto: Contrast Philosophy Section */}
-          <PhilosophySection onOpenContact={handleOpenContact} />
+          <PhilosophySection onOpenContact={() => handleOpenContact()} />
 
           {/* Sticky Pillars Stack */}
           <StickyProtocolStack />
@@ -49,13 +56,13 @@ export default function App() {
 
           {/* Section 2: Methodology + Protocol Scheduler */}
           <SectionTwo
-            onOpenContact={handleOpenContact}
+            onOpenContact={() => handleOpenContact()}
             onOpenPortfolio={handleOpenPortfolio}
           />
 
           {/* Studio Footer (Clean, without pricing cards) */}
           <Footer
-            onOpenContact={handleOpenContact}
+            onOpenContact={() => handleOpenContact()}
             onOpenPortfolio={handleOpenPortfolio}
           />
         </main>
@@ -63,14 +70,16 @@ export default function App() {
 
       {/* Interactive Modals */}
       <ContactModal
+        key={selectedTemplateName || 'general-contact'}
         isOpen={contactOpen}
         onClose={handleCloseContact}
+        initialTemplate={selectedTemplateName}
       />
 
       <PortfolioModal
         isOpen={portfolioOpen}
         onClose={handleClosePortfolio}
-        onSelectProjectForSite={handleOpenContact}
+        onSelectProjectForSite={(name) => handleOpenContact(name)}
       />
     </div>
   );

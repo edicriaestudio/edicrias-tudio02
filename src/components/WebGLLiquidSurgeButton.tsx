@@ -96,18 +96,22 @@ export default function WebGLLiquidSurgeButton({
 
     let level = 0.56, gulp = 0, slosh = 0.4, tilt = 0, tiltT = 0, lastX: number | null = null, last = 0;
     let animId: number;
+    let isVisible = true;
 
-    function resize() {
+    // Cache dimensions to avoid layout reflows in loop
+    function updateDimensions() {
       if (!canvas || !btn || !gl) return;
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      const w = Math.floor(btn.clientWidth * dpr);
-      const h = Math.floor(btn.clientHeight * dpr);
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      const w = Math.max(1, Math.floor(btn.clientWidth * dpr));
+      const h = Math.max(1, Math.floor(btn.clientHeight * dpr));
       if (canvas.width !== w || canvas.height !== h) {
         canvas.width = w;
         canvas.height = h;
         gl.viewport(0, 0, w, h);
       }
     }
+
+    updateDimensions();
 
     const handleMouseMove = (e: MouseEvent) => {
       const rect = btn.getBoundingClientRect();
@@ -122,32 +126,68 @@ export default function WebGLLiquidSurgeButton({
       tiltT = 0;
     };
 
+    // Mobile touch interaction support
+    const handleTouchMove = (e: TouchEvent) => {
+      if (e.touches.length > 0) {
+        const rect = btn.getBoundingClientRect();
+        const touch = e.touches[0];
+        const x = (touch.clientX - rect.left) / rect.width;
+        if (lastX !== null) slosh = Math.min(1.4, slosh + Math.abs(x - lastX) * 3.0);
+        lastX = x;
+        tiltT = (x - 0.5) * 2;
+      }
+    };
+
+    const handleTouchEnd = () => {
+      lastX = null;
+      tiltT = 0;
+    };
+
     const handleClick = () => {
       gulp = 1;
       slosh = Math.min(1.4, slosh + 0.7);
       if (onClick) onClick();
     };
 
-    btn.addEventListener('mousemove', handleMouseMove);
-    btn.addEventListener('mouseleave', handleMouseLeave);
+    btn.addEventListener('mousemove', handleMouseMove, { passive: true });
+    btn.addEventListener('mouseleave', handleMouseLeave, { passive: true });
+    btn.addEventListener('touchstart', handleTouchMove, { passive: true });
+    btn.addEventListener('touchmove', handleTouchMove, { passive: true });
+    btn.addEventListener('touchend', handleTouchEnd, { passive: true });
+    btn.addEventListener('touchcancel', handleTouchEnd, { passive: true });
     btn.addEventListener('click', handleClick);
 
-    function render(now: number) {
-      const dt = Math.min(0.05, (now - last) / 1000);
-      last = now;
-      slosh *= Math.exp(-1.5 * dt);
-      gulp *= Math.exp(-1.1 * dt);
-      tilt += (tiltT - tilt) * Math.min(1, dt * 5);
-      level += (0.56 - 0.36 * gulp - level) * Math.min(1, dt * 5.5);
+    // Pause animation when offscreen to preserve mobile framerate
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry.isIntersecting;
+      },
+      { threshold: 0.05 }
+    );
+    observer.observe(btn);
 
-      resize();
-      if (gl) {
-        gl.uniform2f(uRes, canvas.width, canvas.height);
-        gl.uniform1f(uTime, now / 1000);
-        gl.uniform1f(uLevel, level);
-        gl.uniform1f(uTilt, tilt);
-        gl.uniform1f(uSlosh, slosh);
-        gl.drawArrays(gl.TRIANGLES, 0, 3);
+    const handleResize = () => {
+      updateDimensions();
+    };
+    window.addEventListener('resize', handleResize, { passive: true });
+
+    function render(now: number) {
+      if (isVisible) {
+        const dt = Math.min(0.05, (now - last) / 1000);
+        last = now;
+        slosh *= Math.exp(-1.5 * dt);
+        gulp *= Math.exp(-1.1 * dt);
+        tilt += (tiltT - tilt) * Math.min(1, dt * 5);
+        level += (0.56 - 0.36 * gulp - level) * Math.min(1, dt * 5.5);
+
+        if (gl) {
+          gl.uniform2f(uRes, canvas.width, canvas.height);
+          gl.uniform1f(uTime, now / 1000);
+          gl.uniform1f(uLevel, level);
+          gl.uniform1f(uTilt, tilt);
+          gl.uniform1f(uSlosh, slosh);
+          gl.drawArrays(gl.TRIANGLES, 0, 3);
+        }
       }
       animId = requestAnimationFrame(render);
     }
@@ -155,8 +195,14 @@ export default function WebGLLiquidSurgeButton({
 
     return () => {
       cancelAnimationFrame(animId);
+      observer.disconnect();
+      window.removeEventListener('resize', handleResize);
       btn.removeEventListener('mousemove', handleMouseMove);
       btn.removeEventListener('mouseleave', handleMouseLeave);
+      btn.removeEventListener('touchstart', handleTouchMove);
+      btn.removeEventListener('touchmove', handleTouchMove);
+      btn.removeEventListener('touchend', handleTouchEnd);
+      btn.removeEventListener('touchcancel', handleTouchEnd);
       btn.removeEventListener('click', handleClick);
     };
   }, [onClick]);

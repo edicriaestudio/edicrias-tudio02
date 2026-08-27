@@ -7,10 +7,14 @@ interface SoundtrackBarProps {
 }
 
 export default function SoundtrackBar({ compact = false }: SoundtrackBarProps) {
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(ambientEngine.getIsPlaying());
   const [bars, setBars] = useState<number[]>([30, 60, 45, 80, 50]);
 
   useEffect(() => {
+    const unsubscribe = ambientEngine.subscribe((playing) => {
+      setIsPlaying(playing);
+    });
+
     let animId: number;
     const updateSpectrum = () => {
       if (ambientEngine.getIsPlaying()) {
@@ -21,12 +25,14 @@ export default function SoundtrackBar({ compact = false }: SoundtrackBarProps) {
       animId = requestAnimationFrame(updateSpectrum);
     };
     animId = requestAnimationFrame(updateSpectrum);
-    return () => cancelAnimationFrame(animId);
+    return () => {
+      unsubscribe();
+      cancelAnimationFrame(animId);
+    };
   }, []);
 
   const handleToggle = () => {
-    const active = ambientEngine.toggle();
-    setIsPlaying(active);
+    ambientEngine.toggle();
   };
 
   if (compact) {
@@ -77,7 +83,7 @@ export default function SoundtrackBar({ compact = false }: SoundtrackBarProps) {
             Trilha Imersiva
           </span>
           <span className="text-xs font-medium text-white tracking-wide">
-            {isPlaying ? 'Sintetizador Ambient' : 'Áudio Estúdio Off'}
+            {isPlaying ? 'Trilha Sonora Oficial' : 'Áudio Estúdio Off'}
           </span>
         </div>
       </div>

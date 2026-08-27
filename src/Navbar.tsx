@@ -76,22 +76,24 @@ export default function Navbar({ onOpenContact, onOpenPortfolio }: NavbarProps) 
         </div>
       </header>
 
-      {/* Bottom Floating Navigation Bar for Mobile (Thumb-Friendly) */}
-      <div className="fixed bottom-4 inset-x-4 z-40 md:hidden flex items-center justify-around p-2.5 rounded-full border border-cyan-400/40 bg-cyan-950/20 backdrop-blur-3xl shadow-[0_0_40px_rgba(6,182,212,0.25)]">
+      {/* Bottom Floating Navigation Bar for Mobile (Thumb-Friendly with Safe Area Inset) */}
+      <div className="fixed bottom-3 inset-x-3 sm:inset-x-6 z-40 md:hidden flex items-center justify-between gap-3 p-2 rounded-full border border-cyan-400/40 bg-cyan-950/30 backdrop-blur-3xl shadow-[0_0_40px_rgba(6,182,212,0.3)] pb-[calc(0.5rem+env(safe-area-inset-bottom,0px))]">
         <button
           onClick={onOpenPortfolio}
-          className="flex flex-col items-center gap-1 px-3 py-1 text-[10px] font-mono uppercase text-cyan-200 hover:text-white"
+          className="flex items-center gap-2 px-3.5 py-2.5 rounded-full bg-cyan-950/60 border border-cyan-500/30 text-xs font-mono uppercase text-cyan-200 hover:text-white active:scale-95 transition-transform shrink-0"
         >
-          <FolderKanban size={16} className="text-cyan-400" />
-          <span>TEMPLATES</span>
+          <FolderKanban size={15} className="text-cyan-400" />
+          <span className="font-semibold">TEMPLATES</span>
         </button>
 
-        <WebGLLiquidSurgeButton
-          label="SOLICITAR SITE"
-          onClick={onOpenContact}
-          width="w-[170px]"
-          height="h-[46px]"
-        />
+        <div className="flex-1 max-w-[200px]">
+          <WebGLLiquidSurgeButton
+            label="SOLICITAR SITE"
+            onClick={onOpenContact}
+            width="w-full"
+            height="h-[44px]"
+          />
+        </div>
       </div>
     </>
   );

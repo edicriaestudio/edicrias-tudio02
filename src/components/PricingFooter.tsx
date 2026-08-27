@@ -1,4 +1,4 @@
-import { Check, Sparkles, ArrowUpRight, Hexagon, Shield } from 'lucide-react';
+import { Check, Sparkles, ArrowUpRight, Hexagon } from 'lucide-react';
 import { useReveal } from '../hooks';
 
 interface PricingFooterProps {

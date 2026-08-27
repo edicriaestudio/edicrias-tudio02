@@ -11,37 +11,37 @@ export default function Footer({ onOpenContact, onOpenPortfolio }: FooterProps) 
   const headerRef = useReveal(100);
 
   return (
-    <footer className="relative bg-gradient-to-b from-transparent via-cyan-950/25 to-[#050b11]/95 text-white rounded-t-[3rem] sm:rounded-t-[4rem] border-t border-cyan-500/30 pt-20 pb-12 px-5 sm:px-8 md:px-12 overflow-hidden backdrop-blur-3xl">
+    <footer className="relative bg-gradient-to-b from-transparent via-cyan-950/25 to-[#050b11]/95 text-white rounded-t-[2.5rem] sm:rounded-t-[4rem] border-t border-cyan-500/30 pt-16 sm:pt-20 pb-28 md:pb-12 px-4 sm:px-8 md:px-12 overflow-hidden backdrop-blur-3xl">
       {/* Background Ambient Glow */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-40 bg-cyan-500/10 blur-[120px] pointer-events-none rounded-full" />
 
-      <div className="max-w-6xl mx-auto relative z-10 space-y-16">
+      <div className="max-w-6xl mx-auto relative z-10 space-y-12 sm:space-y-16">
         {/* Main Call to Action Header - Ultra-Translucent Cyan Frosted Glass Card */}
-        <div ref={headerRef} className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 p-8 sm:p-12 rounded-3xl bg-cyan-950/25 border border-cyan-400/50 backdrop-blur-3xl shadow-[0_0_60px_rgba(6,182,212,0.25)]">
+        <div ref={headerRef} className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 sm:gap-8 p-6 sm:p-12 rounded-3xl bg-cyan-950/25 border border-cyan-400/50 backdrop-blur-3xl shadow-[0_0_60px_rgba(6,182,212,0.25)]">
           <div className="max-w-2xl space-y-3">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-950/60 border border-cyan-500/40 text-xs font-mono uppercase text-cyan-300">
               <Sparkles size={13} className="text-cyan-400" />
               EDICRIA STUDIO 2026
             </div>
-            <h3 className="text-3xl sm:text-4xl md:text-5xl font-normal tracking-tight text-white leading-tight">
+            <h3 className="text-2xl sm:text-4xl md:text-5xl font-normal tracking-tight text-white leading-tight">
               Pronto para transformar sua presença digital?
             </h3>
-            <p className="text-sm text-zinc-200 font-light leading-relaxed">
+            <p className="text-xs sm:text-sm text-zinc-200 font-light leading-relaxed">
               Solicite uma proposta exclusiva ou explore nossa biblioteca de 46 templates Figma editáveis (foto & vídeo).
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-4 shrink-0">
+          <div className="flex flex-wrap items-center gap-3 sm:gap-4 shrink-0 w-full lg:w-auto">
             <WebGLLiquidSurgeButton
               label="INICIAR PROJETO"
               onClick={onOpenContact}
-              width="w-[240px]"
-              height="h-[64px]"
+              width="w-full sm:w-[240px]"
+              height="h-[60px] sm:h-[64px]"
             />
             
             <button
               onClick={onOpenPortfolio}
-              className="px-6 py-4 rounded-2xl border border-cyan-400/40 bg-cyan-950/40 text-cyan-200 text-xs font-mono uppercase tracking-wider hover:bg-cyan-900/50 hover:text-white transition-all flex items-center gap-2 shadow-lg"
+              className="w-full sm:w-auto px-6 py-3.5 sm:py-4 rounded-2xl border border-cyan-400/40 bg-cyan-950/40 text-cyan-200 text-xs font-mono uppercase tracking-wider hover:bg-cyan-900/50 hover:text-white transition-all flex items-center justify-center gap-2 shadow-lg active:scale-95"
             >
               <FolderKanban size={14} className="text-cyan-300" />
               TEMPLATES FIGMA

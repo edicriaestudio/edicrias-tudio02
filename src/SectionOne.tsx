@@ -27,7 +27,7 @@ export default function SectionOne({ onOpenContact, onOpenPortfolio }: SectionOn
   const h1Ref = useReveal(280);
 
   return (
-    <section className="min-h-screen supports-[height:100svh]:min-h-[100svh] flex flex-col justify-between px-5 sm:px-8 md:px-12 pt-28 sm:pt-32 pb-16 relative bg-gradient-to-b from-transparent via-cyan-950/20 to-transparent">
+    <section className="min-h-screen supports-[height:100svh]:min-h-[100svh] flex flex-col justify-between px-4 sm:px-8 md:px-12 pt-24 sm:pt-32 pb-14 sm:pb-16 relative bg-gradient-to-b from-transparent via-cyan-950/20 to-transparent">
       {/* Noise Texture SVG Overlay */}
       <div
         className="fixed inset-0 pointer-events-none z-20 opacity-[0.04] mix-blend-overlay"
@@ -37,9 +37,9 @@ export default function SectionOne({ onOpenContact, onOpenPortfolio }: SectionOn
       />
 
       {/* Top row */}
-      <div className="flex flex-col gap-8 sm:flex-row sm:justify-between items-start">
+      <div className="flex flex-col gap-5 sm:gap-8 sm:flex-row sm:justify-between items-start">
         {/* Left — Ultra-Translucent Service List Card */}
-        <div className="flex flex-col gap-2.5 bg-cyan-950/15 backdrop-blur-3xl border border-cyan-400/40 p-4 sm:p-5 rounded-3xl shadow-[0_0_40px_rgba(6,182,212,0.18)]">
+        <div className="w-full sm:w-auto flex flex-col gap-2 bg-cyan-950/15 backdrop-blur-3xl border border-cyan-400/40 p-4 sm:p-5 rounded-3xl shadow-[0_0_40px_rgba(6,182,212,0.18)]">
           <ServiceLine text="/ WEB DESIGN 4K" delay={150} />
           <ServiceLine text="/ LANDING PAGES CINEMATOGRÁFICAS" delay={270} />
           <ServiceLine text="/ FIGMA TEMPLATES (FOTO & VÍDEO)" delay={390} />
@@ -53,22 +53,22 @@ export default function SectionOne({ onOpenContact, onOpenPortfolio }: SectionOn
       </div>
 
       {/* Main Hero & Interactive Shuffler Grid */}
-      <div className="my-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+      <div className="my-6 sm:my-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
         {/* Left Typography */}
-        <div className="lg:col-span-7 space-y-6">
+        <div className="lg:col-span-7 space-y-5 sm:space-y-6">
           <div
             ref={badgeRef}
-            className="inline-flex items-center gap-2 border-l-2 border-cyan-400 bg-cyan-950/20 px-4 py-2 backdrop-blur-3xl rounded-r-xl border-y border-r border-cyan-400/40 shadow-[0_0_30px_rgba(6,182,212,0.15)]"
+            className="inline-flex items-center gap-2 border-l-2 border-cyan-400 bg-cyan-950/20 px-3.5 sm:px-4 py-2 backdrop-blur-3xl rounded-r-xl border-y border-r border-cyan-400/40 shadow-[0_0_30px_rgba(6,182,212,0.15)]"
           >
             <Sparkles size={14} className="text-cyan-300 animate-pulse" />
-            <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-cyan-200 font-medium">
+            <span className="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.16em] sm:tracking-[0.18em] text-cyan-200 font-medium">
               EDICRIA STUDIO • ART DIRECTION 2026
             </span>
           </div>
 
           <h1
             ref={h1Ref}
-            className="text-[clamp(2.5rem,7vw,5rem)] font-normal leading-[1.04] tracking-tight text-white drop-shadow-2xl"
+            className="text-[clamp(2.1rem,6.2vw,4.8rem)] font-normal leading-[1.06] tracking-tight text-white drop-shadow-2xl"
           >
             Não criamos <br />
             apenas websites. <br />
@@ -79,22 +79,22 @@ export default function SectionOne({ onOpenContact, onOpenPortfolio }: SectionOn
 
           <p
             ref={introRef}
-            className="max-w-xl text-base sm:text-lg text-zinc-200 font-light leading-relaxed drop-shadow-md"
+            className="max-w-xl text-sm sm:text-lg text-zinc-200 font-light leading-relaxed drop-shadow-md"
           >
             Páginas cinematográficas, templates editáveis no Figma (Foto & Vídeo) e animações de alta performance desenvolvidas para destacar sua marca.
           </p>
 
-          <div className="flex flex-wrap items-center gap-4 pt-2">
+          <div className="flex flex-wrap items-center gap-3.5 sm:gap-4 pt-2">
             <WebGLLiquidSurgeButton
               label="CRIAR MEU SITE AUTORAL"
               onClick={onOpenContact}
-              width="w-[270px] sm:w-[300px]"
-              height="h-[68px]"
+              width="w-full sm:w-[290px]"
+              height="h-[64px] sm:h-[68px]"
             />
 
             <button
               onClick={onOpenPortfolio}
-              className="px-6 py-4 rounded-2xl border border-cyan-400/40 bg-cyan-950/20 backdrop-blur-3xl text-xs sm:text-sm font-mono uppercase tracking-wider text-cyan-200 hover:bg-cyan-900/50 hover:text-white transition-all flex items-center gap-2 shadow-[0_0_30px_rgba(6,182,212,0.15)]"
+              className="w-full sm:w-auto px-5 sm:px-6 py-3.5 sm:py-4 rounded-2xl border border-cyan-400/40 bg-cyan-950/20 backdrop-blur-3xl text-xs sm:text-sm font-mono uppercase tracking-wider text-cyan-200 hover:bg-cyan-900/50 hover:text-white transition-all flex items-center justify-center gap-2 shadow-[0_0_30px_rgba(6,182,212,0.15)] active:scale-95"
             >
               <FolderKanban size={16} className="text-cyan-300" />
               VER TEMPLATES FIGMA
@@ -103,7 +103,7 @@ export default function SectionOne({ onOpenContact, onOpenPortfolio }: SectionOn
         </div>
 
         {/* Right — Diagnostic Shuffler Card Stack */}
-        <div className="lg:col-span-5 flex justify-center">
+        <div className="lg:col-span-5 flex justify-center w-full">
           <DiagnosticShuffler />
         </div>
       </div>

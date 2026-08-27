@@ -56,40 +56,40 @@ function CapabilityRow({ cap, delay, isLast }: { cap: Capability; delay: number;
   );
 }
 
-export default function SectionTwo({ onOpenContact, onOpenPortfolio }: SectionTwoProps) {
+export default function SectionTwo({ onOpenContact, onOpenPortfolio: _onOpenPortfolio }: SectionTwoProps) {
   const badgeRef = useReveal(120);
   const copyRef = useReveal(220);
   const h2Ref = useReveal(180);
 
   return (
-    <section id="pilares" className="min-h-screen supports-[height:100svh]:min-h-[100svh] flex flex-col justify-between px-5 sm:px-8 md:px-12 pt-20 sm:pt-24 pb-16 relative bg-gradient-to-b from-transparent via-cyan-950/20 to-transparent backdrop-blur-2xl">
+    <section id="pilares" className="min-h-screen supports-[height:100svh]:min-h-[100svh] flex flex-col justify-between px-4 sm:px-8 md:px-12 pt-16 sm:pt-24 pb-14 sm:pb-16 relative bg-gradient-to-b from-transparent via-cyan-950/20 to-transparent backdrop-blur-2xl">
       {/* Top Header */}
-      <div className="flex flex-col gap-6 sm:flex-row sm:justify-between items-start">
+      <div className="flex flex-col gap-4 sm:gap-6 sm:flex-row sm:justify-between items-start">
         <div
           ref={badgeRef}
           className="inline-flex items-center gap-2 border-l-2 border-cyan-400 bg-cyan-950/40 px-3.5 py-1.5 backdrop-blur-md rounded-r-lg border-y border-r border-cyan-500/30"
         >
           <Sparkles size={13} className="text-cyan-300" />
-          <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-cyan-200 font-medium">
+          <span className="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.15em] text-cyan-200 font-medium">
             METODOLOGIA & DIFERENCIAIS
           </span>
         </div>
 
         <p
           ref={copyRef}
-          className="max-w-md sm:text-right text-base sm:text-lg leading-relaxed text-zinc-200 drop-shadow-md font-light"
+          className="max-w-md sm:text-right text-sm sm:text-lg leading-relaxed text-zinc-200 drop-shadow-md font-light"
         >
           Seu site pode ser mais do que presença institucional. Pode ser uma ferramenta de autoridade que converte visitantes em clientes.
         </p>
       </div>
 
       {/* Main Grid */}
-      <div className="my-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+      <div className="my-6 sm:my-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
         {/* Left Column */}
-        <div className="lg:col-span-6 space-y-6">
+        <div className="lg:col-span-6 space-y-5 sm:space-y-6">
           <h2
             ref={h2Ref}
-            className="text-[clamp(2.2rem,5vw,4rem)] font-normal leading-[1.05] tracking-tight text-white drop-shadow-lg"
+            className="text-[clamp(2rem,4.8vw,3.8rem)] font-normal leading-[1.08] tracking-tight text-white drop-shadow-lg"
           >
             Sua marca merece <br />
             uma experiência <br />
@@ -98,29 +98,29 @@ export default function SectionTwo({ onOpenContact, onOpenPortfolio }: SectionTw
             </span>
           </h2>
 
-          <p className="text-sm sm:text-base text-zinc-200 font-light leading-relaxed max-w-lg">
+          <p className="text-xs sm:text-base text-zinc-200 font-light leading-relaxed max-w-lg">
             A EdiCria Studio combina design de autor, desenvolvimento de alta performance, biblioteca de templates Figma e áudio ambiente para criar ecossistemas digitais inesquecíveis.
           </p>
 
           {/* Ultra-Translucent Cyan Capability panel */}
-          <div className="rounded-3xl border border-cyan-400/40 bg-cyan-950/20 backdrop-blur-3xl p-6 sm:p-8 shadow-[0_0_50px_rgba(6,182,212,0.2)] space-y-4">
+          <div className="rounded-3xl border border-cyan-400/40 bg-cyan-950/20 backdrop-blur-3xl p-5 sm:p-8 shadow-[0_0_50px_rgba(6,182,212,0.2)] space-y-3 sm:space-y-4">
             <CapabilityRow cap={capabilities[0]} delay={300} isLast={false} />
             <CapabilityRow cap={capabilities[1]} delay={410} isLast={false} />
             <CapabilityRow cap={capabilities[2]} delay={520} isLast={true} />
 
-            <div className="pt-4 flex items-center justify-start">
+            <div className="pt-3 sm:pt-4 flex items-center justify-start">
               <WebGLLiquidSurgeButton
                 label="SOLICITAR DIAGNÓSTICO VIP"
                 onClick={onOpenContact}
-                width="w-[280px]"
-                height="h-[64px]"
+                width="w-full sm:w-[280px]"
+                height="h-[60px] sm:h-[64px]"
               />
             </div>
           </div>
         </div>
 
         {/* Right Column — Protocol Scheduler Widget */}
-        <div className="lg:col-span-6 flex justify-center">
+        <div className="lg:col-span-6 flex justify-center w-full">
           <ProtocolScheduler />
         </div>
       </div>

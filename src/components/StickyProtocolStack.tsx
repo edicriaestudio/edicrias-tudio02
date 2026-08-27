@@ -71,21 +71,21 @@ export default function StickyProtocolStack({ onOpenContact }: StickyProtocolSta
   ];
 
   return (
-    <section id="protocolos" className="relative py-28 px-5 sm:px-8 md:px-12 bg-gradient-to-b from-transparent via-cyan-950/25 to-transparent backdrop-blur-3xl border-y border-cyan-500/20">
+    <section id="protocolos" className="relative py-16 sm:py-28 px-4 sm:px-8 md:px-12 bg-gradient-to-b from-transparent via-cyan-950/25 to-transparent backdrop-blur-3xl border-y border-cyan-500/20">
       
       {/* Background Ambient Glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[750px] h-[750px] bg-cyan-500/10 rounded-full blur-[200px] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] sm:w-[750px] h-[350px] sm:h-[750px] bg-cyan-500/10 rounded-full blur-[140px] pointer-events-none" />
 
       <div className="max-w-6xl mx-auto relative z-10">
         
         {/* Section Header */}
-        <div className="mb-12 flex flex-col sm:flex-row sm:items-end justify-between gap-6 border-b border-white/10 pb-6">
+        <div className="mb-8 sm:mb-12 flex flex-col sm:flex-row sm:items-end justify-between gap-5 sm:gap-6 border-b border-white/10 pb-6">
           <div>
-            <span className="font-mono text-xs uppercase tracking-[0.2em] text-cyan-300 flex items-center gap-2 mb-2 font-medium">
+            <span className="font-mono text-[11px] sm:text-xs uppercase tracking-[0.18em] sm:tracking-[0.2em] text-cyan-300 flex items-center gap-2 mb-2 font-medium">
               <Sparkles size={14} className="text-cyan-400" />
               // PROTOCOLO DE CONSTRUÇÃO (WEBGL & SHADERS)
             </span>
-            <h3 className="text-3xl sm:text-5xl font-normal text-white tracking-tight">
+            <h3 className="text-2xl sm:text-5xl font-normal text-white tracking-tight">
               Os 3 pilares da <span className="font-serif italic text-cyan-300 underline decoration-cyan-400/50 underline-offset-8">EdiCria Studio</span>
             </h3>
           </div>
@@ -96,7 +96,7 @@ export default function StickyProtocolStack({ onOpenContact }: StickyProtocolSta
               <button
                 key={idx}
                 onClick={() => setActiveCard(idx)}
-                className={`px-4 py-2.5 rounded-full font-mono text-xs border transition-all duration-300 ${
+                className={`px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-full font-mono text-xs border transition-all duration-300 active:scale-95 ${
                   activeCard === idx
                     ? 'bg-cyan-400 text-black border-cyan-300 font-bold shadow-[0_0_20px_rgba(6,182,212,0.6)] scale-105'
                     : 'bg-white/5 text-white/70 border-white/15 hover:bg-white/15 hover:text-white'
@@ -109,45 +109,45 @@ export default function StickyProtocolStack({ onOpenContact }: StickyProtocolSta
         </div>
 
         {/* Clean Spaced Card Display Container (Ultra-Translucent Glass) */}
-        <div className="w-full min-h-[420px] relative">
+        <div className="w-full min-h-[380px] sm:min-h-[420px] relative">
           {cards.map((card, idx) => {
             const isActive = activeCard === idx;
             return (
               <div
                 key={card.id}
                 onClick={() => setActiveCard(idx)}
-                className={`w-full rounded-3xl border p-6 sm:p-10 md:p-12 transition-all duration-500 ${
+                className={`w-full rounded-3xl border p-5 sm:p-10 md:p-12 transition-all duration-500 ${
                   isActive
                     ? 'bg-cyan-950/15 border-cyan-400/40 backdrop-blur-3xl shadow-[0_0_60px_rgba(6,182,212,0.22)] relative z-20 opacity-100 scale-100 pointer-events-auto block'
                     : 'bg-cyan-950/10 border-white/10 backdrop-blur-xl opacity-0 pointer-events-none absolute top-0 inset-x-0 z-10 scale-95 hidden'
                 }`}
               >
-                <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-10">
+                <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 sm:gap-10">
                   
                   {/* Left Specs & Copy with Clean Spacing */}
-                  <div className="flex-1 space-y-4">
+                  <div className="flex-1 space-y-3.5 sm:space-y-4">
                     <div className="flex items-center gap-3">
-                      <span className="font-mono text-xs uppercase tracking-widest text-cyan-300 bg-cyan-950/60 px-3.5 py-1.5 rounded-full border border-cyan-500/40 shadow-sm">
+                      <span className="font-mono text-[10px] sm:text-xs uppercase tracking-widest text-cyan-300 bg-cyan-950/60 px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-full border border-cyan-500/40 shadow-sm">
                         {card.tag}
                       </span>
                       <span className="font-mono text-xs text-zinc-300 font-medium">PILAR {card.id}</span>
                     </div>
 
-                    <h4 className="text-2xl sm:text-3xl lg:text-4xl font-medium text-white tracking-tight leading-snug">
+                    <h4 className="text-xl sm:text-3xl lg:text-4xl font-medium text-white tracking-tight leading-snug">
                       {card.title}
                     </h4>
 
-                    <p className="text-xs sm:text-sm text-cyan-200 font-mono tracking-wider pt-1">
+                    <p className="text-xs sm:text-sm text-cyan-200 font-mono tracking-wider pt-0.5 sm:pt-1">
                       // {card.subtitle}
                     </p>
 
-                    <p className="text-base sm:text-lg text-zinc-100 font-light leading-relaxed max-w-2xl pt-2">
+                    <p className="text-sm sm:text-lg text-zinc-100 font-light leading-relaxed max-w-2xl pt-1 sm:pt-2">
                       {card.desc}
                     </p>
                   </div>
 
                   {/* Right WebGL Interactive Graphic */}
-                  <div className="shrink-0 w-full lg:w-auto flex items-center justify-center pt-4 lg:pt-0">
+                  <div className="shrink-0 w-full lg:w-auto flex items-center justify-center pt-2 lg:pt-0">
                     {card.graphic}
                   </div>
 

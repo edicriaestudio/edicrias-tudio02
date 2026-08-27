@@ -18,7 +18,7 @@ export function useReveal<T extends HTMLElement = HTMLDivElement>(delay: number 
           observer.unobserve(el);
         }
       },
-      { threshold: 0.15 }
+      { threshold: 0.05, rootMargin: '0px 0px -20px 0px' }
     );
 
     observer.observe(el);

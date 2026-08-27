@@ -1,12 +1,12 @@
-import { useState } from 'react';
-import { X, Sparkles, Filter, Film, Image as ImageIcon, Zap, Volume2, VolumeX, Maximize2, Copy, Check } from 'lucide-react';
+import { useState, useRef, useEffect } from 'react';
+import { X, Sparkles, Filter, Film, Image as ImageIcon, Zap, Maximize2, Copy, Check, ShoppingBag, ShieldCheck, Download, ArrowRight, ExternalLink, CheckCircle2 } from 'lucide-react';
 import SoundtrackBar from './components/SoundtrackBar';
 import WebGLLiquidSurgeButton from './components/WebGLLiquidSurgeButton';
 
 interface PortfolioModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSelectProjectForSite?: () => void;
+  onSelectProjectForSite?: (templateName?: string) => void;
 }
 
 export interface TemplateItem {
@@ -22,6 +22,90 @@ export interface TemplateItem {
   previewUrl: string;
   videoPreview?: string;
   features: string[];
+  price?: string;
+}
+
+// Lazy Video Renderer that only mounts and decodes video when visible in viewport
+function LazyTemplateMedia({
+  item,
+  onOpenPreview,
+}: {
+  item: TemplateItem;
+  onOpenPreview: () => void;
+}) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      { rootMargin: '180px 0px 180px 0px', threshold: 0.05 }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={containerRef}
+      onClick={onOpenPreview}
+      className="relative w-full h-[280px] sm:h-[320px] overflow-hidden bg-black border-b border-white/10 flex items-center justify-center cursor-pointer group/media"
+    >
+      {item.videoPreview && isVisible ? (
+        <div className="relative w-full h-full">
+          <video
+            src={item.videoPreview}
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="metadata"
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 filter brightness-95 group-hover:brightness-100 pointer-events-none"
+          />
+          {/* Live Motion Badge */}
+          <div className="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-red-600/90 border border-red-400/40 backdrop-blur-md font-mono text-[9px] text-white uppercase tracking-wider flex items-center gap-1.5 shadow-lg z-10">
+            <span className="w-1.5 h-1.5 rounded-full bg-white animate-ping" />
+            VÍDEO REAL FIGMA 60FPS
+          </div>
+        </div>
+      ) : (
+        <img
+          src={item.previewUrl}
+          alt={item.title}
+          loading="lazy"
+          className="w-full h-full object-cover object-top filter brightness-[0.92] group-hover:brightness-100 group-hover:scale-105 transition-all duration-700"
+        />
+      )}
+
+      {/* Hover Inspect Overlay */}
+      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/media:opacity-100 transition-opacity flex items-center justify-center gap-2 z-10 backdrop-blur-[2px]">
+        <span className="px-3.5 py-1.5 rounded-full bg-cyan-950/90 border border-cyan-400/60 text-cyan-200 text-xs font-mono uppercase tracking-wider flex items-center gap-1.5 shadow-lg">
+          <Maximize2 size={12} className="text-cyan-400" />
+          VER DETALHES 4K
+        </span>
+      </div>
+
+      {/* Gradient Overlay for Contrast */}
+      <div className="absolute inset-0 bg-gradient-to-t from-[#050b11] via-transparent to-black/30 pointer-events-none" />
+
+      {/* Badge Tag */}
+      <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-[#050b11]/90 border border-cyan-500/40 backdrop-blur-md text-[10px] font-mono text-cyan-300 tracking-wider uppercase flex items-center gap-1.5 z-10">
+        <span className="text-zinc-400">#{item.num}</span>
+        <span>{item.categoryLabel}</span>
+      </div>
+
+      {/* Rating Badge */}
+      <div className="absolute bottom-3 right-3 px-2.5 py-1 rounded-full bg-[#050b11]/90 border border-cyan-500/40 backdrop-blur-md text-[10px] font-mono text-cyan-300 z-10">
+        {item.rating}
+      </div>
+    </div>
+  );
 }
 
 const templatesData: TemplateItem[] = [
@@ -655,7 +739,7 @@ export default function PortfolioModal({ isOpen, onClose, onSelectProjectForSite
   const [filter, setFilter] = useState<'all' | 'foto' | 'video' | 'web'>('all');
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [selectedTemplate, setSelectedTemplate] = useState<TemplateItem | null>(null);
-  const [isMuted, setIsMuted] = useState(true);
+  const [checkoutTemplate, setCheckoutTemplate] = useState<TemplateItem | null>(null);
 
   if (!isOpen) return null;
 
@@ -670,6 +754,13 @@ export default function PortfolioModal({ isOpen, onClose, onSelectProjectForSite
     setTimeout(() => setCopiedId(null), 2000);
   };
 
+  const handleOpenWhatsAppCheckout = (item: TemplateItem) => {
+    const text = encodeURIComponent(
+      `Olá EdiCria Studio! Quero adquirir o template Figma: "${item.title}" (#${item.num} - ${item.tag}). Como faço o pagamento e liberação imediata do arquivo?`
+    );
+    window.open(`https://wa.me/5511999999999?text=${text}`, '_blank');
+  };
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
       {/* Backdrop with blur */}
@@ -679,7 +770,7 @@ export default function PortfolioModal({ isOpen, onClose, onSelectProjectForSite
       />
 
       {/* Main Container - Translucent Cyan Frosted Glass */}
-      <div className="relative w-full max-w-6xl rounded-3xl border border-cyan-400/40 bg-[#050b11]/75 p-5 sm:p-8 backdrop-blur-3xl shadow-[0_0_80px_rgba(6,182,212,0.25)] z-10 text-white my-auto flex flex-col gap-6 max-h-[92vh] overflow-y-auto custom-scrollbar">
+      <div className="relative w-full max-w-6xl rounded-3xl border border-cyan-400/40 bg-[#050b11]/80 p-5 sm:p-8 backdrop-blur-3xl shadow-[0_0_80px_rgba(6,182,212,0.25)] z-10 text-white my-auto flex flex-col gap-6 max-h-[92vh] overflow-y-auto custom-scrollbar">
         
         {/* Header Bar */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-white/10">
@@ -691,10 +782,10 @@ export default function PortfolioModal({ isOpen, onClose, onSelectProjectForSite
               </span>
             </div>
             <h3 className="text-2xl sm:text-3xl font-normal tracking-tight text-white">
-              Biblioteca de Protótipos com Vídeos Reais do Figma
+              Biblioteca de Protótipos & Checkout de Templates
             </h3>
             <p className="mt-1 text-xs sm:text-sm text-zinc-300 font-light leading-relaxed">
-              24 Vídeos .WebM originais extraídos do Figma + 22 Imagens High-Res 4K em proporções expansivas.
+              24 Vídeos .WebM originais extraídos do Figma + 22 Imagens High-Res 4K com arquivos fontes editáveis.
             </p>
           </div>
 
@@ -759,60 +850,22 @@ export default function PortfolioModal({ isOpen, onClose, onSelectProjectForSite
           </div>
 
           <span className="text-[11px] font-mono text-cyan-300/70 hidden lg:inline-block pr-2">
-            VÍDEOS .WEBM REAIS DO FIGMA AUTOPLAY LOOP
+            ARQUIVOS .FIG + ASSETS 4K PRONTOS PARA USO
           </span>
         </div>
 
-        {/* 46 Expanded Media Grid - Translucent Cyan Glass Cards */}
+        {/* 46 Optimized Lazy Media Grid - Translucent Cyan Glass Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7 py-2">
           {filteredTemplates.map((item) => (
             <div
               key={item.id}
-              className="group relative rounded-3xl border border-cyan-400/30 bg-[#050b11]/50 backdrop-blur-3xl hover:border-cyan-400/70 hover:shadow-[0_0_40px_rgba(6,182,212,0.2)] transition-all duration-500 overflow-hidden flex flex-col justify-between shadow-xl hover:-translate-y-1.5"
+              className="group relative rounded-3xl border border-cyan-400/30 bg-[#050b11]/60 backdrop-blur-3xl hover:border-cyan-400/70 hover:shadow-[0_0_40px_rgba(6,182,212,0.2)] transition-all duration-500 overflow-hidden flex flex-col justify-between shadow-xl hover:-translate-y-1.5"
             >
-              {/* ENLARGED MEDIA FRAME (h-[280px] sm:h-[320px]) */}
-              <div className="relative w-full h-[280px] sm:h-[320px] overflow-hidden bg-black border-b border-white/10 flex items-center justify-center">
-                
-                {item.videoPreview ? (
-                  <div className="relative w-full h-full">
-                    <video
-                      src={item.videoPreview}
-                      autoPlay
-                      loop
-                      muted
-                      playsInline
-                      preload="auto"
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 filter brightness-95 group-hover:brightness-100"
-                    />
-                    {/* Live Motion Badge */}
-                    <div className="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-red-600/90 border border-red-400/40 backdrop-blur-md font-mono text-[9px] text-white uppercase tracking-wider flex items-center gap-1.5 shadow-lg">
-                      <span className="w-1.5 h-1.5 rounded-full bg-white animate-ping" />
-                      VÍDEO REAL FIGMA 60FPS
-                    </div>
-                  </div>
-                ) : (
-                  <img
-                    src={item.previewUrl}
-                    alt={item.title}
-                    loading="lazy"
-                    className="w-full h-full object-cover object-top filter brightness-[0.92] group-hover:brightness-100 group-hover:scale-105 transition-all duration-700"
-                  />
-                )}
-
-                {/* Gradient Overlay for Contrast */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#050b11] via-transparent to-black/30 pointer-events-none" />
-
-                {/* Badge Tag */}
-                <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-[#050b11]/90 border border-cyan-500/40 backdrop-blur-md text-[10px] font-mono text-cyan-300 tracking-wider uppercase flex items-center gap-1.5">
-                  <span className="text-zinc-400">#{item.num}</span>
-                  <span>{item.categoryLabel}</span>
-                </div>
-
-                {/* Rating Badge */}
-                <div className="absolute bottom-3 right-3 px-2.5 py-1 rounded-full bg-[#050b11]/90 border border-cyan-500/40 backdrop-blur-md text-[10px] font-mono text-cyan-300">
-                  {item.rating}
-                </div>
-              </div>
+              {/* LAZY OPTIMIZED MEDIA FRAME */}
+              <LazyTemplateMedia
+                item={item}
+                onOpenPreview={() => setSelectedTemplate(item)}
+              />
 
               {/* Card Content Body - Translucent Glass */}
               <div className="p-6 flex-1 flex flex-col justify-between space-y-4 bg-transparent">
@@ -847,21 +900,35 @@ export default function PortfolioModal({ isOpen, onClose, onSelectProjectForSite
                   ))}
                 </div>
 
-                {/* Action Buttons */}
-                <div className="pt-3 border-t border-white/10 flex items-center justify-between gap-2">
+                {/* Modern High-Conversion Checkout Action Buttons */}
+                <div className="pt-3 border-t border-white/10 flex flex-col gap-2">
+                  <div className="flex items-center gap-2">
+                    {/* Primary Checkout Button */}
+                    <button
+                      onClick={() => setCheckoutTemplate(item)}
+                      className="flex-1 py-3 px-4 rounded-xl bg-gradient-to-r from-cyan-400 to-cyan-300 text-black hover:from-cyan-300 hover:to-white text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(6,182,212,0.4)] active:scale-95"
+                    >
+                      <ShoppingBag size={14} className="text-black" />
+                      ADQUIRIR TEMPLATE
+                    </button>
+
+                    {/* Secondary Quick Figma Link */}
+                    <button
+                      onClick={() => handleCopyFigmaLink(item.id)}
+                      className="p-3 rounded-xl bg-white/5 hover:bg-white/15 border border-white/10 text-cyan-300 hover:text-white transition-colors shrink-0"
+                      title="Copiar Link do Figma"
+                    >
+                      {copiedId === item.id ? <Check size={14} className="text-cyan-400" /> : <Copy size={14} />}
+                    </button>
+                  </div>
+
+                  {/* Secondary Preview & Specs Action */}
                   <button
                     onClick={() => setSelectedTemplate(item)}
-                    className="flex-1 py-3 px-3 rounded-xl bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-500/40 text-cyan-200 hover:text-white text-xs font-mono font-semibold uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-md active:scale-95"
+                    className="w-full py-2 px-3 rounded-xl bg-cyan-950/40 hover:bg-cyan-950/80 border border-cyan-500/30 text-cyan-200 hover:text-white text-[11px] font-mono uppercase tracking-wider transition-all flex items-center justify-center gap-1.5"
                   >
-                    <Maximize2 size={13} className="text-cyan-300" /> ASSISTIR & DETALHES 4K
-                  </button>
-
-                  <button
-                    onClick={() => handleCopyFigmaLink(item.id)}
-                    className="p-3 rounded-xl bg-white/5 hover:bg-white/15 border border-white/10 text-cyan-300 hover:text-white transition-colors"
-                    title="Copiar Link do Figma"
-                  >
-                    {copiedId === item.id ? <Check size={14} className="text-cyan-400" /> : <Copy size={14} />}
+                    <Maximize2 size={12} className="text-cyan-400" />
+                    VER DETALHES & VÍDEO 4K
                   </button>
                 </div>
               </div>
@@ -900,18 +967,10 @@ export default function PortfolioModal({ isOpen, onClose, onSelectProjectForSite
                       src={selectedTemplate.videoPreview}
                       autoPlay
                       loop
-                      muted={isMuted}
+                      muted
                       playsInline
-                      controls
                       className="w-full h-full object-contain bg-black"
                     />
-                    <button
-                      onClick={() => setIsMuted(!isMuted)}
-                      className="absolute bottom-4 right-4 p-3 rounded-full bg-black/80 border border-cyan-400/40 text-cyan-300 backdrop-blur-md hover:bg-white/20 transition-colors z-10"
-                      title={isMuted ? 'Ativar Som' : 'Desativar Som'}
-                    >
-                      {isMuted ? <VolumeX size={18} /> : <Volume2 size={18} className="text-cyan-400" />}
-                    </button>
                   </div>
                 ) : (
                   <img
@@ -936,25 +995,160 @@ export default function PortfolioModal({ isOpen, onClose, onSelectProjectForSite
 
               <div className="pt-4 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
                 <WebGLLiquidSurgeButton
-                  label="CRIAR MEU SITE COM ESTE TEMPLATE"
+                  label="ADQUIRIR ESTE TEMPLATE"
                   onClick={() => {
+                    const temp = selectedTemplate;
                     setSelectedTemplate(null);
-                    onClose();
-                    if (onSelectProjectForSite) onSelectProjectForSite();
+                    setCheckoutTemplate(temp);
                   }}
-                  width="w-full sm:w-[320px]"
+                  width="w-full sm:w-[300px]"
                   height="h-[64px]"
                 />
 
-                <a
-                  href={selectedTemplate.videoPreview || selectedTemplate.previewUrl}
-                  download
-                  target="_blank"
-                  rel="noreferrer"
-                  className="w-full sm:w-auto px-6 py-4 rounded-2xl bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-500/40 text-cyan-200 font-mono text-xs uppercase tracking-wider text-center transition-all"
+                <div className="flex items-center gap-3 w-full sm:w-auto">
+                  <button
+                    onClick={() => {
+                      const temp = selectedTemplate;
+                      setSelectedTemplate(null);
+                      onClose();
+                      if (onSelectProjectForSite) onSelectProjectForSite(temp.title);
+                    }}
+                    className="w-full sm:w-auto px-5 py-4 rounded-2xl bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-500/40 text-cyan-200 font-mono text-xs uppercase tracking-wider text-center transition-all flex items-center justify-center gap-2"
+                  >
+                    <Sparkles size={14} className="text-cyan-300" />
+                    USAR NO MEU SITE
+                  </button>
+
+                  <a
+                    href={selectedTemplate.videoPreview || selectedTemplate.previewUrl}
+                    download
+                    target="_blank"
+                    rel="noreferrer"
+                    className="p-4 rounded-2xl bg-white/5 hover:bg-white/15 border border-white/10 text-cyan-300 hover:text-white transition-all shrink-0"
+                    title="Download Mídia 4K"
+                  >
+                    <Download size={16} />
+                  </a>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        )}
+
+        {/* Dedicated Modern VIP Template Checkout & Acquisition Modal */}
+        {checkoutTemplate && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/95 backdrop-blur-3xl overflow-y-auto">
+            <div className="relative w-full max-w-xl bg-[#050b11]/95 border border-cyan-400/60 rounded-3xl p-6 sm:p-8 space-y-6 shadow-[0_0_90px_rgba(6,182,212,0.35)] text-white my-auto max-h-[92vh] overflow-y-auto">
+              
+              <button
+                onClick={() => setCheckoutTemplate(null)}
+                className="absolute top-5 right-5 p-2.5 rounded-full bg-cyan-950/80 border border-cyan-500/40 hover:bg-cyan-900 text-white transition-colors z-20"
+              >
+                <X size={18} />
+              </button>
+
+              {/* Modal Header */}
+              <div>
+                <div className="flex items-center gap-2 mb-2">
+                  <ShoppingBag size={18} className="text-cyan-300" />
+                  <span className="font-mono text-xs uppercase tracking-[0.18em] text-cyan-300 font-semibold flex items-center gap-1.5">
+                    <Sparkles size={13} className="text-cyan-400" />
+                    CHECKOUT VIP • ACESSO IMEDIATO AO FIGMA
+                  </span>
+                </div>
+                <h3 className="text-2xl sm:text-3xl font-normal tracking-tight text-white">
+                  Adquirir Template <span className="italic font-serif text-cyan-300 underline decoration-cyan-400/60 underline-offset-6">#{checkoutTemplate.num}</span>
+                </h3>
+              </div>
+
+              {/* Template Highlight Box */}
+              <div className="p-4 rounded-2xl bg-cyan-950/40 border border-cyan-500/40 flex items-center gap-4">
+                <img
+                  src={checkoutTemplate.previewUrl}
+                  alt={checkoutTemplate.title}
+                  className="w-20 h-20 rounded-xl object-cover border border-cyan-500/30 shrink-0"
+                />
+                <div className="flex-1 min-w-0">
+                  <span className="font-mono text-[10px] text-cyan-300 uppercase tracking-wider block">
+                    {checkoutTemplate.tag}
+                  </span>
+                  <h4 className="text-base font-semibold text-white truncate">
+                    {checkoutTemplate.title}
+                  </h4>
+                  <p className="text-xs text-zinc-300 line-clamp-1 mt-0.5">
+                    {checkoutTemplate.desc}
+                  </p>
+                </div>
+              </div>
+
+              {/* What is Included In The Package */}
+              <div className="space-y-2.5">
+                <span className="font-mono text-[11px] uppercase tracking-wider text-cyan-300 font-medium block">
+                  // O QUE VOCÊ RECEBE NO PACOTE:
+                </span>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-zinc-200">
+                  <div className="p-2.5 rounded-xl bg-white/5 border border-white/10 flex items-start gap-2">
+                    <CheckCircle2 size={15} className="text-cyan-400 shrink-0 mt-0.5" />
+                    <span>Arquivo Fonte Figma (.fig) 100% editável e organizado</span>
+                  </div>
+                  <div className="p-2.5 rounded-xl bg-white/5 border border-white/10 flex items-start gap-2">
+                    <CheckCircle2 size={15} className="text-cyan-400 shrink-0 mt-0.5" />
+                    <span>Mídias 4K & Vídeos 60 FPS originais incluídos</span>
+                  </div>
+                  <div className="p-2.5 rounded-xl bg-white/5 border border-white/10 flex items-start gap-2">
+                    <ShieldCheck size={15} className="text-cyan-400 shrink-0 mt-0.5" />
+                    <span>Licença Comercial Vitalícia (Uso ilimitado em clientes)</span>
+                  </div>
+                  <div className="p-2.5 rounded-xl bg-white/5 border border-white/10 flex items-start gap-2">
+                    <Sparkles size={15} className="text-cyan-400 shrink-0 mt-0.5" />
+                    <span>Acesso Imediato e Suporte Direto EdiCria</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Fast Checkout Actions */}
+              <div className="space-y-3 pt-2">
+                {/* 1. WhatsApp Fast VIP Checkout */}
+                <button
+                  onClick={() => handleOpenWhatsAppCheckout(checkoutTemplate)}
+                  className="w-full py-4 px-5 rounded-2xl bg-gradient-to-r from-emerald-400 via-cyan-400 to-cyan-300 text-black hover:from-emerald-300 hover:to-white font-mono text-xs sm:text-sm font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2.5 shadow-[0_0_30px_rgba(16,185,129,0.35)] active:scale-95"
                 >
-                  DOWNLOAD MÍDIA 4K
-                </a>
+                  <ExternalLink size={16} className="text-black" />
+                  COMPRAR VIA WHATSAPP VIP (LIBERAÇÃO INSTANTÂNEA)
+                </button>
+
+                {/* 2. Custom Project Request with this template */}
+                <button
+                  onClick={() => {
+                    const templateName = checkoutTemplate.title;
+                    setCheckoutTemplate(null);
+                    onClose();
+                    if (onSelectProjectForSite) onSelectProjectForSite(templateName);
+                  }}
+                  className="w-full py-3.5 px-5 rounded-2xl bg-cyan-950/60 hover:bg-cyan-900/80 border border-cyan-400/50 text-cyan-200 hover:text-white font-mono text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2"
+                >
+                  <ArrowRight size={14} className="text-cyan-400" />
+                  QUERO UM SITE COMPLETO COM ESTE DESIGN
+                </button>
+
+                {/* 3. Direct Figma Copy Link */}
+                <button
+                  onClick={() => handleCopyFigmaLink(checkoutTemplate.id)}
+                  className="w-full py-2.5 px-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-zinc-300 hover:text-white font-mono text-[11px] uppercase tracking-wider transition-all flex items-center justify-center gap-2"
+                >
+                  {copiedId === checkoutTemplate.id ? (
+                    <>
+                      <Check size={13} className="text-cyan-400" />
+                      LINK COPIADO COM SUCESSO!
+                    </>
+                  ) : (
+                    <>
+                      <Copy size={13} className="text-cyan-400" />
+                      COPIAR LINK DO FIGMA COMMUNITY
+                    </>
+                  )}
+                </button>
               </div>
 
             </div>

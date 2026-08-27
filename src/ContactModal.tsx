@@ -1,19 +1,20 @@
 import React, { useState } from 'react';
-import { X, Send, CheckCircle2, Hexagon, Sparkles } from 'lucide-react';
+import { X, CheckCircle2, Hexagon, Sparkles } from 'lucide-react';
 import WebGLLiquidSurgeButton from './components/WebGLLiquidSurgeButton';
 
 interface ContactModalProps {
   isOpen: boolean;
   onClose: () => void;
+  initialTemplate?: string;
 }
 
-export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
+export default function ContactModal({ isOpen, onClose, initialTemplate }: ContactModalProps) {
   const [submitted, setSubmitted] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    projectType: 'Website Premium 4K',
-    message: '',
+    projectType: initialTemplate ? `Template Figma: ${initialTemplate}` : 'Website Premium 4K',
+    message: initialTemplate ? `Gostaria de solicitar o desenvolvimento do meu site baseado no template ${initialTemplate}.` : '',
   });
 
   if (!isOpen) return null;

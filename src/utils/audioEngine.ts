@@ -1,4 +1,6 @@
-// Web Audio & Custom Google Drive Audio Soundtrack Engine with Spectrum Visualizer
+// Web Audio & Custom Google Drive Soundtrack Engine with Spectrum Visualizer
+type StateListener = (isPlaying: boolean) => void;
+
 class AmbientSoundtrackEngine {
   private ctx: AudioContext | null = null;
   private isPlaying: boolean = false;
@@ -8,8 +10,11 @@ class AmbientSoundtrackEngine {
   private mediaSourceNode: MediaElementAudioSourceNode | null = null;
   private intervalId: number | null = null;
   private currentChordIndex = 0;
+  private listeners: Set<StateListener> = new Set();
+  private simulatedPhase = 0;
 
-  // Custom Google Drive Audio Stream URL provided by the user
+  // Primary local high-speed cached asset & Direct Google Drive Audio stream URLs
+  private localAudioUrl = '/soundtrack.mp3';
   private googleDriveAudioUrl = 'https://docs.google.com/uc?export=download&id=15XKlcc1sNAsqfDhqvrs5SVZIlfbsussz';
 
   // Fallback Cinematic Ambient Chord Frequencies
@@ -20,34 +25,79 @@ class AmbientSoundtrackEngine {
     [98.00, 146.83, 174.61, 196.00, 246.94],
   ];
 
+  public subscribe(listener: StateListener): () => void {
+    this.listeners.add(listener);
+    listener(this.isPlaying);
+    return () => {
+      this.listeners.delete(listener);
+    };
+  }
+
+  private notify() {
+    this.listeners.forEach((listener) => listener(this.isPlaying));
+  }
+
   public init() {
-    if (this.ctx) return;
+    if (this.ctx && this.audioElement) return;
     try {
       const AudioCtx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
-      this.ctx = new AudioCtx();
+      if (!this.ctx) {
+        this.ctx = new AudioCtx();
+        this.masterGain = this.ctx.createGain();
+        this.masterGain.gain.setValueAtTime(0.5, this.ctx.currentTime);
 
-      this.masterGain = this.ctx.createGain();
-      this.masterGain.gain.setValueAtTime(0.001, this.ctx.currentTime);
+        this.analyser = this.ctx.createAnalyser();
+        this.analyser.fftSize = 64;
 
-      this.analyser = this.ctx.createAnalyser();
-      this.analyser.fftSize = 32;
+        this.masterGain.connect(this.analyser);
+        this.analyser.connect(this.ctx.destination);
+      }
 
-      this.masterGain.connect(this.analyser);
-      this.analyser.connect(this.ctx.destination);
+      if (!this.audioElement) {
+        // Create HTMLAudioElement for custom audio
+        this.audioElement = new Audio(this.localAudioUrl);
+        this.audioElement.loop = true;
+        this.audioElement.volume = 0.65;
+        this.audioElement.crossOrigin = 'anonymous';
+        // Ensure browser does not pause audio during background scroll
+        this.audioElement.setAttribute('playsinline', 'true');
+        this.audioElement.setAttribute('webkit-playsinline', 'true');
 
-      // Create HTMLAudioElement for user custom Drive Audio
-      this.audioElement = new Audio(this.googleDriveAudioUrl);
-      this.audioElement.loop = true;
-      this.audioElement.crossOrigin = 'anonymous';
+        // Automatic recovery on stall or pause while isPlaying is true
+        this.audioElement.addEventListener('pause', () => {
+          if (this.isPlaying && this.audioElement && this.audioElement.paused) {
+            // If paused unexpectedly while engine state is playing, resume seamlessly
+            setTimeout(() => {
+              if (this.isPlaying && this.audioElement && this.audioElement.paused) {
+                this.audioElement.play().catch(() => {});
+              }
+            }, 100);
+          }
+        });
 
-      try {
-        this.mediaSourceNode = this.ctx.createMediaElementSource(this.audioElement);
-        this.mediaSourceNode.connect(this.masterGain);
-      } catch (err) {
-        console.warn('MediaElementSource fallback to synth:', err);
+        // Add error fallback to direct Drive URL if local asset has any issue
+        this.audioElement.addEventListener('error', () => {
+          if (this.audioElement && this.audioElement.src.includes('soundtrack.mp3')) {
+            console.info('Switching audio source to Google Drive direct stream...');
+            this.audioElement.src = this.googleDriveAudioUrl;
+            if (this.isPlaying) {
+              this.audioElement.play().catch(console.warn);
+            }
+          }
+        });
+
+        // Try routing through Web Audio analyser for spectrum
+        try {
+          if (this.ctx && this.masterGain) {
+            this.mediaSourceNode = this.ctx.createMediaElementSource(this.audioElement);
+            this.mediaSourceNode.connect(this.masterGain);
+          }
+        } catch {
+          // Direct element output will still play cleanly
+        }
       }
     } catch (e) {
-      console.warn('AudioContext init error:', e);
+      console.warn('AudioContext init notice:', e);
     }
   }
 
@@ -63,29 +113,31 @@ class AmbientSoundtrackEngine {
 
   public play() {
     this.init();
-    if (!this.ctx || !this.masterGain) return;
-
-    if (this.ctx.state === 'suspended') {
-      this.ctx.resume();
+    if (this.ctx && this.ctx.state === 'suspended') {
+      this.ctx.resume().catch(() => {});
     }
 
     this.isPlaying = true;
-    const now = this.ctx.currentTime;
-    this.masterGain.gain.cancelScheduledValues(now);
-    this.masterGain.gain.setValueAtTime(this.masterGain.gain.value, now);
-    this.masterGain.gain.exponentialRampToValueAtTime(0.35, now + 1.5);
+    this.notify();
 
-    // Try playing custom Google Drive audio
+    if (this.ctx && this.masterGain) {
+      const now = this.ctx.currentTime;
+      this.masterGain.gain.cancelScheduledValues(now);
+      this.masterGain.gain.setValueAtTime(this.masterGain.gain.value, now);
+      this.masterGain.gain.linearRampToValueAtTime(0.6, now + 1);
+    }
+
+    // Play soundtrack audio element
     if (this.audioElement) {
       this.audioElement.play().catch((err) => {
-        console.warn('Custom Drive Audio autoplay restricted, triggering ambient synth fallback:', err);
+        console.warn('Soundtrack audio play notice:', err);
         this.triggerChord();
       });
     } else {
       this.triggerChord();
     }
 
-    // Rotate ambient chords if synth mode is active
+    // Backup ambient synth chords if needed
     if (this.intervalId === null) {
       this.intervalId = window.setInterval(() => {
         if (this.isPlaying && (!this.audioElement || this.audioElement.paused)) {
@@ -98,6 +150,8 @@ class AmbientSoundtrackEngine {
 
   public pause() {
     this.isPlaying = false;
+    this.notify();
+
     if (this.audioElement) {
       this.audioElement.pause();
     }
@@ -105,7 +159,7 @@ class AmbientSoundtrackEngine {
       const now = this.ctx.currentTime;
       this.masterGain.gain.cancelScheduledValues(now);
       this.masterGain.gain.setValueAtTime(this.masterGain.gain.value, now);
-      this.masterGain.gain.exponentialRampToValueAtTime(0.0001, now + 1);
+      this.masterGain.gain.linearRampToValueAtTime(0.001, now + 0.5);
     }
   }
 
@@ -143,23 +197,46 @@ class AmbientSoundtrackEngine {
   }
 
   public getSpectrumData(): number[] {
-    if (!this.analyser || !this.isPlaying) {
-      return [10, 15, 8, 20, 12];
+    if (!this.isPlaying) {
+      return [15, 20, 15, 25, 15];
     }
-    const bufferLength = this.analyser.frequencyBinCount;
-    const dataArray = new Uint8Array(bufferLength);
-    this.analyser.getByteFrequencyData(dataArray);
 
-    const bars = 5;
-    const result: number[] = [];
-    const step = Math.floor(bufferLength / bars);
+    // Try reading hardware analyser frequency
+    if (this.analyser) {
+      const bufferLength = this.analyser.frequencyBinCount;
+      const dataArray = new Uint8Array(bufferLength);
+      this.analyser.getByteFrequencyData(dataArray);
 
-    for (let i = 0; i < bars; i++) {
-      const val = dataArray[i * step] || 0;
-      const normalized = Math.max(15, Math.min(100, (val / 255) * 100));
-      result.push(normalized);
+      let sum = 0;
+      for (let i = 0; i < bufferLength; i++) {
+        sum += dataArray[i];
+      }
+
+      if (sum > 10) {
+        const bars = 5;
+        const result: number[] = [];
+        const step = Math.floor(bufferLength / bars);
+
+        for (let i = 0; i < bars; i++) {
+          const val = dataArray[i * step] || 0;
+          const normalized = Math.max(20, Math.min(100, (val / 255) * 100));
+          result.push(normalized);
+        }
+        return result;
+      }
     }
-    return result;
+
+    // Dynamic wave spectrum animation when playing
+    this.simulatedPhase += 0.15;
+    const basePulsing = [
+      Math.sin(this.simulatedPhase * 1.1) * 30 + 55,
+      Math.cos(this.simulatedPhase * 1.4) * 35 + 65,
+      Math.sin(this.simulatedPhase * 1.8 + 1) * 40 + 60,
+      Math.cos(this.simulatedPhase * 1.2 + 2) * 35 + 70,
+      Math.sin(this.simulatedPhase * 1.5 + 3) * 25 + 50,
+    ];
+
+    return basePulsing.map((v) => Math.max(20, Math.min(95, v)));
   }
 
   public getIsPlaying(): boolean {
