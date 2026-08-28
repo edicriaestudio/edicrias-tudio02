@@ -39,25 +39,29 @@ export default function SoundtrackBar({ compact = false }: SoundtrackBarProps) {
     return (
       <button
         onClick={handleToggle}
-        className={`flex items-center gap-2 px-3 py-1.5 rounded-full border transition-all duration-300 ${
+        className={`flex items-center gap-1.5 sm:gap-2 h-8 sm:h-9 px-2.5 sm:px-3 rounded-full border transition-all duration-300 active:scale-95 whitespace-nowrap ${
           isPlaying
-            ? 'bg-white/20 border-white/40 text-white shadow-[0_0_15px_rgba(255,255,255,0.3)]'
-            : 'bg-white/10 border-white/15 text-white/70 hover:text-white hover:bg-white/20'
+            ? 'bg-cyan-500/20 border-cyan-400 text-cyan-100 shadow-[0_0_18px_rgba(6,182,212,0.4)]'
+            : 'bg-cyan-950/50 border-cyan-500/30 text-cyan-300/80 hover:text-white hover:border-cyan-400/60 hover:bg-cyan-900/40'
         }`}
         title={isPlaying ? 'Pausar Trilha Sonora Imersiva' : 'Tocar Trilha Sonora Imersiva'}
       >
-        {isPlaying ? <Volume2 size={14} className="animate-pulse text-white" /> : <VolumeX size={14} />}
-        <span className="font-mono text-[10px] uppercase tracking-wider font-medium">
-          {isPlaying ? 'TRILHA ATIVA' : 'TRILHA SONORA'}
+        {isPlaying ? (
+          <Volume2 size={13} className="animate-pulse text-cyan-300 shrink-0" />
+        ) : (
+          <VolumeX size={13} className="shrink-0" />
+        )}
+        <span className="font-mono text-[9.5px] sm:text-[10.5px] uppercase tracking-wider font-semibold">
+          {isPlaying ? 'ÁUDIO ON' : 'TRILHA'}
         </span>
-        <div className="flex items-end gap-[2px] h-3.5 px-0.5">
-          {bars.map((height, i) => (
+        <div className="flex items-end gap-[2px] h-3 px-0.5 shrink-0">
+          {bars.slice(0, 4).map((height, i) => (
             <span
               key={i}
               className={`w-[2px] rounded-full transition-all duration-150 ${
-                isPlaying ? 'bg-white' : 'bg-white/40'
+                isPlaying ? 'bg-cyan-300 shadow-[0_0_4px_#22d3ee]' : 'bg-cyan-400/40'
               }`}
-              style={{ height: `${isPlaying ? Math.max(20, height) : 25}%` }}
+              style={{ height: `${isPlaying ? Math.max(25, height) : 30}%` }}
             />
           ))}
         </div>

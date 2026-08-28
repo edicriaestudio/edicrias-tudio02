@@ -1,7 +1,6 @@
 import { FolderKanban, PackageCheck, BookOpen, Sparkles } from 'lucide-react';
 import { useReveal } from './hooks';
 import SoundtrackBar from './components/SoundtrackBar';
-import WebGLLiquidSurgeButton from './components/WebGLLiquidSurgeButton';
 import BrandLogo from './components/BrandLogo';
 
 interface NavbarProps {
@@ -23,8 +22,8 @@ export default function Navbar({
   return (
     <>
       {/* Top Floating Glass Pill Navbar - Ultra Translucent Cyan Glass */}
-      <header className="fixed top-3 inset-x-3 sm:inset-x-6 md:inset-x-12 z-40">
-        <div className="max-w-6xl mx-auto rounded-full border border-cyan-400/40 bg-cyan-950/15 backdrop-blur-3xl px-4 sm:px-6 py-2.5 flex items-center justify-between shadow-[0_0_40px_rgba(6,182,212,0.2)] transition-all hover:border-cyan-400/60">
+      <header className="fixed top-3 inset-x-2.5 sm:inset-x-6 md:inset-x-12 z-40">
+        <div className="max-w-6xl mx-auto rounded-full border border-cyan-400/40 bg-cyan-950/20 backdrop-blur-3xl px-3 sm:px-5 py-2 flex items-center justify-between shadow-[0_0_35px_rgba(6,182,212,0.22)] transition-all hover:border-cyan-400/60 gap-2 sm:gap-4">
           
           {/* Brand Logo - Modern ED Initials Monogram */}
           <div ref={logoRef}>
@@ -67,18 +66,18 @@ export default function Navbar({
           </nav>
 
           {/* Actions Right */}
-          <div ref={ctaRef} className="flex items-center gap-3">
+          <div ref={ctaRef} className="flex items-center gap-2 sm:gap-3">
             {/* Embedded Soundtrack Bar (compact) */}
             <SoundtrackBar compact={true} />
 
-            <div className="hidden sm:block">
-              <WebGLLiquidSurgeButton
-                label="CRIAR MEU SITE"
-                onClick={onOpenContact}
-                width="w-[185px]"
-                height="h-[46px]"
-              />
-            </div>
+            {/* Top Sleek Capsule CTA Button */}
+            <button
+              onClick={onOpenContact}
+              className="hidden sm:flex items-center gap-1.5 h-8 sm:h-9 px-3.5 sm:px-4 rounded-full bg-gradient-to-r from-cyan-400 via-cyan-300 to-teal-300 text-black border border-cyan-100 font-mono font-bold text-[11px] sm:text-xs uppercase tracking-wider shadow-[0_0_16px_rgba(6,182,212,0.45)] hover:shadow-[0_0_24px_rgba(6,182,212,0.75)] hover:brightness-110 active:scale-95 transition-all whitespace-nowrap"
+            >
+              <Sparkles size={12} className="text-black fill-black/20 shrink-0" />
+              <span>CRIAR SITE</span>
+            </button>
           </div>
         </div>
       </header>

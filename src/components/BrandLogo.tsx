@@ -198,7 +198,7 @@ export default function BrandLogo({
           </div>
 
           {subtitle && (
-            <span className={`font-mono tracking-[0.2em] text-cyan-300 uppercase mt-1 font-medium ${currentSize.sub}`}>
+            <span className={`font-mono tracking-[0.2em] text-cyan-300 uppercase mt-0.5 sm:mt-1 font-medium hidden sm:block ${currentSize.sub}`}>
               {subtitle}
             </span>
           )}
