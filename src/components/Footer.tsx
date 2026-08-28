@@ -1,8 +1,9 @@
-import { Hexagon, Sparkles, FolderKanban, PackageCheck, ShieldCheck } from 'lucide-react';
+import { Sparkles, FolderKanban, PackageCheck, ShieldCheck } from 'lucide-react';
 import { useReveal } from '../hooks';
 import WebGLLiquidSurgeButton from './WebGLLiquidSurgeButton';
 import { LegalTab } from './LegalModal';
 import { ParallaxWrapper, ParallaxFloatingOrb, ParallaxFloatingBadge } from './ParallaxElements';
+import BrandLogo from './BrandLogo';
 
 interface FooterProps {
   onOpenContact?: () => void;
@@ -75,12 +76,7 @@ export default function Footer({
         {/* Footer Middle Links */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 pt-8 border-t border-white/10 text-xs">
           <div className="space-y-3 md:col-span-2">
-            <div className="flex items-center gap-2.5">
-              <Hexagon size={22} strokeWidth={1.5} className="text-cyan-300" />
-              <span className="font-mono text-base font-bold tracking-widest text-white">
-                EDICRIA STUDIO
-              </span>
-            </div>
+            <BrandLogo size="lg" subtitle="ESTÚDIO DE CRIAÇÃO DIGITAL & 4K" />
             <p className="text-zinc-300 font-light max-w-md leading-relaxed text-xs">
               Estúdio de criação digital de alta performance especializado em websites cinematográficos, shaders WebGL a 60 FPS e biblioteca de templates Figma profissionais para criadores e marcas de alto padrão.
             </p>

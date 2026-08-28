@@ -3,7 +3,6 @@ import { createPortal } from 'react-dom';
 import {
   X,
   CheckCircle2,
-  Hexagon,
   Sparkles,
   CreditCard,
   QrCode,
@@ -17,6 +16,7 @@ import {
   CalendarCheck
 } from 'lucide-react';
 import WebGLLiquidSurgeButton from './components/WebGLLiquidSurgeButton';
+import { EDMonogramIcon } from './components/BrandLogo';
 
 interface ContactModalProps {
   isOpen: boolean;
@@ -283,8 +283,8 @@ export default function ContactModal({ isOpen, onClose, initialTemplate }: Conta
           <div className="flex flex-col gap-6">
             {/* Header */}
             <div>
-              <div className="flex items-center gap-2 mb-2">
-                <Hexagon size={18} strokeWidth={1.5} className="text-cyan-300" />
+              <div className="flex items-center gap-2.5 mb-2">
+                <EDMonogramIcon size={22} glowing={true} />
                 <span className="font-mono text-xs uppercase tracking-[0.15em] text-cyan-300 font-semibold flex items-center gap-1.5">
                   <Sparkles size={13} className="text-cyan-400" />
                   MERCADO PAGO API • CHECKOUT TRANSPARENTE

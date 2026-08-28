@@ -1,14 +1,28 @@
-import { useState } from 'react';
-import { Sparkles, Cpu, Layers } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Sparkles, Cpu, Layers, Scan, ArrowUpRight } from 'lucide-react';
+import { motion } from 'motion/react';
 import WebGLLiquidSurgeButton from './WebGLLiquidSurgeButton';
 import { ParallaxWrapper, ParallaxFloatingOrb, ParallaxFloatingBadge, ParallaxDepthCard } from './ParallaxElements';
 
 interface StickyProtocolStackProps {
   onOpenContact?: () => void;
+  onOpenPortfolio?: () => void;
 }
 
-export default function StickyProtocolStack({ onOpenContact }: StickyProtocolStackProps) {
+export default function StickyProtocolStack({ onOpenContact, onOpenPortfolio }: StickyProtocolStackProps) {
   const [activeCard, setActiveCard] = useState(0);
+  const [scanCoordinate, setScanCoordinate] = useState({ x: 104.2, y: 88.5 });
+
+  // Dynamic telemetry coordinate counter for scanner HUD
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setScanCoordinate({
+        x: Number((100 + Math.random() * 20).toFixed(1)),
+        y: Number((80 + Math.random() * 30).toFixed(1)),
+      });
+    }, 450);
+    return () => clearInterval(interval);
+  }, []);
 
   const cards = [
     {
@@ -42,15 +56,80 @@ export default function StickyProtocolStack({ onOpenContact }: StickyProtocolSta
       tag: 'LASER MATRIX RESPONSIVA',
       graphic: (
         <ParallaxDepthCard depth={1.1}>
-          <div className="relative w-56 h-56 sm:w-64 sm:h-64 flex flex-col items-center justify-center border border-cyan-400/40 rounded-3xl overflow-hidden bg-cyan-950/20 backdrop-blur-3xl shadow-[0_0_40px_rgba(6,182,212,0.2)]">
-            {/* Laser Line */}
-            <div className="absolute inset-x-0 h-1 bg-gradient-to-r from-transparent via-cyan-300 to-transparent animate-[bounce_2s_infinite] shadow-[0_0_20px_#06b6d4]" />
-            {/* Grid lines */}
-            <div className="absolute inset-0 bg-[linear-gradient(to_right,#06b6d415_1px,transparent_1px),linear-gradient(to_bottom,#06b6d415_1px,transparent_1px)] bg-[size:20px_20px]" />
-            <Cpu size={48} className="text-cyan-300 animate-pulse relative z-10" />
-            <span className="mt-3 font-mono text-[10px] text-cyan-200 tracking-widest uppercase z-10">
-              SCANNING MATRIX 4K
-            </span>
+          <div className="relative w-60 h-60 sm:w-72 sm:h-72 flex flex-col items-center justify-center border border-cyan-400/50 rounded-3xl overflow-hidden bg-gradient-to-b from-cyan-950/30 via-[#041520]/80 to-cyan-950/40 backdrop-blur-3xl shadow-[0_0_50px_rgba(6,182,212,0.28)] group">
+            
+            {/* Cyber Grid Texture */}
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,#06b6d418_1px,transparent_1px),linear-gradient(to_bottom,#06b6d418_1px,transparent_1px)] bg-[size:16px_16px] pointer-events-none" />
+            
+            {/* Radial Core Glow */}
+            <div className="absolute inset-0 bg-radial from-cyan-500/15 via-transparent to-transparent pointer-events-none" />
+
+            {/* Corner Precision Reticles */}
+            <div className="absolute top-2.5 left-2.5 w-3 h-3 border-t-2 border-l-2 border-cyan-400" />
+            <div className="absolute top-2.5 right-2.5 w-3 h-3 border-t-2 border-r-2 border-cyan-400" />
+            <div className="absolute bottom-2.5 left-2.5 w-3 h-3 border-b-2 border-l-2 border-cyan-400" />
+            <div className="absolute bottom-2.5 right-2.5 w-3 h-3 border-b-2 border-r-2 border-cyan-400" />
+
+            {/* Top Telemetry Overlay */}
+            <div className="absolute top-3 inset-x-4 flex items-center justify-between font-mono text-[9px] text-cyan-300/90 z-20 pointer-events-none">
+              <span className="flex items-center gap-1">
+                <Scan size={10} className="text-cyan-400 animate-spin" />
+                SCANNING
+              </span>
+              <span className="text-cyan-200 font-bold">
+                X:{scanCoordinate.x} Y:{scanCoordinate.y}
+              </span>
+            </div>
+
+            {/* Central Animated Hologram Target */}
+            <div className="relative z-10 flex flex-col items-center justify-center">
+              <div className="relative p-4 rounded-2xl bg-cyan-950/40 border border-cyan-400/30 backdrop-blur-md">
+                <Cpu size={46} className="text-cyan-300 animate-pulse relative z-10 drop-shadow-[0_0_15px_rgba(6,182,212,0.8)]" />
+                
+                {/* Rotating Tech Ring */}
+                <div className="absolute -inset-2 border border-dashed border-cyan-400/40 rounded-full animate-[spin_10s_linear_infinite]" />
+              </div>
+              <span className="mt-3 font-mono text-[10px] text-cyan-200 tracking-[0.2em] uppercase font-bold drop-shadow-[0_0_8px_rgba(6,182,212,0.6)]">
+                SCANNING MATRIX 4K
+              </span>
+            </div>
+
+            {/* Bottom Status */}
+            <div className="absolute bottom-3 inset-x-4 flex items-center justify-between font-mono text-[8px] tracking-widest text-cyan-400/80 z-20 pointer-events-none">
+              <span>GPU: REAC_60FPS</span>
+              <span className="flex items-center gap-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping" />
+                ACTIVE
+              </span>
+            </div>
+
+            {/* 
+              =======================================================
+              CONTINUOUS ULTRA-SMOOTH VERTICAL LASER SCANNER BEAM
+              Subindo e descendo com feixe de luz e cauda de iluminação
+              =======================================================
+            */}
+            <motion.div
+              animate={{
+                top: ['0%', '100%', '0%'],
+              }}
+              transition={{
+                duration: 2.8,
+                ease: 'easeInOut',
+                repeat: Infinity,
+              }}
+              className="absolute inset-x-0 z-30 pointer-events-none -translate-y-1/2"
+            >
+              {/* Laser Light Cone Trail (Upward illumination) */}
+              <div className="w-full h-12 bg-gradient-to-t from-cyan-400/30 via-cyan-500/10 to-transparent" />
+
+              {/* Main Glowing Laser Sweep Line */}
+              <div className="relative w-full h-[2.5px] bg-gradient-to-r from-transparent via-white to-transparent shadow-[0_0_20px_#22d3ee,0_0_35px_#06b6d4]" />
+
+              {/* Laser Light Cone Trail (Downward illumination) */}
+              <div className="w-full h-12 bg-gradient-to-b from-cyan-400/30 via-cyan-500/10 to-transparent" />
+            </motion.div>
+
           </div>
         </ParallaxDepthCard>
       ),
@@ -59,18 +138,38 @@ export default function StickyProtocolStack({ onOpenContact }: StickyProtocolSta
       id: '03',
       title: 'ECOSSISTEMA FIGMA & TEMPLATES AUTORAIS',
       subtitle: 'Kits completos prontos para foto e vídeo',
-      desc: 'Acesso imediato aos nossos 46 componentes editáveis no Figma, criados especificamente para escalar a presença digital da sua marca.',
+      desc: 'Acesso imediato aos nossos componentes editáveis no Figma, criados especificamente para elevar a autoridade visual da sua marca.',
       tag: 'FIGMA SYSTEM 2026',
       graphic: (
         <ParallaxDepthCard depth={0.9}>
-          <div className="relative w-56 h-56 sm:w-64 sm:h-64 flex flex-col items-center justify-center border border-cyan-400/30 rounded-3xl overflow-hidden bg-cyan-950/15 backdrop-blur-3xl shadow-[0_0_40px_rgba(6,182,212,0.15)]">
-            <Layers size={48} className="text-cyan-300 animate-pulse mb-3" />
+          <div className="relative w-60 h-60 sm:w-72 sm:h-72 flex flex-col items-center justify-center border border-cyan-400/40 rounded-3xl overflow-hidden bg-gradient-to-b from-cyan-950/20 via-[#041520]/80 to-cyan-950/30 backdrop-blur-3xl shadow-[0_0_50px_rgba(6,182,212,0.22)] p-6 text-center group">
+            
+            {/* Ambient Background Shimmer */}
+            <div className="absolute inset-0 bg-radial from-cyan-500/15 via-transparent to-transparent pointer-events-none" />
+
+            <div className="p-3.5 rounded-2xl bg-cyan-950/40 border border-cyan-400/30 mb-3 shadow-[0_0_20px_rgba(6,182,212,0.2)]">
+              <Layers size={40} className="text-cyan-300 animate-pulse drop-shadow-[0_0_12px_rgba(6,182,212,0.6)]" />
+            </div>
+
+            <span className="font-mono text-[11px] uppercase tracking-widest text-cyan-200 font-bold mb-4">
+              46+ COMPONENTES FIGMA 4K
+            </span>
+
+            {/* Direct CTA that opens the Template Portfolio */}
             <WebGLLiquidSurgeButton
               label="EXPLORAR TEMPLATES"
-              onClick={onOpenContact}
-              width="w-[220px]"
-              height="h-[56px]"
+              onClick={onOpenPortfolio || onOpenContact}
+              width="w-full max-w-[220px]"
+              height="h-[54px]"
             />
+
+            <button
+              onClick={onOpenPortfolio || onOpenContact}
+              className="mt-3 inline-flex items-center gap-1 font-mono text-[10px] uppercase tracking-widest text-cyan-300 hover:text-white transition-colors"
+            >
+              <span>VER CATÁLOGO AO VIVO</span>
+              <ArrowUpRight size={12} />
+            </button>
           </div>
         </ParallaxDepthCard>
       ),

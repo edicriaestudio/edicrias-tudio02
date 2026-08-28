@@ -81,7 +81,10 @@ export default function App() {
           <PhilosophySection onOpenContact={() => handleOpenContact()} />
 
           {/* Sticky Pillars Stack */}
-          <StickyProtocolStack />
+          <StickyProtocolStack
+            onOpenContact={() => handleOpenContact()}
+            onOpenPortfolio={handleOpenPortfolio}
+          />
 
           {/* Spacer room for scroll video scrub */}
           <div className="h-[40vh]" aria-hidden="true" />
