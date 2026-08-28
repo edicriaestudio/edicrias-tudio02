@@ -1,4 +1,4 @@
-import { FolderKanban, PackageCheck, BookOpen } from 'lucide-react';
+import { FolderKanban, PackageCheck, BookOpen, Sparkles } from 'lucide-react';
 import { useReveal } from './hooks';
 import SoundtrackBar from './components/SoundtrackBar';
 import WebGLLiquidSurgeButton from './components/WebGLLiquidSurgeButton';
@@ -83,40 +83,39 @@ export default function Navbar({
         </div>
       </header>
 
-      {/* Bottom Floating Navigation Bar for Mobile (Thumb-Friendly with Safe Area Inset) */}
-      <div className="fixed bottom-3 inset-x-3 sm:inset-x-6 z-40 md:hidden flex items-center justify-between gap-2 p-2 rounded-full border border-cyan-400/40 bg-cyan-950/30 backdrop-blur-3xl shadow-[0_0_40px_rgba(6,182,212,0.3)] pb-[calc(0.5rem+env(safe-area-inset-bottom,0px))]">
+      {/* Bottom Floating Navigation Bar for Mobile (Thumb-Friendly, Proportional & Balanced) */}
+      <div className="fixed bottom-3 inset-x-2.5 sm:inset-x-6 z-40 md:hidden grid grid-cols-4 gap-1.5 p-1.5 rounded-full border border-cyan-400/40 bg-cyan-950/85 backdrop-blur-3xl shadow-[0_0_35px_rgba(6,182,212,0.3)] pb-[calc(0.375rem+env(safe-area-inset-bottom,0px))]">
         <button
           onClick={onOpenPortfolio}
-          className="flex items-center gap-1.5 px-3 py-2.5 rounded-full bg-cyan-950/60 border border-cyan-500/30 text-[11px] font-mono uppercase text-cyan-200 hover:text-white active:scale-95 transition-transform shrink-0"
+          className="flex flex-col items-center justify-center gap-1 h-11 px-1 rounded-full bg-cyan-950/60 border border-cyan-500/30 text-[9.5px] sm:text-[10px] font-mono uppercase text-cyan-200 hover:text-white active:scale-95 transition-all"
         >
-          <FolderKanban size={14} className="text-cyan-400" />
-          <span>TEMPLATES</span>
+          <FolderKanban size={13} className="text-cyan-300 shrink-0" />
+          <span className="truncate">TEMPLATES</span>
         </button>
 
         <button
           onClick={onOpenPacks}
-          className="flex items-center gap-1.5 px-3 py-2.5 rounded-full bg-cyan-950/60 border border-cyan-500/30 text-[11px] font-mono uppercase text-cyan-200 hover:text-white active:scale-95 transition-transform shrink-0"
+          className="flex flex-col items-center justify-center gap-1 h-11 px-1 rounded-full bg-cyan-950/60 border border-cyan-500/30 text-[9.5px] sm:text-[10px] font-mono uppercase text-cyan-200 hover:text-white active:scale-95 transition-all"
         >
-          <PackageCheck size={14} className="text-cyan-400" />
-          <span>PACKS</span>
+          <PackageCheck size={13} className="text-cyan-300 shrink-0" />
+          <span className="truncate">PACKS</span>
         </button>
 
         <button
           onClick={onOpenBlog}
-          className="flex items-center gap-1.5 px-3 py-2.5 rounded-full bg-cyan-950/60 border border-cyan-500/30 text-[11px] font-mono uppercase text-cyan-200 hover:text-white active:scale-95 transition-transform shrink-0"
+          className="flex flex-col items-center justify-center gap-1 h-11 px-1 rounded-full bg-cyan-950/60 border border-cyan-500/30 text-[9.5px] sm:text-[10px] font-mono uppercase text-cyan-200 hover:text-white active:scale-95 transition-all"
         >
-          <BookOpen size={14} className="text-cyan-400" />
-          <span>BLOG</span>
+          <BookOpen size={13} className="text-cyan-300 shrink-0" />
+          <span className="truncate">BLOG</span>
         </button>
 
-        <div className="flex-1 min-w-[110px] max-w-[150px]">
-          <WebGLLiquidSurgeButton
-            label="SITE VIP"
-            onClick={onOpenContact}
-            width="w-full"
-            height="h-[44px]"
-          />
-        </div>
+        <button
+          onClick={onOpenContact}
+          className="flex flex-col items-center justify-center gap-1 h-11 px-1 rounded-full bg-gradient-to-r from-cyan-400 to-teal-300 text-black border border-cyan-200 font-bold text-[9.5px] sm:text-[10px] font-mono uppercase shadow-[0_0_18px_rgba(6,182,212,0.6)] hover:brightness-110 active:scale-95 transition-all"
+        >
+          <Sparkles size={13} className="text-black shrink-0 fill-black/20" />
+          <span className="truncate">CRIAR SITE</span>
+        </button>
       </div>
     </>
   );

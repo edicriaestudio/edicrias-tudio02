@@ -11,7 +11,6 @@ import PortfolioModal from './PortfolioModal';
 import LegalModal, { LegalTab } from './components/LegalModal';
 import BlogModal from './components/BlogModal';
 import PacksModal from './components/PacksModal';
-import { ParallaxScrollProgress, ParallaxFloatingOrb } from './components/ParallaxElements';
 
 export default function App() {
   const [contactOpen, setContactOpen] = useState(false);
@@ -48,14 +47,10 @@ export default function App() {
 
   return (
     <div id="top" className="relative bg-[#080808] text-white selection:bg-white/20 selection:text-white overflow-x-hidden">
-      {/* Top Parallax Progress Engine */}
-      <ParallaxScrollProgress />
-
-      {/* Ambient Parallax Glowing Orbs */}
+      {/* Ambient Static Glows (Hardware-Accelerated CSS with 0 scroll CPU overhead) */}
       <div className="fixed inset-0 pointer-events-none z-[2] overflow-hidden">
-        <ParallaxFloatingOrb size={500} top="15%" left="5%" color="cyan" speed={0.25} blur={160} opacity={0.12} />
-        <ParallaxFloatingOrb size={600} top="50%" left="75%" color="teal" speed={0.35} blur={180} opacity={0.09} />
-        <ParallaxFloatingOrb size={550} top="80%" left="15%" color="cyan" speed={0.3} blur={170} opacity={0.1} />
+        <div className="absolute top-[15%] left-[5%] w-[450px] h-[450px] rounded-full bg-cyan-500/10 blur-[130px] transform-gpu pointer-events-none" />
+        <div className="absolute top-[50%] right-[10%] w-[500px] h-[500px] rounded-full bg-teal-400/8 blur-[140px] transform-gpu pointer-events-none" />
       </div>
 
       {/* Full-bleed scroll-scrubbed video canvas engine */}

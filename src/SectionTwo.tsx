@@ -2,7 +2,6 @@ import { Sparkles } from 'lucide-react';
 import { useReveal } from './hooks';
 import { ProtocolScheduler } from './components/InteractiveArtifacts';
 import WebGLLiquidSurgeButton from './components/WebGLLiquidSurgeButton';
-import { ParallaxWrapper, ParallaxFloatingBadge, ParallaxDepthCard, ParallaxFloatingOrb } from './components/ParallaxElements';
 
 interface Capability {
   num: string;
@@ -64,23 +63,20 @@ export default function SectionTwo({ onOpenContact, onOpenPortfolio: _onOpenPort
 
   return (
     <section id="pilares" className="min-h-screen supports-[height:100svh]:min-h-[100svh] flex flex-col justify-between px-4 sm:px-8 md:px-12 pt-16 sm:pt-24 pb-14 sm:pb-16 relative bg-gradient-to-b from-transparent via-cyan-950/20 to-transparent backdrop-blur-2xl overflow-hidden">
-      {/* Background Parallax Orbs */}
-      <ParallaxFloatingOrb size={600} top="20%" left="70%" color="teal" speed={0.35} blur={160} opacity={0.12} />
-      <ParallaxFloatingOrb size={450} top="70%" left="10%" color="cyan" speed={0.4} blur={150} opacity={0.1} />
+      {/* Background Static Glow (Pure CSS GPU) */}
+      <div className="absolute top-1/4 right-10 w-96 h-96 rounded-full bg-teal-500/10 blur-[130px] pointer-events-none transform-gpu" />
 
-      {/* Top Header with Parallax Float */}
-      <ParallaxWrapper speed={0.2} offset={[-15, 20]} className="flex flex-col gap-4 sm:gap-6 sm:flex-row sm:justify-between items-start">
-        <ParallaxFloatingBadge speed={0.3} offsetY={8}>
-          <div
-            ref={badgeRef}
-            className="inline-flex items-center gap-2 border-l-2 border-cyan-400 bg-cyan-950/40 px-3.5 py-1.5 backdrop-blur-md rounded-r-lg border-y border-r border-cyan-500/30"
-          >
-            <Sparkles size={13} className="text-cyan-300" />
-            <span className="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.15em] text-cyan-200 font-medium">
-              METODOLOGIA & DIFERENCIAIS
-            </span>
-          </div>
-        </ParallaxFloatingBadge>
+      {/* Top Header */}
+      <div className="flex flex-col gap-4 sm:gap-6 sm:flex-row sm:justify-between items-start">
+        <div
+          ref={badgeRef}
+          className="inline-flex items-center gap-2 border-l-2 border-cyan-400 bg-cyan-950/40 px-3.5 py-1.5 backdrop-blur-md rounded-r-lg border-y border-r border-cyan-500/30"
+        >
+          <Sparkles size={13} className="text-cyan-300" />
+          <span className="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.15em] text-cyan-200 font-medium">
+            METODOLOGIA & DIFERENCIAIS
+          </span>
+        </div>
 
         <p
           ref={copyRef}
@@ -88,12 +84,12 @@ export default function SectionTwo({ onOpenContact, onOpenPortfolio: _onOpenPort
         >
           Seu site pode ser mais do que presença institucional. Pode ser uma ferramenta de autoridade que converte visitantes em clientes.
         </p>
-      </ParallaxWrapper>
+      </div>
 
-      {/* Main Grid with Dual-Column Parallax */}
+      {/* Main Grid */}
       <div className="my-6 sm:my-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-        {/* Left Column with Smooth Elevation */}
-        <ParallaxDepthCard depth={0.7} className="lg:col-span-6 space-y-5 sm:space-y-6">
+        {/* Left Column */}
+        <div className="lg:col-span-6 space-y-5 sm:space-y-6">
           <h2
             ref={h2Ref}
             className="text-[clamp(2rem,4.8vw,3.8rem)] font-normal leading-[1.08] tracking-tight text-white drop-shadow-lg"
@@ -124,12 +120,12 @@ export default function SectionTwo({ onOpenContact, onOpenPortfolio: _onOpenPort
               />
             </div>
           </div>
-        </ParallaxDepthCard>
+        </div>
 
-        {/* Right Column — Protocol Scheduler Widget with Counter-Elevation Parallax */}
-        <ParallaxDepthCard depth={1.2} className="lg:col-span-6 flex justify-center w-full">
+        {/* Right Column — Protocol Scheduler Widget */}
+        <div className="lg:col-span-6 flex justify-center w-full">
           <ProtocolScheduler onOpenContact={onOpenContact} />
-        </ParallaxDepthCard>
+        </div>
       </div>
     </section>
   );
