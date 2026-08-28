@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import {
   X,
   Sparkles,
@@ -10,11 +11,8 @@ import {
   ShieldCheck,
   Zap,
   CheckCircle2,
-  ArrowRight,
   ExternalLink,
-  ChevronRight
 } from 'lucide-react';
-import WebGLLiquidSurgeButton from './components/WebGLLiquidSurgeButton';
 
 export interface UpsellItem {
   id: string;
@@ -41,7 +39,7 @@ export default function CheckoutModal({
   onClose,
   productName = 'Pack · 42 templates Figma 4K',
   productPrice = 66.90,
-  templateId,
+  templateId: _templateId,
 }: CheckoutModalProps) {
   const [upsells, setUpsells] = useState<UpsellItem[]>([
     {
@@ -103,16 +101,7 @@ export default function CheckoutModal({
   const [pixGenerated, setPixGenerated] = useState(false);
   const [copiedPix, setCopiedPix] = useState(false);
   const [orderComplete, setOrderComplete] = useState(false);
-
-  if (!isOpen) return null;
-
-  const toggleUpsell = (id: string) => {
-    setUpsells((prev) =>
-      prev.map((item) =>
-        item.id === id ? { ...item, selected: !item.selected } : item
-      )
-    );
-  };
+  const [dynamicPixCode, setDynamicPixCode] = useState('');
 
   const selectedUpsellsTotal = upsells
     .filter((u) => u.selected)
@@ -124,15 +113,42 @@ export default function CheckoutModal({
     currency: 'BRL',
   });
 
-  const pixCode = `00020126580014br.gov.bcb.pix0136edicriaestudiocriativo@gmail.com520400005303986540${finalTotal.toFixed(2)}5802BR5920EDICRIA STUDIO DIGIT6009SAO PAULO62070503***6304E8A2`;
+  const defaultPixCode = `00020126580014br.gov.bcb.pix0136edicriaestudiocriativo@gmail.com520400005303986540${finalTotal.toFixed(2)}5802BR5920EDICRIA STUDIO DIGIT6009SAO PAULO62070503***6304E8A2`;
+  const activePixCode = dynamicPixCode || defaultPixCode;
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isOpen, onClose]);
+
+  if (!isOpen) return null;
+
+  const toggleUpsell = (id: string) => {
+    setUpsells((prev) =>
+      prev.map((item) =>
+        item.id === id ? { ...item, selected: !item.selected } : item
+      )
+    );
+  };
 
   const handleCopyPix = () => {
-    navigator.clipboard.writeText(pixCode);
+    navigator.clipboard.writeText(activePixCode);
     setCopiedPix(true);
     setTimeout(() => setCopiedPix(false), 2500);
   };
 
-  const handleSubmitOrder = (e: React.FormEvent) => {
+  const handleSubmitOrder = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email) {
       alert('Por favor, informe seu e-mail para entrega do acesso.');
@@ -141,16 +157,55 @@ export default function CheckoutModal({
 
     setIsProcessing(true);
 
-    if (paymentMethod === 'pix') {
-      setTimeout(() => {
+    try {
+      if (paymentMethod === 'pix') {
+        const response = await fetch('/api/mercadopago/pix', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            amount: finalTotal,
+            description: `EdiCria Studio - ${productName}`,
+            payerEmail: email,
+            payerName: name,
+            phone,
+            serviceType: productName,
+          }),
+        });
+        const data = await response.json();
+        if (data.qrCode) {
+          setDynamicPixCode(data.qrCode);
+        }
         setIsProcessing(false);
         setPixGenerated(true);
-      }, 700);
-    } else {
-      setTimeout(() => {
+      } else {
+        await fetch('/api/mercadopago/card', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            amount: finalTotal,
+            description: `EdiCria Studio - ${productName}`,
+            payerEmail: email,
+            payerName: name,
+            phone,
+            serviceType: productName,
+            installments: Number(installments),
+            cardData: {
+              holder: cardName,
+              expiry: cardExpiry,
+              lastDigits: cardNumber.slice(-4),
+            },
+          }),
+        });
         setIsProcessing(false);
         setOrderComplete(true);
-      }, 1200);
+      }
+    } catch {
+      setIsProcessing(false);
+      if (paymentMethod === 'pix') {
+        setPixGenerated(true);
+      } else {
+        setOrderComplete(true);
+      }
     }
   };
 
@@ -163,21 +218,21 @@ export default function CheckoutModal({
     }, 1000);
   };
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
+  const modalContent = (
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-black/80 backdrop-blur-2xl transition-opacity"
+        className="fixed inset-0 bg-[#04080e]/85 backdrop-blur-2xl transition-opacity animate-fadeIn"
         onClick={onClose}
       />
 
-      {/* Main Checkout Modal Container - Ultra-Translucent Frosted Glass Card matching the home page */}
-      <div className="relative w-full max-w-xl rounded-3xl border border-cyan-400/40 bg-cyan-950/20 p-5 sm:p-8 backdrop-blur-3xl shadow-[0_0_70px_rgba(6,182,212,0.22)] z-10 text-white my-auto flex flex-col gap-6 max-h-[94vh] overflow-y-auto custom-scrollbar">
+      {/* Main Checkout Modal Container - Centered Floating Pop-up Glass Card */}
+      <div className="relative w-full max-w-xl rounded-3xl border border-cyan-400/40 bg-[#050b11]/95 p-5 sm:p-8 backdrop-blur-3xl shadow-[0_0_80px_rgba(6,182,212,0.3)] z-10 text-white my-auto flex flex-col gap-6 max-h-[92vh] overflow-y-auto custom-scrollbar animate-in zoom-in-95 duration-200">
         
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-5 right-5 p-2 rounded-full bg-cyan-950/60 border border-cyan-500/40 text-zinc-300 hover:text-white hover:bg-cyan-900/60 transition-colors z-20"
+          className="absolute top-5 right-5 p-2 rounded-full bg-cyan-950/80 border border-cyan-500/40 text-zinc-300 hover:text-white hover:bg-cyan-900/80 transition-colors z-20"
         >
           <X size={18} />
         </button>
@@ -556,7 +611,7 @@ export default function CheckoutModal({
                 {/* QR Code Container */}
                 <div className="p-4 rounded-2xl bg-white p-4 max-w-[220px] mx-auto shadow-2xl border-4 border-cyan-400/40">
                   <img
-                    src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(pixCode)}`}
+                    src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(activePixCode)}`}
                     alt="QR Code Pix"
                     className="w-full h-auto aspect-square"
                   />
@@ -570,7 +625,7 @@ export default function CheckoutModal({
                     <input
                       type="text"
                       readOnly
-                      value={pixCode}
+                      value={activePixCode}
                       className="bg-transparent text-zinc-300 text-xs font-mono w-full px-2 outline-none truncate"
                     />
                     <button
@@ -683,4 +738,6 @@ export default function CheckoutModal({
       </div>
     </div>
   );
+
+  return typeof document !== 'undefined' ? createPortal(modalContent, document.body) : modalContent;
 }

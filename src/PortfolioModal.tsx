@@ -1,7 +1,9 @@
 import { useState, useRef, useEffect } from 'react';
-import { X, Sparkles, Filter, Film, Image as ImageIcon, Zap, Maximize2, Copy, Check, ShoppingBag, ShieldCheck, Download, ArrowRight, ExternalLink, CheckCircle2 } from 'lucide-react';
+import { createPortal } from 'react-dom';
+import { X, Sparkles, Filter, Film, Image as ImageIcon, Zap, Maximize2, ShoppingBag } from 'lucide-react';
 import SoundtrackBar from './components/SoundtrackBar';
 import WebGLLiquidSurgeButton from './components/WebGLLiquidSurgeButton';
+import CheckoutModal from './CheckoutModal';
 
 interface PortfolioModalProps {
   isOpen: boolean;
@@ -737,9 +739,24 @@ const templatesData: TemplateItem[] = [
 
 export default function PortfolioModal({ isOpen, onClose, onSelectProjectForSite }: PortfolioModalProps) {
   const [filter, setFilter] = useState<'all' | 'foto' | 'video' | 'web'>('all');
-  const [copiedId, setCopiedId] = useState<string | null>(null);
   const [selectedTemplate, setSelectedTemplate] = useState<TemplateItem | null>(null);
   const [checkoutTemplate, setCheckoutTemplate] = useState<TemplateItem | null>(null);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && !selectedTemplate && !checkoutTemplate) onClose();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isOpen, onClose, selectedTemplate, checkoutTemplate]);
 
   if (!isOpen) return null;
 
@@ -748,29 +765,16 @@ export default function PortfolioModal({ isOpen, onClose, onSelectProjectForSite
     return item.category === filter;
   });
 
-  const handleCopyFigmaLink = (id: string) => {
-    navigator.clipboard.writeText('https://figma.com/@edicriastudio/templates');
-    setCopiedId(id);
-    setTimeout(() => setCopiedId(null), 2000);
-  };
-
-  const handleOpenWhatsAppCheckout = (item: TemplateItem) => {
-    const text = encodeURIComponent(
-      `Olá EdiCria Studio! Quero adquirir o template Figma: "${item.title}" (#${item.num} - ${item.tag}). Como faço o pagamento e liberação imediata do arquivo?`
-    );
-    window.open(`https://wa.me/5511999999999?text=${text}`, '_blank');
-  };
-
-  return (
+  const modalContent = (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
       {/* Backdrop with blur */}
       <div
         onClick={onClose}
-        className="fixed inset-0 bg-[#050b11]/85 backdrop-blur-3xl transition-opacity duration-300"
+        className="fixed inset-0 bg-[#050b11]/85 backdrop-blur-3xl transition-opacity duration-300 animate-fadeIn"
       />
 
-      {/* Main Container - Translucent Cyan Frosted Glass */}
-      <div className="relative w-full max-w-6xl rounded-3xl border border-cyan-400/40 bg-[#050b11]/80 p-5 sm:p-8 backdrop-blur-3xl shadow-[0_0_80px_rgba(6,182,212,0.25)] z-10 text-white my-auto flex flex-col gap-6 max-h-[92vh] overflow-y-auto custom-scrollbar">
+      {/* Main Container - Translucent Cyan Frosted Glass matching frontpage */}
+      <div className="relative w-full max-w-6xl rounded-3xl border border-cyan-400/40 bg-[#050b11]/95 p-5 sm:p-8 backdrop-blur-3xl shadow-[0_0_80px_rgba(6,182,212,0.25)] z-10 text-white my-auto flex flex-col gap-6 max-h-[92vh] overflow-y-auto custom-scrollbar animate-in zoom-in-95 duration-200">
         
         {/* Header Bar */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-white/10">
@@ -802,7 +806,7 @@ export default function PortfolioModal({ isOpen, onClose, onSelectProjectForSite
         </div>
 
         {/* Filter Navigation Bar */}
-        <div className="flex flex-wrap items-center justify-between gap-3 bg-cyan-950/40 p-2.5 rounded-2xl border border-cyan-500/30 backdrop-blur-2xl">
+        <div className="flex flex-wrap items-center justify-between gap-3 bg-cyan-950/30 p-2.5 rounded-2xl border border-cyan-500/30 backdrop-blur-2xl">
           <div className="flex flex-wrap items-center gap-2">
             <button
               onClick={() => setFilter('all')}
@@ -854,12 +858,12 @@ export default function PortfolioModal({ isOpen, onClose, onSelectProjectForSite
           </span>
         </div>
 
-        {/* 46 Optimized Lazy Media Grid - Translucent Cyan Glass Cards */}
+        {/* 46 Optimized Lazy Media Grid - Translucent Cyan Frosted Glass Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7 py-2">
           {filteredTemplates.map((item) => (
             <div
               key={item.id}
-              className="group relative rounded-3xl border border-cyan-400/30 bg-[#050b11]/60 backdrop-blur-3xl hover:border-cyan-400/70 hover:shadow-[0_0_40px_rgba(6,182,212,0.2)] transition-all duration-500 overflow-hidden flex flex-col justify-between shadow-xl hover:-translate-y-1.5"
+              className="group relative rounded-3xl border border-cyan-400/30 bg-cyan-950/20 backdrop-blur-3xl hover:border-cyan-400/70 hover:shadow-[0_0_40px_rgba(6,182,212,0.2)] transition-all duration-500 overflow-hidden flex flex-col justify-between shadow-xl hover:-translate-y-1.5"
             >
               {/* LAZY OPTIMIZED MEDIA FRAME */}
               <LazyTemplateMedia
@@ -900,32 +904,21 @@ export default function PortfolioModal({ isOpen, onClose, onSelectProjectForSite
                   ))}
                 </div>
 
-                {/* Modern High-Conversion Checkout Action Buttons */}
+                {/* High-Conversion Checkout Action Buttons */}
                 <div className="pt-3 border-t border-white/10 flex flex-col gap-2">
-                  <div className="flex items-center gap-2">
-                    {/* Primary Checkout Button */}
-                    <button
-                      onClick={() => setCheckoutTemplate(item)}
-                      className="flex-1 py-3 px-4 rounded-xl bg-gradient-to-r from-cyan-400 to-cyan-300 text-black hover:from-cyan-300 hover:to-white text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(6,182,212,0.4)] active:scale-95"
-                    >
-                      <ShoppingBag size={14} className="text-black" />
-                      ADQUIRIR TEMPLATE
-                    </button>
-
-                    {/* Secondary Quick Figma Link */}
-                    <button
-                      onClick={() => handleCopyFigmaLink(item.id)}
-                      className="p-3 rounded-xl bg-white/5 hover:bg-white/15 border border-white/10 text-cyan-300 hover:text-white transition-colors shrink-0"
-                      title="Copiar Link do Figma"
-                    >
-                      {copiedId === item.id ? <Check size={14} className="text-cyan-400" /> : <Copy size={14} />}
-                    </button>
-                  </div>
+                  {/* Primary Checkout Button - Opens direct Checkout Modal */}
+                  <button
+                    onClick={() => setCheckoutTemplate(item)}
+                    className="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-cyan-400 via-cyan-300 to-white text-black hover:from-cyan-300 hover:to-cyan-100 text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(6,182,212,0.4)] active:scale-95"
+                  >
+                    <ShoppingBag size={15} className="text-black" />
+                    ADQUIRIR TEMPLATE
+                  </button>
 
                   {/* Secondary Preview & Specs Action */}
                   <button
                     onClick={() => setSelectedTemplate(item)}
-                    className="w-full py-2 px-3 rounded-xl bg-cyan-950/40 hover:bg-cyan-950/80 border border-cyan-500/30 text-cyan-200 hover:text-white text-[11px] font-mono uppercase tracking-wider transition-all flex items-center justify-center gap-1.5"
+                    className="w-full py-2.5 px-3 rounded-xl bg-cyan-950/30 hover:bg-cyan-900/50 border border-cyan-500/30 text-cyan-200 hover:text-white text-[11px] font-mono uppercase tracking-wider transition-all flex items-center justify-center gap-1.5"
                   >
                     <Maximize2 size={12} className="text-cyan-400" />
                     VER DETALHES & VÍDEO 4K
@@ -939,7 +932,7 @@ export default function PortfolioModal({ isOpen, onClose, onSelectProjectForSite
         {/* High-Resolution Cinematic Lightbox Modal */}
         {selectedTemplate && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/95 backdrop-blur-3xl">
-            <div className="relative w-full max-w-4xl bg-[#050b11]/90 border border-cyan-400/50 rounded-3xl p-6 sm:p-8 space-y-6 shadow-[0_0_80px_rgba(6,182,212,0.3)] text-white my-auto max-h-[90vh] overflow-y-auto">
+            <div className="relative w-full max-w-4xl bg-cyan-950/25 border border-cyan-400/50 rounded-3xl p-6 sm:p-8 space-y-6 shadow-[0_0_80px_rgba(6,182,212,0.3)] text-white my-auto max-h-[90vh] overflow-y-auto backdrop-blur-3xl">
               
               <button
                 onClick={() => setSelectedTemplate(null)}
@@ -1001,7 +994,7 @@ export default function PortfolioModal({ isOpen, onClose, onSelectProjectForSite
                     setSelectedTemplate(null);
                     setCheckoutTemplate(temp);
                   }}
-                  width="w-full sm:w-[300px]"
+                  width="w-full sm:w-[320px]"
                   height="h-[64px]"
                 />
 
@@ -1013,22 +1006,11 @@ export default function PortfolioModal({ isOpen, onClose, onSelectProjectForSite
                       onClose();
                       if (onSelectProjectForSite) onSelectProjectForSite(temp.title);
                     }}
-                    className="w-full sm:w-auto px-5 py-4 rounded-2xl bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-500/40 text-cyan-200 font-mono text-xs uppercase tracking-wider text-center transition-all flex items-center justify-center gap-2"
+                    className="w-full sm:w-auto px-6 py-4 rounded-2xl bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-500/40 text-cyan-200 font-mono text-xs uppercase tracking-wider text-center transition-all flex items-center justify-center gap-2"
                   >
                     <Sparkles size={14} className="text-cyan-300" />
-                    USAR NO MEU SITE
+                    QUERO UM SITE COM ESTE DESIGN
                   </button>
-
-                  <a
-                    href={selectedTemplate.videoPreview || selectedTemplate.previewUrl}
-                    download
-                    target="_blank"
-                    rel="noreferrer"
-                    className="p-4 rounded-2xl bg-white/5 hover:bg-white/15 border border-white/10 text-cyan-300 hover:text-white transition-all shrink-0"
-                    title="Download Mídia 4K"
-                  >
-                    <Download size={16} />
-                  </a>
                 </div>
               </div>
 
@@ -1036,125 +1018,20 @@ export default function PortfolioModal({ isOpen, onClose, onSelectProjectForSite
           </div>
         )}
 
-        {/* Dedicated Modern VIP Template Checkout & Acquisition Modal */}
-        {checkoutTemplate && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/95 backdrop-blur-3xl overflow-y-auto">
-            <div className="relative w-full max-w-xl bg-[#050b11]/95 border border-cyan-400/60 rounded-3xl p-6 sm:p-8 space-y-6 shadow-[0_0_90px_rgba(6,182,212,0.35)] text-white my-auto max-h-[92vh] overflow-y-auto">
-              
-              <button
-                onClick={() => setCheckoutTemplate(null)}
-                className="absolute top-5 right-5 p-2.5 rounded-full bg-cyan-950/80 border border-cyan-500/40 hover:bg-cyan-900 text-white transition-colors z-20"
-              >
-                <X size={18} />
-              </button>
-
-              {/* Modal Header */}
-              <div>
-                <div className="flex items-center gap-2 mb-2">
-                  <ShoppingBag size={18} className="text-cyan-300" />
-                  <span className="font-mono text-xs uppercase tracking-[0.18em] text-cyan-300 font-semibold flex items-center gap-1.5">
-                    <Sparkles size={13} className="text-cyan-400" />
-                    CHECKOUT VIP • ACESSO IMEDIATO AO FIGMA
-                  </span>
-                </div>
-                <h3 className="text-2xl sm:text-3xl font-normal tracking-tight text-white">
-                  Adquirir Template <span className="italic font-serif text-cyan-300 underline decoration-cyan-400/60 underline-offset-6">#{checkoutTemplate.num}</span>
-                </h3>
-              </div>
-
-              {/* Template Highlight Box */}
-              <div className="p-4 rounded-2xl bg-cyan-950/40 border border-cyan-500/40 flex items-center gap-4">
-                <img
-                  src={checkoutTemplate.previewUrl}
-                  alt={checkoutTemplate.title}
-                  className="w-20 h-20 rounded-xl object-cover border border-cyan-500/30 shrink-0"
-                />
-                <div className="flex-1 min-w-0">
-                  <span className="font-mono text-[10px] text-cyan-300 uppercase tracking-wider block">
-                    {checkoutTemplate.tag}
-                  </span>
-                  <h4 className="text-base font-semibold text-white truncate">
-                    {checkoutTemplate.title}
-                  </h4>
-                  <p className="text-xs text-zinc-300 line-clamp-1 mt-0.5">
-                    {checkoutTemplate.desc}
-                  </p>
-                </div>
-              </div>
-
-              {/* What is Included In The Package */}
-              <div className="space-y-2.5">
-                <span className="font-mono text-[11px] uppercase tracking-wider text-cyan-300 font-medium block">
-                  // O QUE VOCÊ RECEBE NO PACOTE:
-                </span>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-zinc-200">
-                  <div className="p-2.5 rounded-xl bg-white/5 border border-white/10 flex items-start gap-2">
-                    <CheckCircle2 size={15} className="text-cyan-400 shrink-0 mt-0.5" />
-                    <span>Arquivo Fonte Figma (.fig) 100% editável e organizado</span>
-                  </div>
-                  <div className="p-2.5 rounded-xl bg-white/5 border border-white/10 flex items-start gap-2">
-                    <CheckCircle2 size={15} className="text-cyan-400 shrink-0 mt-0.5" />
-                    <span>Mídias 4K & Vídeos 60 FPS originais incluídos</span>
-                  </div>
-                  <div className="p-2.5 rounded-xl bg-white/5 border border-white/10 flex items-start gap-2">
-                    <ShieldCheck size={15} className="text-cyan-400 shrink-0 mt-0.5" />
-                    <span>Licença Comercial Vitalícia (Uso ilimitado em clientes)</span>
-                  </div>
-                  <div className="p-2.5 rounded-xl bg-white/5 border border-white/10 flex items-start gap-2">
-                    <Sparkles size={15} className="text-cyan-400 shrink-0 mt-0.5" />
-                    <span>Acesso Imediato e Suporte Direto EdiCria</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Fast Checkout Actions */}
-              <div className="space-y-3 pt-2">
-                {/* 1. WhatsApp Fast VIP Checkout */}
-                <button
-                  onClick={() => handleOpenWhatsAppCheckout(checkoutTemplate)}
-                  className="w-full py-4 px-5 rounded-2xl bg-gradient-to-r from-emerald-400 via-cyan-400 to-cyan-300 text-black hover:from-emerald-300 hover:to-white font-mono text-xs sm:text-sm font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2.5 shadow-[0_0_30px_rgba(16,185,129,0.35)] active:scale-95"
-                >
-                  <ExternalLink size={16} className="text-black" />
-                  COMPRAR VIA WHATSAPP VIP (LIBERAÇÃO INSTANTÂNEA)
-                </button>
-
-                {/* 2. Custom Project Request with this template */}
-                <button
-                  onClick={() => {
-                    const templateName = checkoutTemplate.title;
-                    setCheckoutTemplate(null);
-                    onClose();
-                    if (onSelectProjectForSite) onSelectProjectForSite(templateName);
-                  }}
-                  className="w-full py-3.5 px-5 rounded-2xl bg-cyan-950/60 hover:bg-cyan-900/80 border border-cyan-400/50 text-cyan-200 hover:text-white font-mono text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2"
-                >
-                  <ArrowRight size={14} className="text-cyan-400" />
-                  QUERO UM SITE COMPLETO COM ESTE DESIGN
-                </button>
-
-                {/* 3. Direct Figma Copy Link */}
-                <button
-                  onClick={() => handleCopyFigmaLink(checkoutTemplate.id)}
-                  className="w-full py-2.5 px-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-zinc-300 hover:text-white font-mono text-[11px] uppercase tracking-wider transition-all flex items-center justify-center gap-2"
-                >
-                  {copiedId === checkoutTemplate.id ? (
-                    <>
-                      <Check size={13} className="text-cyan-400" />
-                      LINK COPIADO COM SUCESSO!
-                    </>
-                  ) : (
-                    <>
-                      <Copy size={13} className="text-cyan-400" />
-                      COPIAR LINK DO FIGMA COMMUNITY
-                    </>
-                  )}
-                </button>
-              </div>
-
-            </div>
-          </div>
-        )}
       </div>
+
+      {/* Dedicated Modern Checkout Modal with Upsells, PIX & Card (Centered Pop-up) */}
+      {checkoutTemplate && (
+        <CheckoutModal
+          isOpen={Boolean(checkoutTemplate)}
+          onClose={() => setCheckoutTemplate(null)}
+          productName={`Template #${checkoutTemplate.num} · ${checkoutTemplate.title}`}
+          productPrice={66.90}
+          templateId={checkoutTemplate.id}
+        />
+      )}
     </div>
   );
+
+  return typeof document !== 'undefined' ? createPortal(modalContent, document.body) : modalContent;
 }

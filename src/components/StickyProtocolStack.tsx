@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Sparkles, Cpu, Layers } from 'lucide-react';
 import WebGLLiquidSurgeButton from './WebGLLiquidSurgeButton';
+import { ParallaxWrapper, ParallaxFloatingOrb, ParallaxFloatingBadge, ParallaxDepthCard } from './ParallaxElements';
 
 interface StickyProtocolStackProps {
   onOpenContact?: () => void;
@@ -17,18 +18,20 @@ export default function StickyProtocolStack({ onOpenContact }: StickyProtocolSta
       desc: 'Nossa tecnologia de rendering por GPU WebGL converte toques e interações em simulações líquidas cinematográficas a 60 FPS.',
       tag: 'WEBGL LIQUID SURGE 60FPS',
       graphic: (
-        <div className="flex flex-col items-center gap-4 py-2">
-          <WebGLLiquidSurgeButton
-            label="INTERAGIR COM SURGE"
-            onClick={onOpenContact}
-            width="w-[260px] sm:w-[280px]"
-            height="h-[74px]"
-          />
-          <span className="font-mono text-[10px] text-cyan-300 tracking-widest uppercase flex items-center gap-1.5 pt-1">
-            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping" />
-            WEBGL SHADER LIQUID ENGINE
-          </span>
-        </div>
+        <ParallaxDepthCard depth={0.8}>
+          <div className="flex flex-col items-center gap-4 py-2">
+            <WebGLLiquidSurgeButton
+              label="INTERAGIR COM SURGE"
+              onClick={onOpenContact}
+              width="w-[260px] sm:w-[280px]"
+              height="h-[74px]"
+            />
+            <span className="font-mono text-[10px] text-cyan-300 tracking-widest uppercase flex items-center gap-1.5 pt-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping" />
+              WEBGL SHADER LIQUID ENGINE
+            </span>
+          </div>
+        </ParallaxDepthCard>
       ),
     },
     {
@@ -38,16 +41,18 @@ export default function StickyProtocolStack({ onOpenContact }: StickyProtocolSta
       desc: 'Cada botão, card ou elemento reage instantaneamente aos toques com efeitos glassmorphism e sombras dinâmicas.',
       tag: 'LASER MATRIX RESPONSIVA',
       graphic: (
-        <div className="relative w-56 h-56 sm:w-64 sm:h-64 flex flex-col items-center justify-center border border-cyan-400/40 rounded-3xl overflow-hidden bg-cyan-950/20 backdrop-blur-3xl shadow-[0_0_40px_rgba(6,182,212,0.2)]">
-          {/* Laser Line */}
-          <div className="absolute inset-x-0 h-1 bg-gradient-to-r from-transparent via-cyan-300 to-transparent animate-[bounce_2s_infinite] shadow-[0_0_20px_#06b6d4]" />
-          {/* Grid lines */}
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,#06b6d415_1px,transparent_1px),linear-gradient(to_bottom,#06b6d415_1px,transparent_1px)] bg-[size:20px_20px]" />
-          <Cpu size={48} className="text-cyan-300 animate-pulse relative z-10" />
-          <span className="mt-3 font-mono text-[10px] text-cyan-200 tracking-widest uppercase z-10">
-            SCANNING MATRIX 4K
-          </span>
-        </div>
+        <ParallaxDepthCard depth={1.1}>
+          <div className="relative w-56 h-56 sm:w-64 sm:h-64 flex flex-col items-center justify-center border border-cyan-400/40 rounded-3xl overflow-hidden bg-cyan-950/20 backdrop-blur-3xl shadow-[0_0_40px_rgba(6,182,212,0.2)]">
+            {/* Laser Line */}
+            <div className="absolute inset-x-0 h-1 bg-gradient-to-r from-transparent via-cyan-300 to-transparent animate-[bounce_2s_infinite] shadow-[0_0_20px_#06b6d4]" />
+            {/* Grid lines */}
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,#06b6d415_1px,transparent_1px),linear-gradient(to_bottom,#06b6d415_1px,transparent_1px)] bg-[size:20px_20px]" />
+            <Cpu size={48} className="text-cyan-300 animate-pulse relative z-10" />
+            <span className="mt-3 font-mono text-[10px] text-cyan-200 tracking-widest uppercase z-10">
+              SCANNING MATRIX 4K
+            </span>
+          </div>
+        </ParallaxDepthCard>
       ),
     },
     {
@@ -57,34 +62,38 @@ export default function StickyProtocolStack({ onOpenContact }: StickyProtocolSta
       desc: 'Acesso imediato aos nossos 46 componentes editáveis no Figma, criados especificamente para escalar a presença digital da sua marca.',
       tag: 'FIGMA SYSTEM 2026',
       graphic: (
-        <div className="relative w-56 h-56 sm:w-64 sm:h-64 flex flex-col items-center justify-center border border-cyan-400/30 rounded-3xl overflow-hidden bg-cyan-950/15 backdrop-blur-3xl shadow-[0_0_40px_rgba(6,182,212,0.15)]">
-          <Layers size={48} className="text-cyan-300 animate-pulse mb-3" />
-          <WebGLLiquidSurgeButton
-            label="EXPLORAR TEMPLATES"
-            onClick={onOpenContact}
-            width="w-[220px]"
-            height="h-[56px]"
-          />
-        </div>
+        <ParallaxDepthCard depth={0.9}>
+          <div className="relative w-56 h-56 sm:w-64 sm:h-64 flex flex-col items-center justify-center border border-cyan-400/30 rounded-3xl overflow-hidden bg-cyan-950/15 backdrop-blur-3xl shadow-[0_0_40px_rgba(6,182,212,0.15)]">
+            <Layers size={48} className="text-cyan-300 animate-pulse mb-3" />
+            <WebGLLiquidSurgeButton
+              label="EXPLORAR TEMPLATES"
+              onClick={onOpenContact}
+              width="w-[220px]"
+              height="h-[56px]"
+            />
+          </div>
+        </ParallaxDepthCard>
       ),
     },
   ];
 
   return (
-    <section id="protocolos" className="relative py-16 sm:py-28 px-4 sm:px-8 md:px-12 bg-gradient-to-b from-transparent via-cyan-950/25 to-transparent backdrop-blur-3xl border-y border-cyan-500/20">
+    <section id="protocolos" className="relative py-16 sm:py-28 px-4 sm:px-8 md:px-12 bg-gradient-to-b from-transparent via-cyan-950/25 to-transparent backdrop-blur-3xl border-y border-cyan-500/20 overflow-hidden">
       
-      {/* Background Ambient Glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] sm:w-[750px] h-[350px] sm:h-[750px] bg-cyan-500/10 rounded-full blur-[140px] pointer-events-none" />
+      {/* Background Ambient Parallax Glows */}
+      <ParallaxFloatingOrb size={700} top="30%" left="50%" color="cyan" speed={0.3} blur={160} opacity={0.12} />
 
       <div className="max-w-6xl mx-auto relative z-10">
         
         {/* Section Header */}
-        <div className="mb-8 sm:mb-12 flex flex-col sm:flex-row sm:items-end justify-between gap-5 sm:gap-6 border-b border-white/10 pb-6">
+        <ParallaxWrapper speed={0.2} offset={[-15, 20]} className="mb-8 sm:mb-12 flex flex-col sm:flex-row sm:items-end justify-between gap-5 sm:gap-6 border-b border-white/10 pb-6">
           <div>
-            <span className="font-mono text-[11px] sm:text-xs uppercase tracking-[0.18em] sm:tracking-[0.2em] text-cyan-300 flex items-center gap-2 mb-2 font-medium">
-              <Sparkles size={14} className="text-cyan-400" />
-              // PROTOCOLO DE CONSTRUÇÃO (WEBGL & SHADERS)
-            </span>
+            <ParallaxFloatingBadge speed={0.3} offsetY={8}>
+              <span className="font-mono text-[11px] sm:text-xs uppercase tracking-[0.18em] sm:tracking-[0.2em] text-cyan-300 flex items-center gap-2 mb-2 font-medium">
+                <Sparkles size={14} className="text-cyan-400" />
+                // PROTOCOLO DE CONSTRUÇÃO (WEBGL & SHADERS)
+              </span>
+            </ParallaxFloatingBadge>
             <h3 className="text-2xl sm:text-5xl font-normal text-white tracking-tight">
               Os 3 pilares da <span className="font-serif italic text-cyan-300 underline decoration-cyan-400/50 underline-offset-8">EdiCria Studio</span>
             </h3>
@@ -106,10 +115,10 @@ export default function StickyProtocolStack({ onOpenContact }: StickyProtocolSta
               </button>
             ))}
           </div>
-        </div>
+        </ParallaxWrapper>
 
-        {/* Clean Spaced Card Display Container (Ultra-Translucent Glass) */}
-        <div className="w-full min-h-[380px] sm:min-h-[420px] relative">
+        {/* Clean Spaced Card Display Container (Ultra-Translucent Glass with Depth Parallax) */}
+        <ParallaxWrapper speed={0.25} offset={[-10, 30]} className="w-full min-h-[380px] sm:min-h-[420px] relative">
           {cards.map((card, idx) => {
             const isActive = activeCard === idx;
             return (
@@ -155,7 +164,7 @@ export default function StickyProtocolStack({ onOpenContact }: StickyProtocolSta
               </div>
             );
           })}
-        </div>
+        </ParallaxWrapper>
 
       </div>
     </section>
