@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, lazy, Suspense } from 'react';
 import ScrollVideo from './ScrollVideo';
 import Navbar from './Navbar';
 import SectionOne from './SectionOne';
@@ -6,11 +6,15 @@ import SectionTwo from './SectionTwo';
 import PhilosophySection from './components/PhilosophySection';
 import StickyProtocolStack from './components/StickyProtocolStack';
 import Footer from './components/Footer';
-import ContactModal from './ContactModal';
-import PortfolioModal from './PortfolioModal';
-import LegalModal, { LegalTab } from './components/LegalModal';
-import BlogModal from './components/BlogModal';
-import PacksModal from './components/PacksModal';
+import ModalLoadingFallback from './components/ModalLoadingFallback';
+import type { LegalTab } from './components/LegalModal';
+
+// Dynamically chunked heavy modals for optimal mobile first load and 0ms idle overhead
+const ContactModal = lazy(() => import('./ContactModal'));
+const PortfolioModal = lazy(() => import('./PortfolioModal'));
+const PacksModal = lazy(() => import('./components/PacksModal'));
+const BlogModal = lazy(() => import('./components/BlogModal'));
+const LegalModal = lazy(() => import('./components/LegalModal'));
 
 export default function App() {
   const [contactOpen, setContactOpen] = useState(false);
@@ -101,38 +105,93 @@ export default function App() {
         </main>
       </div>
 
-      {/* Interactive Modals */}
-      <ContactModal
-        key={selectedTemplateName || 'general-contact'}
-        isOpen={contactOpen}
-        onClose={handleCloseContact}
-        initialTemplate={selectedTemplateName}
-      />
+      {/* Interactive Modals (Loaded on-demand with Suspense & zero initial JS overhead) */}
+      {contactOpen && (
+        <Suspense
+          fallback={
+            <ModalLoadingFallback
+              message="CARREGANDO TERMINAL VIP..."
+              onClose={handleCloseContact}
+            />
+          }
+        >
+          <ContactModal
+            key={selectedTemplateName || 'general-contact'}
+            isOpen={contactOpen}
+            onClose={handleCloseContact}
+            initialTemplate={selectedTemplateName}
+          />
+        </Suspense>
+      )}
 
-      <PortfolioModal
-        isOpen={portfolioOpen}
-        onClose={handleClosePortfolio}
-        onSelectProjectForSite={(name) => handleOpenContact(name)}
-      />
+      {portfolioOpen && (
+        <Suspense
+          fallback={
+            <ModalLoadingFallback
+              message="CARREGANDO ACERVO FIGMA 4K..."
+              onClose={handleClosePortfolio}
+            />
+          }
+        >
+          <PortfolioModal
+            isOpen={portfolioOpen}
+            onClose={handleClosePortfolio}
+            onSelectProjectForSite={(name) => handleOpenContact(name)}
+          />
+        </Suspense>
+      )}
 
-      <PacksModal
-        isOpen={packsOpen}
-        onClose={handleClosePacks}
-      />
+      {packsOpen && (
+        <Suspense
+          fallback={
+            <ModalLoadingFallback
+              message="CARREGANDO PACKS & COMBOS..."
+              onClose={handleClosePacks}
+            />
+          }
+        >
+          <PacksModal
+            isOpen={packsOpen}
+            onClose={handleClosePacks}
+          />
+        </Suspense>
+      )}
 
-      <BlogModal
-        isOpen={blogOpen}
-        onClose={handleCloseBlog}
-        onOpenPortfolio={handleOpenPortfolio}
-        onOpenContact={() => handleOpenContact()}
-        onOpenPacks={handleOpenPacks}
-      />
+      {blogOpen && (
+        <Suspense
+          fallback={
+            <ModalLoadingFallback
+              message="CARREGANDO ARTIGOS & TECH BLOG..."
+              onClose={handleCloseBlog}
+            />
+          }
+        >
+          <BlogModal
+            isOpen={blogOpen}
+            onClose={handleCloseBlog}
+            onOpenPortfolio={handleOpenPortfolio}
+            onOpenContact={() => handleOpenContact()}
+            onOpenPacks={handleOpenPacks}
+          />
+        </Suspense>
+      )}
 
-      <LegalModal
-        isOpen={legalOpen}
-        onClose={handleCloseLegal}
-        initialTab={legalTab}
-      />
+      {legalOpen && (
+        <Suspense
+          fallback={
+            <ModalLoadingFallback
+              message="CARREGANDO TERMOS LGPD..."
+              onClose={handleCloseLegal}
+            />
+          }
+        >
+          <LegalModal
+            isOpen={legalOpen}
+            onClose={handleCloseLegal}
+            initialTab={legalTab}
+          />
+        </Suspense>
+      )}
     </div>
   );
 }

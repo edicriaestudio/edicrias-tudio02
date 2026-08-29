@@ -2,6 +2,7 @@ import { Sparkles, FolderKanban } from 'lucide-react';
 import { useReveal } from './hooks';
 import { DiagnosticShuffler, TelemetryTypewriter } from './components/InteractiveArtifacts';
 import WebGLLiquidSurgeButton from './components/WebGLLiquidSurgeButton';
+import { prefetchModal } from './utils/prefetch';
 
 interface SectionOneProps {
   onOpenContact?: () => void;
@@ -89,15 +90,23 @@ export default function SectionOne({ onOpenContact, onOpenPortfolio }: SectionOn
           </p>
 
           <div className="flex flex-wrap items-center gap-3.5 sm:gap-4 pt-2">
-            <WebGLLiquidSurgeButton
-              label="CRIAR MEU SITE AUTORAL"
-              onClick={onOpenContact}
-              width="w-full sm:w-[290px]"
-              height="h-[64px] sm:h-[68px]"
-            />
+            <div
+              onMouseEnter={() => prefetchModal('contact')}
+              onTouchStart={() => prefetchModal('contact')}
+              className="w-full sm:w-auto"
+            >
+              <WebGLLiquidSurgeButton
+                label="CRIAR MEU SITE AUTORAL"
+                onClick={onOpenContact}
+                width="w-full sm:w-[290px]"
+                height="h-[64px] sm:h-[68px]"
+              />
+            </div>
 
             <button
               onClick={onOpenPortfolio}
+              onMouseEnter={() => prefetchModal('portfolio')}
+              onTouchStart={() => prefetchModal('portfolio')}
               className="w-full sm:w-auto px-5 sm:px-6 py-3.5 sm:py-4 rounded-2xl border border-cyan-400/40 bg-cyan-950/20 backdrop-blur-3xl text-xs sm:text-sm font-mono uppercase tracking-wider text-cyan-200 hover:bg-cyan-900/50 hover:text-white transition-all flex items-center justify-center gap-2 shadow-[0_0_30px_rgba(6,182,212,0.15)] active:scale-95"
             >
               <FolderKanban size={16} className="text-cyan-300" />

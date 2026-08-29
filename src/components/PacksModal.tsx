@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { createPortal } from 'react-dom';
 import {
   PackageCheck,
@@ -7,7 +7,9 @@ import {
   ShoppingBag,
   ShieldCheck,
 } from 'lucide-react';
-import CheckoutModal from '../CheckoutModal';
+import ModalLoadingFallback from './ModalLoadingFallback';
+
+const CheckoutModal = lazy(() => import('../CheckoutModal'));
 
 export interface StudioPack {
   id: string;
@@ -285,13 +287,22 @@ export default function PacksModal({ isOpen, onClose }: PacksModalProps) {
 
       {/* Integrated Checkout Modal (Centered Pop-up) */}
       {selectedPackForCheckout && (
-        <CheckoutModal
-          isOpen={Boolean(selectedPackForCheckout)}
-          onClose={() => setSelectedPackForCheckout(null)}
-          productName={selectedPackForCheckout.title}
-          productPrice={selectedPackForCheckout.price}
-          templateId={selectedPackForCheckout.id}
-        />
+        <Suspense
+          fallback={
+            <ModalLoadingFallback
+              message="CARREGANDO CHECKOUT SEGURO..."
+              onClose={() => setSelectedPackForCheckout(null)}
+            />
+          }
+        >
+          <CheckoutModal
+            isOpen={Boolean(selectedPackForCheckout)}
+            onClose={() => setSelectedPackForCheckout(null)}
+            productName={selectedPackForCheckout.title}
+            productPrice={selectedPackForCheckout.price}
+            templateId={selectedPackForCheckout.id}
+          />
+        </Suspense>
       )}
     </div>
   );

@@ -1,9 +1,11 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, lazy, Suspense } from 'react';
 import { createPortal } from 'react-dom';
 import { X, Sparkles, Filter, Film, Image as ImageIcon, Zap, Maximize2, ShoppingBag } from 'lucide-react';
 import SoundtrackBar from './components/SoundtrackBar';
 import WebGLLiquidSurgeButton from './components/WebGLLiquidSurgeButton';
-import CheckoutModal from './CheckoutModal';
+import ModalLoadingFallback from './components/ModalLoadingFallback';
+
+const CheckoutModal = lazy(() => import('./CheckoutModal'));
 
 interface PortfolioModalProps {
   isOpen: boolean;
@@ -1022,13 +1024,22 @@ export default function PortfolioModal({ isOpen, onClose, onSelectProjectForSite
 
       {/* Dedicated Modern Checkout Modal with Upsells, PIX & Card (Centered Pop-up) */}
       {checkoutTemplate && (
-        <CheckoutModal
-          isOpen={Boolean(checkoutTemplate)}
-          onClose={() => setCheckoutTemplate(null)}
-          productName={`Template #${checkoutTemplate.num} · ${checkoutTemplate.title}`}
-          productPrice={66.90}
-          templateId={checkoutTemplate.id}
-        />
+        <Suspense
+          fallback={
+            <ModalLoadingFallback
+              message="CARREGANDO CHECKOUT SEGURO..."
+              onClose={() => setCheckoutTemplate(null)}
+            />
+          }
+        >
+          <CheckoutModal
+            isOpen={Boolean(checkoutTemplate)}
+            onClose={() => setCheckoutTemplate(null)}
+            productName={`Template #${checkoutTemplate.num} · ${checkoutTemplate.title}`}
+            productPrice={66.90}
+            templateId={checkoutTemplate.id}
+          />
+        </Suspense>
       )}
     </div>
   );

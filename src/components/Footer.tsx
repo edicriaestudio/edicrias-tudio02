@@ -4,6 +4,7 @@ import WebGLLiquidSurgeButton from './WebGLLiquidSurgeButton';
 import { LegalTab } from './LegalModal';
 import { ParallaxWrapper, ParallaxFloatingOrb, ParallaxFloatingBadge } from './ParallaxElements';
 import BrandLogo from './BrandLogo';
+import { prefetchModal } from '../utils/prefetch';
 
 interface FooterProps {
   onOpenContact?: () => void;
@@ -56,6 +57,8 @@ export default function Footer({
               
               <button
                 onClick={onOpenPacks}
+                onMouseEnter={() => prefetchModal('packs')}
+                onTouchStart={() => prefetchModal('packs')}
                 className="w-full sm:w-auto px-5 py-3.5 sm:py-4 rounded-2xl border border-cyan-400/40 bg-cyan-950/40 text-cyan-200 text-xs font-mono uppercase tracking-wider hover:bg-cyan-900/50 hover:text-white transition-all flex items-center justify-center gap-2 shadow-lg active:scale-95"
               >
                 <PackageCheck size={14} className="text-cyan-300" />
@@ -64,6 +67,8 @@ export default function Footer({
 
               <button
                 onClick={onOpenPortfolio}
+                onMouseEnter={() => prefetchModal('portfolio')}
+                onTouchStart={() => prefetchModal('portfolio')}
                 className="w-full sm:w-auto px-5 py-3.5 sm:py-4 rounded-2xl border border-white/10 bg-white/5 text-zinc-300 text-xs font-mono uppercase tracking-wider hover:bg-white/15 hover:text-white transition-all flex items-center justify-center gap-2 active:scale-95"
               >
                 <FolderKanban size={14} className="text-cyan-300" />
@@ -92,16 +97,36 @@ export default function Footer({
             <span className="text-[11px] uppercase tracking-widest text-cyan-300 font-bold block mb-1">
               PRODUTOS & ACERVO
             </span>
-            <button onClick={onOpenPortfolio} className="block text-zinc-300 hover:text-white text-left transition-colors">
+            <button
+              onClick={onOpenPortfolio}
+              onMouseEnter={() => prefetchModal('portfolio')}
+              onTouchStart={() => prefetchModal('portfolio')}
+              className="block text-zinc-300 hover:text-white text-left transition-colors"
+            >
               • 46 Templates Figma 4K
             </button>
-            <button onClick={onOpenPacks} className="block text-zinc-300 hover:text-white text-left transition-colors">
+            <button
+              onClick={onOpenPacks}
+              onMouseEnter={() => prefetchModal('packs')}
+              onTouchStart={() => prefetchModal('packs')}
+              className="block text-zinc-300 hover:text-white text-left transition-colors"
+            >
               • Packs & Combos VIP
             </button>
-            <button onClick={onOpenBlog} className="block text-zinc-300 hover:text-white text-left transition-colors">
+            <button
+              onClick={onOpenBlog}
+              onMouseEnter={() => prefetchModal('blog')}
+              onTouchStart={() => prefetchModal('blog')}
+              className="block text-zinc-300 hover:text-white text-left transition-colors"
+            >
               • Blog & Artigos Tech
             </button>
-            <button onClick={onOpenContact} className="block text-zinc-300 hover:text-white text-left transition-colors">
+            <button
+              onClick={onOpenContact}
+              onMouseEnter={() => prefetchModal('contact')}
+              onTouchStart={() => prefetchModal('contact')}
+              className="block text-zinc-300 hover:text-white text-left transition-colors"
+            >
               • Solicitar Orçamento
             </button>
           </div>
@@ -111,16 +136,36 @@ export default function Footer({
               <ShieldCheck size={13} className="text-cyan-400" />
               LEGAL & LGPD
             </span>
-            <button onClick={() => onOpenLegal && onOpenLegal('privacy')} className="block text-zinc-300 hover:text-white text-left transition-colors">
+            <button
+              onClick={() => onOpenLegal && onOpenLegal('privacy')}
+              onMouseEnter={() => prefetchModal('legal')}
+              onTouchStart={() => prefetchModal('legal')}
+              className="block text-zinc-300 hover:text-white text-left transition-colors"
+            >
               • Política de Privacidade (LGPD)
             </button>
-            <button onClick={() => onOpenLegal && onOpenLegal('terms')} className="block text-zinc-300 hover:text-white text-left transition-colors">
+            <button
+              onClick={() => onOpenLegal && onOpenLegal('terms')}
+              onMouseEnter={() => prefetchModal('legal')}
+              onTouchStart={() => prefetchModal('legal')}
+              className="block text-zinc-300 hover:text-white text-left transition-colors"
+            >
               • Termos de Licenciamento
             </button>
-            <button onClick={() => onOpenLegal && onOpenLegal('cookies')} className="block text-zinc-300 hover:text-white text-left transition-colors">
+            <button
+              onClick={() => onOpenLegal && onOpenLegal('cookies')}
+              onMouseEnter={() => prefetchModal('legal')}
+              onTouchStart={() => prefetchModal('legal')}
+              className="block text-zinc-300 hover:text-white text-left transition-colors"
+            >
               • Política de Cookies
             </button>
-            <button onClick={() => onOpenLegal && onOpenLegal('compliance')} className="block text-zinc-300 hover:text-white text-left transition-colors">
+            <button
+              onClick={() => onOpenLegal && onOpenLegal('compliance')}
+              onMouseEnter={() => prefetchModal('legal')}
+              onTouchStart={() => prefetchModal('legal')}
+              className="block text-zinc-300 hover:text-white text-left transition-colors"
+            >
               • Garantia de 7 Dias (CDC)
             </button>
           </div>

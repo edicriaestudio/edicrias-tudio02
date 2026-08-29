@@ -2,6 +2,7 @@ import { Sparkles } from 'lucide-react';
 import { useReveal } from './hooks';
 import { ProtocolScheduler } from './components/InteractiveArtifacts';
 import WebGLLiquidSurgeButton from './components/WebGLLiquidSurgeButton';
+import { prefetchModal } from './utils/prefetch';
 
 interface Capability {
   num: string;
@@ -111,7 +112,11 @@ export default function SectionTwo({ onOpenContact, onOpenPortfolio: _onOpenPort
             <CapabilityRow cap={capabilities[1]} delay={410} isLast={false} />
             <CapabilityRow cap={capabilities[2]} delay={520} isLast={true} />
 
-            <div className="pt-3 sm:pt-4 flex items-center justify-start">
+            <div
+              onMouseEnter={() => prefetchModal('contact')}
+              onTouchStart={() => prefetchModal('contact')}
+              className="pt-3 sm:pt-4 flex items-center justify-start"
+            >
               <WebGLLiquidSurgeButton
                 label="SOLICITAR DIAGNÓSTICO VIP"
                 onClick={onOpenContact}

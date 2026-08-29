@@ -2,6 +2,7 @@ import { FolderKanban, PackageCheck, BookOpen, Sparkles } from 'lucide-react';
 import { useReveal } from './hooks';
 import SoundtrackBar from './components/SoundtrackBar';
 import BrandLogo from './components/BrandLogo';
+import { prefetchModal } from './utils/prefetch';
 
 interface NavbarProps {
   onOpenContact?: () => void;
@@ -30,6 +31,7 @@ export default function Navbar({
             <BrandLogo
               size="md"
               onClick={onOpenPortfolio}
+              onMouseEnter={() => prefetchModal('portfolio')}
               subtitle="CREATIVE WEB & DESIGN"
             />
           </div>
@@ -38,6 +40,8 @@ export default function Navbar({
           <nav className="hidden lg:flex items-center gap-5 xl:gap-7 font-mono text-xs uppercase tracking-wider text-zinc-200">
             <button
               onClick={onOpenPortfolio}
+              onMouseEnter={() => prefetchModal('portfolio')}
+              onFocus={() => prefetchModal('portfolio')}
               className="hover:text-cyan-300 transition-colors flex items-center gap-1.5 py-1"
             >
               <FolderKanban size={13} className="text-cyan-400" />
@@ -46,6 +50,8 @@ export default function Navbar({
 
             <button
               onClick={onOpenPacks}
+              onMouseEnter={() => prefetchModal('packs')}
+              onFocus={() => prefetchModal('packs')}
               className="hover:text-cyan-300 transition-colors flex items-center gap-1.5 py-1"
             >
               <PackageCheck size={13} className="text-cyan-400" />
@@ -54,6 +60,8 @@ export default function Navbar({
 
             <button
               onClick={onOpenBlog}
+              onMouseEnter={() => prefetchModal('blog')}
+              onFocus={() => prefetchModal('blog')}
               className="hover:text-cyan-300 transition-colors flex items-center gap-1.5 py-1"
             >
               <BookOpen size={13} className="text-cyan-400" />
@@ -73,6 +81,8 @@ export default function Navbar({
             {/* Top Sleek Capsule CTA Button */}
             <button
               onClick={onOpenContact}
+              onMouseEnter={() => prefetchModal('contact')}
+              onFocus={() => prefetchModal('contact')}
               className="hidden sm:flex items-center gap-1.5 h-8 sm:h-9 px-3.5 sm:px-4 rounded-full bg-gradient-to-r from-cyan-400 via-cyan-300 to-teal-300 text-black border border-cyan-100 font-mono font-bold text-[11px] sm:text-xs uppercase tracking-wider shadow-[0_0_16px_rgba(6,182,212,0.45)] hover:shadow-[0_0_24px_rgba(6,182,212,0.75)] hover:brightness-110 active:scale-95 transition-all whitespace-nowrap"
             >
               <Sparkles size={12} className="text-black fill-black/20 shrink-0" />
@@ -86,6 +96,7 @@ export default function Navbar({
       <div className="fixed bottom-3 inset-x-2.5 sm:inset-x-6 z-40 md:hidden grid grid-cols-4 gap-1.5 p-1.5 rounded-full border border-cyan-400/40 bg-cyan-950/85 backdrop-blur-3xl shadow-[0_0_35px_rgba(6,182,212,0.3)] pb-[calc(0.375rem+env(safe-area-inset-bottom,0px))]">
         <button
           onClick={onOpenPortfolio}
+          onTouchStart={() => prefetchModal('portfolio')}
           className="flex flex-col items-center justify-center gap-1 h-11 px-1 rounded-full bg-cyan-950/60 border border-cyan-500/30 text-[9.5px] sm:text-[10px] font-mono uppercase text-cyan-200 hover:text-white active:scale-95 transition-all"
         >
           <FolderKanban size={13} className="text-cyan-300 shrink-0" />
@@ -94,6 +105,7 @@ export default function Navbar({
 
         <button
           onClick={onOpenPacks}
+          onTouchStart={() => prefetchModal('packs')}
           className="flex flex-col items-center justify-center gap-1 h-11 px-1 rounded-full bg-cyan-950/60 border border-cyan-500/30 text-[9.5px] sm:text-[10px] font-mono uppercase text-cyan-200 hover:text-white active:scale-95 transition-all"
         >
           <PackageCheck size={13} className="text-cyan-300 shrink-0" />
@@ -102,6 +114,7 @@ export default function Navbar({
 
         <button
           onClick={onOpenBlog}
+          onTouchStart={() => prefetchModal('blog')}
           className="flex flex-col items-center justify-center gap-1 h-11 px-1 rounded-full bg-cyan-950/60 border border-cyan-500/30 text-[9.5px] sm:text-[10px] font-mono uppercase text-cyan-200 hover:text-white active:scale-95 transition-all"
         >
           <BookOpen size={13} className="text-cyan-300 shrink-0" />
@@ -110,6 +123,7 @@ export default function Navbar({
 
         <button
           onClick={onOpenContact}
+          onTouchStart={() => prefetchModal('contact')}
           className="flex flex-col items-center justify-center gap-1 h-11 px-1 rounded-full bg-gradient-to-r from-cyan-400 to-teal-300 text-black border border-cyan-200 font-bold text-[9.5px] sm:text-[10px] font-mono uppercase shadow-[0_0_18px_rgba(6,182,212,0.6)] hover:brightness-110 active:scale-95 transition-all"
         >
           <Sparkles size={13} className="text-black shrink-0 fill-black/20" />
