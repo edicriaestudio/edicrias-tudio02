@@ -39,29 +39,30 @@ export default function SoundtrackBar({ compact = false }: SoundtrackBarProps) {
     return (
       <button
         onClick={handleToggle}
-        className={`flex items-center gap-1.5 sm:gap-2 h-8 sm:h-9 px-2.5 sm:px-3 rounded-full border transition-all duration-300 active:scale-95 whitespace-nowrap ${
+        aria-label={isPlaying ? 'Desativar áudio da trilha sonora' : 'Ativar áudio da trilha sonora'}
+        className={`flex items-center justify-center gap-1.5 h-9 w-9 sm:w-[86px] rounded-full border transition-all duration-300 active:scale-95 shrink-0 select-none overflow-hidden ${
           isPlaying
-            ? 'bg-cyan-500/20 border-cyan-400 text-cyan-100 shadow-[0_0_18px_rgba(6,182,212,0.4)]'
+            ? 'bg-cyan-500/20 border-cyan-400 text-cyan-200 shadow-[0_0_16px_rgba(6,182,212,0.4)]'
             : 'bg-cyan-950/50 border-cyan-500/30 text-cyan-300/80 hover:text-white hover:border-cyan-400/60 hover:bg-cyan-900/40'
         }`}
-        title={isPlaying ? 'Pausar Trilha Sonora Imersiva' : 'Tocar Trilha Sonora Imersiva'}
+        title={isPlaying ? 'Pausar Trilha Sonora' : 'Tocar Trilha Sonora'}
       >
         {isPlaying ? (
-          <Volume2 size={13} className="animate-pulse text-cyan-300 shrink-0" />
+          <Volume2 size={13} className="text-cyan-300 shrink-0" />
         ) : (
-          <VolumeX size={13} className="shrink-0" />
+          <VolumeX size={13} className="shrink-0 opacity-70" />
         )}
-        <span className="font-mono text-[9.5px] sm:text-[10.5px] uppercase tracking-wider font-semibold">
-          {isPlaying ? 'ÁUDIO ON' : 'TRILHA'}
+        <span className="hidden sm:inline font-mono text-[10px] uppercase tracking-wider font-semibold">
+          ÁUDIO
         </span>
-        <div className="flex items-end gap-[2px] h-3 px-0.5 shrink-0">
-          {bars.slice(0, 4).map((height, i) => (
+        <div className="hidden sm:flex items-end gap-[2px] h-2.5 px-0.5 shrink-0" aria-hidden="true">
+          {bars.slice(0, 3).map((height, i) => (
             <span
               key={i}
               className={`w-[2px] rounded-full transition-all duration-150 ${
-                isPlaying ? 'bg-cyan-300 shadow-[0_0_4px_#22d3ee]' : 'bg-cyan-400/40'
+                isPlaying ? 'bg-cyan-300 shadow-[0_0_4px_#22d3ee]' : 'bg-cyan-500/30'
               }`}
-              style={{ height: `${isPlaying ? Math.max(25, height) : 30}%` }}
+              style={{ height: `${isPlaying ? Math.max(30, height) : 30}%` }}
             />
           ))}
         </div>

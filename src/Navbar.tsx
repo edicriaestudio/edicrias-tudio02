@@ -27,7 +27,7 @@ export default function Navbar({
         <div className="max-w-6xl mx-auto rounded-full border border-cyan-400/40 bg-cyan-950/20 backdrop-blur-3xl px-3 sm:px-5 py-2 flex items-center justify-between shadow-[0_0_35px_rgba(6,182,212,0.22)] transition-all hover:border-cyan-400/60 gap-2 sm:gap-4">
           
           {/* Brand Logo - Modern ED Initials Monogram */}
-          <div ref={logoRef}>
+          <div ref={logoRef} className="shrink-0">
             <BrandLogo
               size="md"
               onClick={onOpenPortfolio}
@@ -37,7 +37,7 @@ export default function Navbar({
           </div>
 
           {/* Center Links (md+) */}
-          <nav className="hidden lg:flex items-center gap-5 xl:gap-7 font-mono text-xs uppercase tracking-wider text-zinc-200">
+          <nav className="hidden lg:flex items-center gap-5 xl:gap-7 font-mono text-xs uppercase tracking-wider text-zinc-200 shrink-0">
             <button
               onClick={onOpenPortfolio}
               onMouseEnter={() => prefetchModal('portfolio')}
@@ -74,7 +74,7 @@ export default function Navbar({
           </nav>
 
           {/* Actions Right */}
-          <div ref={ctaRef} className="flex items-center gap-2 sm:gap-3">
+          <div ref={ctaRef} className="flex items-center gap-2 sm:gap-3 shrink-0">
             {/* Embedded Soundtrack Bar (compact) */}
             <SoundtrackBar compact={true} />
 
