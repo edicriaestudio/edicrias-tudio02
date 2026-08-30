@@ -9,6 +9,16 @@ async function startServer() {
   const app = express();
   const PORT = 3000;
 
+  // Security headers & middleware
+  app.disable('x-powered-by');
+  app.use((_req, res, next) => {
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    res.setHeader('X-Frame-Options', 'SAMEORIGIN');
+    res.setHeader('X-XSS-Protection', '1; mode=block');
+    res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+    next();
+  });
+
   // Strict payload size limit for safety
   app.use(cors());
   app.use(express.json({ limit: '50kb' }));
@@ -40,6 +50,23 @@ async function startServer() {
     } catch (err) {
       console.error('[Storage] Falha ao persistir lead em disco:', err);
     }
+  };
+
+  // Helper validation & sanitization functions
+  const sanitizeText = (val: unknown, maxLen = 200): string => {
+    if (typeof val !== 'string') return '';
+    // Strip control characters and HTML tags
+    return val
+      .replace(/<[^>]*>?/gm, '')
+      .replace(/[\r\n\t]+/g, ' ')
+      .trim()
+      .slice(0, maxLen);
+  };
+
+  const isValidEmail = (email: unknown): boolean => {
+    if (typeof email !== 'string') return false;
+    const clean = email.trim().toLowerCase();
+    return clean.length >= 5 && clean.length <= 150 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(clean);
   };
 
   // Anti-Spam & Duplicate Submission Rate Limiter Cache
@@ -78,22 +105,38 @@ async function startServer() {
         lead_type = 'diagnostico',
         source_page = '/',
         utms = {},
-      } = req.body;
+      } = req.body || {};
 
-      // 1. Validação de campos obrigatórios
-      if (!name || !email || !company || !consent) {
+      // 1. Validação estrita de campos obrigatórios no Backend
+      const cleanName = sanitizeText(name, 120);
+      const cleanCompany = sanitizeText(company, 120);
+      const cleanEmail = typeof email === 'string' ? email.trim().toLowerCase() : '';
+
+      if (!cleanName || cleanName.length < 2) {
         return res.status(400).json({
           success: false,
-          error: 'Por favor, preencha os campos obrigatórios (Nome, E-mail, Empresa e Consentimento LGPD).',
+          error: 'Por favor, informe um nome válido (mínimo 2 caracteres).',
         });
       }
 
-      const cleanEmail = String(email).trim().toLowerCase();
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(cleanEmail)) {
+      if (!isValidEmail(cleanEmail)) {
         return res.status(400).json({
           success: false,
           error: 'Por favor, forneça um endereço de e-mail corporativo válido.',
+        });
+      }
+
+      if (!cleanCompany || cleanCompany.length < 2) {
+        return res.status(400).json({
+          success: false,
+          error: 'Por favor, informe o nome da sua empresa ou projeto.',
+        });
+      }
+
+      if (consent !== true && consent !== 'true') {
+        return res.status(400).json({
+          success: false,
+          error: 'É necessário concordar com os termos de consentimento e LGPD.',
         });
       }
 
@@ -108,38 +151,38 @@ async function startServer() {
       }
       recentSubmissions.set(cleanEmail, now);
 
-      // Limpeza de cache de spam a cada 100 registros
+      // Limpeza de cache de spam
       if (recentSubmissions.size > 200) {
         for (const [key, time] of recentSubmissions.entries()) {
           if (now - time > 120000) recentSubmissions.delete(key);
         }
       }
 
-      // 3. Geração do ID exclusivo de atendimento (sem dados pessoais)
+      // 3. Geração do ID exclusivo de atendimento
       const randomSuffix = Math.floor(Math.random() * 8999 + 1000);
       const leadId = `EDC-LEAD-${Date.now().toString().slice(-6)}-${randomSuffix}`;
 
       const leadEntry = {
         id: leadId,
         timestamp: new Date().toISOString(),
-        name: String(name).trim().slice(0, 120),
-        email: cleanEmail.slice(0, 150),
-        phone: phone ? String(phone).trim().slice(0, 40) : null,
-        company: String(company).trim().slice(0, 120),
-        segment: segment ? String(segment).trim().slice(0, 100) : 'Geral',
-        current_url: (current_url || currentUrl) ? String(current_url || currentUrl).trim().slice(0, 200) : null,
-        objective: String(objective || mainGoal || 'Diagnóstico e Posicionamento').slice(0, 200),
-        timeline: String(timeline || 'A definir').slice(0, 100),
-        budget_range: String(budget_range || budgetRange || 'Ainda não definida').slice(0, 150),
-        context: (context || additionalContext) ? String(context || additionalContext).trim().slice(0, 1000) : null,
-        consent: Boolean(consent),
-        lead_type: String(lead_type).slice(0, 40),
-        source_page: String(source_page).slice(0, 150),
-        utm_source: utms?.utm_source ? String(utms.utm_source).slice(0, 80) : null,
-        utm_medium: utms?.utm_medium ? String(utms.utm_medium).slice(0, 80) : null,
-        utm_campaign: utms?.utm_campaign ? String(utms.utm_campaign).slice(0, 80) : null,
-        utm_content: utms?.utm_content ? String(utms.utm_content).slice(0, 80) : null,
-        utm_term: utms?.utm_term ? String(utms.utm_term).slice(0, 80) : null,
+        name: cleanName,
+        email: cleanEmail,
+        phone: phone ? sanitizeText(phone, 40) : null,
+        company: cleanCompany,
+        segment: segment ? sanitizeText(segment, 100) : 'Geral',
+        current_url: (current_url || currentUrl) ? sanitizeText(current_url || currentUrl, 200) : null,
+        objective: sanitizeText(objective || mainGoal || 'Diagnóstico e Posicionamento', 200),
+        timeline: sanitizeText(timeline || 'A definir', 100),
+        budget_range: sanitizeText(budget_range || budgetRange || 'Ainda não definida', 150),
+        context: (context || additionalContext) ? sanitizeText(context || additionalContext, 1000) : null,
+        consent: true,
+        lead_type: sanitizeText(lead_type, 40),
+        source_page: sanitizeText(source_page, 150),
+        utm_source: utms?.utm_source ? sanitizeText(utms.utm_source, 80) : null,
+        utm_medium: utms?.utm_medium ? sanitizeText(utms.utm_medium, 80) : null,
+        utm_campaign: utms?.utm_campaign ? sanitizeText(utms.utm_campaign, 80) : null,
+        utm_content: utms?.utm_content ? sanitizeText(utms.utm_content, 80) : null,
+        utm_term: utms?.utm_term ? sanitizeText(utms.utm_term, 80) : null,
         status: 'novo',
       };
 
@@ -151,7 +194,6 @@ async function startServer() {
       // Persistência em disco
       await persistLeads();
 
-      // Log seguro no servidor (SEM PII - apenas ID, empresa, tipo e timestamp)
       console.log(`[Edcria Estúdio] Lead registrado com sucesso #${leadId} (empresa: ${leadEntry.company}, tipo: ${leadEntry.lead_type})`);
 
       return res.status(201).json({
@@ -186,15 +228,33 @@ async function startServer() {
         phone,
         serviceType,
         customNotes,
-      } = req.body;
+      } = req.body || {};
 
-      const transactionAmount = Number(amount) || 490.00;
+      const cleanPayerEmail = typeof payerEmail === 'string' ? payerEmail.trim().toLowerCase() : '';
+      const cleanPayerName = sanitizeText(payerName || 'Cliente', 100);
+      const parsedAmount = Number(amount);
+
+      if (isNaN(parsedAmount) || parsedAmount <= 0 || parsedAmount > 500000) {
+        return res.status(400).json({
+          success: false,
+          error: 'Valor de transação inválido.',
+        });
+      }
+
+      if (cleanPayerEmail && !isValidEmail(cleanPayerEmail)) {
+        return res.status(400).json({
+          success: false,
+          error: 'Endereço de e-mail do pagador inválido.',
+        });
+      }
+
+      const transactionAmount = Number(parsedAmount.toFixed(2));
       const accessToken = process.env.MERCADO_PAGO_ACCESS_TOKEN;
 
       // Se temos o token oficial configurado do Mercado Pago, invocamos a API REST oficial v1/payments
       if (accessToken) {
         try {
-          const names = (payerName || 'Cliente').trim().split(' ');
+          const names = cleanPayerName.split(' ');
           const firstName = names[0] || 'Cliente';
           const lastName = names.slice(1).join(' ') || 'VIP';
 
@@ -207,17 +267,17 @@ async function startServer() {
             },
             body: JSON.stringify({
               transaction_amount: transactionAmount,
-              description: description || `Edcria Estúdio - ${serviceType || 'Projeto Autoral'}`,
+              description: sanitizeText(description || `Edcria Estúdio - ${serviceType || 'Projeto Autoral'}`, 150),
               payment_method_id: 'pix',
               payer: {
-                email: payerEmail || 'cliente@edicria.com.br',
+                email: cleanPayerEmail || 'cliente@edicria.com.br',
                 first_name: firstName,
                 last_name: lastName,
               },
               metadata: {
-                phone: phone || '',
-                service_type: serviceType || '',
-                notes: customNotes || '',
+                phone: phone ? sanitizeText(phone, 30) : '',
+                service_type: serviceType ? sanitizeText(serviceType, 60) : '',
+                notes: customNotes ? sanitizeText(customNotes, 200) : '',
               },
             }),
           });
@@ -240,18 +300,17 @@ async function startServer() {
               amount: transactionAmount,
             });
           } else {
-            console.warn('Mercado Pago API response error, falling back to instant high-res QR generation:', mpData);
+            console.warn('Mercado Pago API response fallback:', mpData);
           }
         } catch (mpError) {
           console.error('Mercado Pago API connection error:', mpError);
         }
       }
 
-      // Fallback robusto / Modo Demonstrativo ou Chave Pix direta do estúdio
+      // Fallback robusto / Chave Pix direta do estúdio
       const uniquePaymentId = `MP-${Date.now()}-${Math.floor(Math.random() * 10000)}`;
       const safeAmountStr = transactionAmount.toFixed(2);
       
-      // Chave Pix padrão oficial da Edcria Estúdio
       const pixKey = 'edicriaestudiocriativo@gmail.com';
       const pixPayload = `00020126580014br.gov.bcb.pix0136${pixKey}520400005303986540${safeAmountStr}5802BR5920EDICRIA STUDIO DIGIT6009SAO PAULO62070503***6304E8A2`;
 
@@ -288,15 +347,34 @@ async function startServer() {
         serviceType,
         cardData,
         installments = 1,
-      } = req.body;
+      } = req.body || {};
 
-      const transactionAmount = Number(amount) || 490.00;
+      const cleanPayerEmail = typeof payerEmail === 'string' ? payerEmail.trim().toLowerCase() : '';
+      const cleanPayerName = sanitizeText(payerName || 'Cliente', 100);
+      const parsedAmount = Number(amount);
+      const parsedInstallments = Math.max(1, Math.min(12, Number(installments) || 1));
+
+      if (isNaN(parsedAmount) || parsedAmount <= 0 || parsedAmount > 500000) {
+        return res.status(400).json({
+          success: false,
+          error: 'Valor de transação inválido.',
+        });
+      }
+
+      if (cleanPayerEmail && !isValidEmail(cleanPayerEmail)) {
+        return res.status(400).json({
+          success: false,
+          error: 'Endereço de e-mail do titular inválido.',
+        });
+      }
+
+      const transactionAmount = Number(parsedAmount.toFixed(2));
       const accessToken = process.env.MERCADO_PAGO_ACCESS_TOKEN;
 
       // Se temos o token configurado e token de cartão recebido
       if (accessToken && cardData?.token) {
         try {
-          const names = (payerName || 'Cliente').trim().split(' ');
+          const names = cleanPayerName.split(' ');
           const firstName = names[0] || 'Cliente';
           const lastName = names.slice(1).join(' ') || 'VIP';
 
@@ -310,17 +388,17 @@ async function startServer() {
             body: JSON.stringify({
               transaction_amount: transactionAmount,
               token: cardData.token,
-              description: description || `Edcria Estúdio - ${serviceType || 'Projeto Autoral'}`,
-              installments: Number(installments) || 1,
+              description: sanitizeText(description || `Edcria Estúdio - ${serviceType || 'Projeto Autoral'}`, 150),
+              installments: parsedInstallments,
               payment_method_id: cardData.paymentMethodId || 'master',
               payer: {
-                email: payerEmail || 'cliente@edicria.com.br',
+                email: cleanPayerEmail || 'cliente@edicria.com.br',
                 first_name: firstName,
                 last_name: lastName,
               },
               metadata: {
-                phone: phone || '',
-                service_type: serviceType || '',
+                phone: phone ? sanitizeText(phone, 30) : '',
+                service_type: serviceType ? sanitizeText(serviceType, 60) : '',
               },
             }),
           });
@@ -335,7 +413,7 @@ async function startServer() {
               status: mpData.status,
               statusDetail: mpData.status_detail,
               amount: transactionAmount,
-              installments: Number(installments),
+              installments: parsedInstallments,
             });
           }
         } catch (mpError) {
@@ -343,7 +421,7 @@ async function startServer() {
         }
       }
 
-      // Processamento seguro autenticado / Simulação com validação
+      // Processamento seguro autenticado / Simulação
       const paymentId = `MP-CARD-${Date.now()}-${Math.floor(Math.random() * 8999 + 1000)}`;
 
       return res.json({
@@ -353,7 +431,7 @@ async function startServer() {
         status: 'approved',
         statusDetail: 'accredited',
         amount: transactionAmount,
-        installments: Number(installments),
+        installments: parsedInstallments,
         message: 'Pagamento via Cartão de Crédito processado com sucesso pelo Mercado Pago Gateway.',
       });
     } catch (error) {
@@ -368,21 +446,33 @@ async function startServer() {
   // Mercado Pago - Criar Preferência de Checkout Pro
   app.post('/api/mercadopago/preference', async (req: Request, res: Response) => {
     try {
-      const { title, price, quantity = 1, payerEmail, externalReference } = req.body;
+      const { title, price, quantity = 1, payerEmail, externalReference } = req.body || {};
       const accessToken = process.env.MERCADO_PAGO_ACCESS_TOKEN;
+
+      const cleanTitle = sanitizeText(title || 'Edcria Estúdio - Desenvolvimento de Website 4K', 120);
+      const parsedPrice = Number(price);
+      const cleanPayerEmail = typeof payerEmail === 'string' ? payerEmail.trim().toLowerCase() : '';
+
+      if (isNaN(parsedPrice) || parsedPrice <= 0) {
+        return res.status(400).json({ success: false, error: 'Preço inválido para preferência de checkout.' });
+      }
+
+      if (cleanPayerEmail && !isValidEmail(cleanPayerEmail)) {
+        return res.status(400).json({ success: false, error: 'E-mail informado é inválido.' });
+      }
 
       if (accessToken) {
         const preferencePayload = {
           items: [
             {
-              title: title || 'Edcria Estúdio - Desenvolvimento de Website 4K',
-              unit_price: Number(price) || 490.0,
-              quantity: Number(quantity) || 1,
+              title: cleanTitle,
+              unit_price: Number(parsedPrice.toFixed(2)),
+              quantity: Math.max(1, Number(quantity) || 1),
               currency_id: 'BRL',
             },
           ],
           payer: {
-            email: payerEmail || 'contato@edicria.com.br',
+            email: cleanPayerEmail || 'contato@edicria.com.br',
           },
           back_urls: {
             success: 'https://edicria.com.br/sucesso',
@@ -390,7 +480,7 @@ async function startServer() {
             pending: 'https://edicria.com.br/pendente',
           },
           auto_return: 'approved',
-          external_reference: externalReference || `REF-${Date.now()}`,
+          external_reference: sanitizeText(externalReference || `REF-${Date.now()}`, 64),
           payment_methods: {
             excluded_payment_types: [{ id: 'ticket' }],
             installments: 12,
@@ -429,10 +519,14 @@ async function startServer() {
     }
   });
 
-  // Mercado Pago - Consultar Status de Pagamento
+  // Mercado Pago - Consultar Status de Pagamento (Validação estrita de ID)
   app.get('/api/mercadopago/payment/:id', async (req: Request, res: Response) => {
     try {
       const paymentId = req.params.id;
+      if (!paymentId || !/^[a-zA-Z0-9_-]{3,64}$/.test(paymentId)) {
+        return res.status(400).json({ error: 'ID de pagamento com formato inválido.' });
+      }
+
       const accessToken = process.env.MERCADO_PAGO_ACCESS_TOKEN;
 
       if (accessToken && !paymentId.startsWith('MP-')) {
