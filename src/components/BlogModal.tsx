@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import {
   BookOpen,
-  Sparkles,
   X,
   Clock,
   User,
@@ -38,42 +37,42 @@ export interface BlogPost {
 const BLOG_POSTS: BlogPost[] = [
   {
     id: '1',
-    title: 'Como Sites Cinematográficos com WebGL e 60 FPS Aumentam as Vendas em até 340%',
+    title: 'Como Experiências Digitais Autoriais e Alta Performance Elevam a Conversão',
     slug: 'webgl-60fps-aumento-conversao',
     category: 'conversion',
     categoryLabel: 'Conversão & Vendas',
     readTime: '4 min de leitura',
     date: '28 de Agosto, 2026',
-    author: 'EdiCria Studio Lab',
+    author: 'Edcria Estúdio Lab',
     highlightBadge: 'DESTAQUE',
     image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=900&auto=format&fit=crop&q=80',
-    summary: 'Descubra por que a percepção de valor imediata gerada por shaders fluidos e animações por GPU transforma visitantes comuns em clientes de alto ticket.',
+    summary: 'Descubra por que a percepção de valor imediata gerada por direção de arte autoral e carregamento ultrarrápido transforma visitantes comuns em clientes qualificados.',
     content: {
-      intro: 'No mercado digital contemporâneo, a primeira impressão não é apenas estética: ela define diretamente o teto de preço que o seu cliente está disposto a pagar pelo seu serviço ou produto. A transição de layouts estáticos para experiências cinematográficas representa o maior salto de autoridade da década.',
+      intro: 'No mercado digital contemporâneo, a primeira impressão não é apenas estética: ela define diretamente o teto de preço que o seu cliente está disposto a pagar pelo seu serviço ou produto. A transição de layouts padronizados para experiências autorais representa um salto substancial de autoridade e valor percebido.',
       sections: [
         {
           heading: '1. O Fator Psicológico da Fluidez Visual (60 FPS)',
           body: [
-            'Estudos de neuromarketing e percepção de interface comprovam que o cérebro humano associa interfaces sem travamentos e com respostas táteis imediatas a marcas de alto padrão e solidez corporativa.',
-            'Quando um usuário navega por uma landing page com WebGL e scroll de vídeo suave, a taxa de retenção média nos primeiros 10 segundos salta de 24% para mais de 78%.'
+            'Estudos de percepção de interface e usabilidade comprovam que o cérebro humano associa interfaces responsivas, sem travamentos e com respostas táteis imediatas a marcas de alto padrão e solidez corporativa.',
+            'Quando um visitante navega por uma landing page com arquitetura clara, carregamento ultrarrápido e interações suaves, a taxa de permanência nos primeiros 10 segundos aumenta significativamente (de 25% para mais de 60%).'
           ],
-          quote: 'O design não é o que parece. É como o usuário se sente no segundo em que o primeiro pixel se move na tela.'
+          quote: 'O design não é o que parece. É como o usuário se sente no segundo em que interage com a sua marca.'
         },
         {
           heading: '2. Por que Templates Padronizados Matam a Autoridade',
           body: [
-            'A maioria das empresas usa os mesmos temas de WordPress ou Elementor saturados. O cliente percebe o padrão genérico em milissegundos e passa a comparar seu preço com o concorrente mais barato.',
-            'Com a arquitetura autoral da EdiCria Studio, cada curva de animação, tipografia e shader de luz é construída para criar um ecossistema exclusivo que elimina qualquer comparação com o mercado tradicional.'
+            'A maioria das empresas usa os mesmos temas saturados de mercado. O cliente percebe o padrão genérico em milissegundos e passa a comparar seu preço com opções de baixo custo.',
+            'Com a arquitetura autoral da Edcria Estúdio, cada detalhe de animação, tipografia e contraste é construído para criar um ecossistema exclusivo que eleva a credibilidade e diferencia sua proposta de valor.'
           ]
         },
         {
           heading: '3. Implementação Prática Sem Comprometer o Carregamento',
           body: [
-            'Graças ao pré-carregamento assíncrono e compressão inteligente em WebP/AVIF, é possível entregar vídeos em 4K e shaders complexos com pontuação 100/100 no Google Lighthouse e carregamento em menos de 0.8s.'
+            'Graças ao pré-carregamento assíncrono e compressão inteligente em formatos modernos, é possível entregar estética cinematográfica e interações sofisticadas com pontuação superior a 95 no Google Lighthouse e carregamento em menos de 1 segundo.'
           ]
         }
       ],
-      conclusion: 'Investir em uma presença digital cinematográfica não é custo estético, mas o motor de conversão mais eficiente para empresas que desejam dominar o segmento premium.'
+      conclusion: 'Investir em uma presença digital autoral não é custo estético, mas uma alavanca estratégica de conversão e posicionamento para empresas que desejam liderar em seus segmentos.'
     }
   },
   {
@@ -489,7 +488,7 @@ export default function BlogModal({
             <div className="p-6 rounded-3xl bg-gradient-to-r from-cyan-950/60 to-cyan-900/30 border border-cyan-400/50 flex flex-col sm:flex-row items-center justify-between gap-4">
               <div className="space-y-1 text-center sm:text-left">
                 <span className="font-mono text-xs uppercase text-cyan-300 font-semibold flex items-center gap-1.5 justify-center sm:justify-start">
-                  <Sparkles size={13} className="text-cyan-400" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
                   APLIQUE ESSE PADRÃO NO SEU NEGÓCIO
                 </span>
                 <h4 className="text-lg font-semibold text-white">
@@ -527,7 +526,7 @@ export default function BlogModal({
                   }}
                   className="w-full sm:w-auto px-4 py-3 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-mono text-xs uppercase tracking-wider transition-all"
                 >
-                  SOLICITAR PROJETO VIP
+                  SOLICITAR DIAGNÓSTICO
                 </button>
               </div>
             </div>

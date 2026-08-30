@@ -1,4 +1,4 @@
-import { FolderKanban, PackageCheck, BookOpen, Sparkles } from 'lucide-react';
+import { FolderKanban, PackageCheck, BookOpen, Send } from 'lucide-react';
 import { useReveal } from './hooks';
 import SoundtrackBar from './components/SoundtrackBar';
 import BrandLogo from './components/BrandLogo';
@@ -83,10 +83,9 @@ export default function Navbar({
               onClick={onOpenContact}
               onMouseEnter={() => prefetchModal('contact')}
               onFocus={() => prefetchModal('contact')}
-              className="hidden sm:flex items-center gap-1.5 h-8 sm:h-9 px-3.5 sm:px-4 rounded-full bg-gradient-to-r from-cyan-400 via-cyan-300 to-teal-300 text-black border border-cyan-100 font-mono font-bold text-[11px] sm:text-xs uppercase tracking-wider shadow-[0_0_16px_rgba(6,182,212,0.45)] hover:shadow-[0_0_24px_rgba(6,182,212,0.75)] hover:brightness-110 active:scale-95 transition-all whitespace-nowrap"
+              className="hidden sm:flex items-center justify-center h-9 sm:h-10 px-4 sm:px-5 rounded-full bg-gradient-to-r from-cyan-400 via-cyan-300 to-teal-300 text-black border border-cyan-100 font-mono font-bold text-xs sm:text-[13px] uppercase tracking-wider shadow-[0_0_16px_rgba(6,182,212,0.45)] hover:shadow-[0_0_24px_rgba(6,182,212,0.75)] hover:brightness-110 active:scale-95 transition-all whitespace-nowrap"
             >
-              <Sparkles size={12} className="text-black fill-black/20 shrink-0" />
-              <span>CRIAR SITE</span>
+              <span>SOLICITAR DIAGNÓSTICO</span>
             </button>
           </div>
         </div>
@@ -124,10 +123,10 @@ export default function Navbar({
         <button
           onClick={onOpenContact}
           onTouchStart={() => prefetchModal('contact')}
-          className="flex flex-col items-center justify-center gap-1 h-11 px-1 rounded-full bg-gradient-to-r from-cyan-400 to-teal-300 text-black border border-cyan-200 font-bold text-[9.5px] sm:text-[10px] font-mono uppercase shadow-[0_0_18px_rgba(6,182,212,0.6)] hover:brightness-110 active:scale-95 transition-all"
+          className="flex flex-col items-center justify-center gap-1 h-11 px-1 rounded-full bg-gradient-to-r from-cyan-400 to-teal-300 text-black border border-cyan-200 font-bold text-[10px] sm:text-[11px] font-mono uppercase shadow-[0_0_18px_rgba(6,182,212,0.6)] hover:brightness-110 active:scale-95 transition-all"
         >
-          <Sparkles size={13} className="text-black shrink-0 fill-black/20" />
-          <span className="truncate">CRIAR SITE</span>
+          <Send size={12} className="text-black shrink-0" />
+          <span className="truncate">DIAGNÓSTICO</span>
         </button>
       </div>
     </>

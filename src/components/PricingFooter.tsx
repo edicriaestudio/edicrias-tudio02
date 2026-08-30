@@ -1,4 +1,4 @@
-import { Check, Sparkles, ArrowUpRight, Hexagon } from 'lucide-react';
+import { Check, ArrowUpRight, Hexagon } from 'lucide-react';
 import { useReveal } from '../hooks';
 
 interface PricingFooterProps {
@@ -67,14 +67,14 @@ export default function PricingFooter({ onOpenContact, onOpenPortfolio }: Pricin
         {/* Header */}
         <div ref={headerRef} className="text-center max-w-2xl mx-auto mb-16 space-y-4">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-mono uppercase text-white/70">
-            <Sparkles size={13} className="text-emerald-400" />
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
             INVESTIMENTO & PLANOS
           </div>
           <h3 className="text-3xl sm:text-4xl md:text-5xl font-normal tracking-tight">
             Escolha o nível de excelência para seu projeto
           </h3>
           <p className="text-sm text-white/70 font-light">
-            Transparência total, entrega agilizada e padrão cinematográfico em todas as criações do Dadcria Studio.
+            Transparência total, entrega agilizada e padrão cinematográfico em todas as criações da Edcria Estúdio.
           </p>
         </div>
 
@@ -147,7 +147,7 @@ export default function PricingFooter({ onOpenContact, onOpenPortfolio }: Pricin
             <Hexagon size={24} strokeWidth={1.5} className="text-white" />
             <div className="flex flex-col">
               <span className="font-mono text-sm font-bold tracking-widest text-white">
-                DADCRIA STUDIO
+                EDCRIA ESTÚDIO
               </span>
               <span className="text-[11px] text-white/50 font-mono">
                 TECNOLOGIA & DIREÇÃO DE ARTE DIGITAL © 2026

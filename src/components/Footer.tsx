@@ -1,4 +1,4 @@
-import { Sparkles, FolderKanban, PackageCheck, ShieldCheck } from 'lucide-react';
+import { FolderKanban, PackageCheck, ShieldCheck } from 'lucide-react';
 import { useReveal } from '../hooks';
 import WebGLLiquidSurgeButton from './WebGLLiquidSurgeButton';
 import { LegalTab } from './LegalModal';
@@ -35,23 +35,23 @@ export default function Footer({
             <div className="max-w-2xl space-y-3">
               <ParallaxFloatingBadge speed={0.3} offsetY={6}>
                 <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-950/60 border border-cyan-500/40 text-xs font-mono uppercase text-cyan-300">
-                  <Sparkles size={13} className="text-cyan-400" />
-                  EDICRIA STUDIO 2026
+                  <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
+                  EDCRIA ESTÚDIO 2026
                 </div>
               </ParallaxFloatingBadge>
               <h3 className="text-2xl sm:text-4xl md:text-5xl font-normal tracking-tight text-white leading-tight">
                 Pronto para transformar sua presença digital?
               </h3>
               <p className="text-xs sm:text-sm text-zinc-200 font-light leading-relaxed">
-                Solicite uma proposta exclusiva, explore nossos packs autorais ou adquira templates Figma editáveis em 4K.
+                Solicite uma proposta autoral exclusiva, explore nossos packs ou conheça os templates Figma editáveis.
               </p>
             </div>
 
             <div className="flex flex-wrap items-center gap-3 sm:gap-4 shrink-0 w-full lg:w-auto">
               <WebGLLiquidSurgeButton
-                label="INICIAR PROJETO"
+                label="SOLICITAR DIAGNÓSTICO"
                 onClick={onOpenContact}
-                width="w-full sm:w-[220px]"
+                width="w-full sm:w-[240px]"
                 height="h-[56px] sm:h-[60px]"
               />
               
@@ -83,7 +83,7 @@ export default function Footer({
           <div className="space-y-3 md:col-span-2">
             <BrandLogo size="lg" subtitle="ESTÚDIO DE CRIAÇÃO DIGITAL & 4K" />
             <p className="text-zinc-300 font-light max-w-md leading-relaxed text-xs">
-              Estúdio de criação digital de alta performance especializado em websites cinematográficos, shaders WebGL a 60 FPS e biblioteca de templates Figma profissionais para criadores e marcas de alto padrão.
+              Estúdio de criação digital de alta performance especializado em websites autorais, shaders WebGL a 60 FPS e biblioteca de templates Figma profissionais para criadores e marcas de alto padrão.
             </p>
             <div className="pt-2 flex items-center gap-2 text-cyan-300 font-mono text-[11px]">
               <span>E-mail:</span>
@@ -127,7 +127,7 @@ export default function Footer({
               onTouchStart={() => prefetchModal('contact')}
               className="block text-zinc-300 hover:text-white text-left transition-colors"
             >
-              • Solicitar Orçamento
+              • Solicitar Diagnóstico Autoral
             </button>
           </div>
 
@@ -174,7 +174,7 @@ export default function Footer({
         {/* Footer Bottom Info */}
         <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4 text-xs font-mono text-zinc-400">
           <div>
-            © 2026 EDICRIA STUDIO. Todos os direitos reservados.
+            © 2026 EDCRIA ESTÚDIO. Todos os direitos reservados.
           </div>
 
           <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950/60 border border-cyan-500/30 text-cyan-300 text-[11px]">

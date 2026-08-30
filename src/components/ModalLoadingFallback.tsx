@@ -1,4 +1,4 @@
-import { Sparkles, X } from 'lucide-react';
+import { X, Activity } from 'lucide-react';
 
 interface ModalLoadingFallbackProps {
   message?: string;
@@ -27,7 +27,7 @@ export default function ModalLoadingFallback({
           <div className="absolute inset-0 rounded-full border border-cyan-400/30 animate-ping" />
           <div className="absolute inset-1 rounded-full border-2 border-dashed border-cyan-400/60 animate-[spin_4s_linear_infinite]" />
           <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-cyan-500/30 to-teal-300/30 border border-cyan-300/60 flex items-center justify-center shadow-[0_0_20px_#06b6d4]">
-            <Sparkles size={18} className="text-cyan-300 animate-pulse" />
+            <Activity size={18} className="text-cyan-300 animate-pulse" />
           </div>
         </div>
 
@@ -36,7 +36,7 @@ export default function ModalLoadingFallback({
             {message}
           </span>
           <span className="font-mono text-[10px] tracking-widest text-zinc-400 mt-1 block">
-            OTIMIZAÇÃO 60 FPS • EDICRIA STUDIO
+            OTIMIZAÇÃO 60 FPS • EDCRIA ESTÚDIO
           </span>
         </div>
       </div>

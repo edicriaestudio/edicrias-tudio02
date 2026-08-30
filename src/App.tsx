@@ -1,4 +1,4 @@
-import { useState, lazy, Suspense } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import ScrollVideo from './ScrollVideo';
 import Navbar from './Navbar';
 import SectionOne from './SectionOne';
@@ -24,6 +24,42 @@ export default function App() {
   const [legalOpen, setLegalOpen] = useState(false);
   const [legalTab, setLegalTab] = useState<LegalTab>('privacy');
   const [selectedTemplateName, setSelectedTemplateName] = useState<string | undefined>(undefined);
+
+  // Sync deep links and hash routes on mount and popstate
+  useEffect(() => {
+    const handleRoute = () => {
+      const path = window.location.pathname.toLowerCase();
+      const hash = window.location.hash.toLowerCase();
+
+      if (path === '/diagnostico' || hash === '#diagnostico') {
+        setContactOpen(true);
+      } else if (path === '/templates' || hash === '#templates' || path === '/cases' || hash === '#cases') {
+        setPortfolioOpen(true);
+      } else if (path === '/packs' || hash === '#packs') {
+        setPacksOpen(true);
+      } else if (path === '/blog' || hash === '#blog') {
+        setBlogOpen(true);
+      } else if (path === '/privacidade' || hash === '#privacidade') {
+        setLegalTab('privacy');
+        setLegalOpen(true);
+      } else if (path === '/termos' || hash === '#termos') {
+        setLegalTab('terms');
+        setLegalOpen(true);
+      } else if (path === '/servicos' || hash === '#servicos') {
+        const elem = document.getElementById('protocolos') || document.getElementById('servicos');
+        if (elem) elem.scrollIntoView({ behavior: 'smooth' });
+      }
+    };
+
+    handleRoute();
+    window.addEventListener('popstate', handleRoute);
+    window.addEventListener('hashchange', handleRoute);
+
+    return () => {
+      window.removeEventListener('popstate', handleRoute);
+      window.removeEventListener('hashchange', handleRoute);
+    };
+  }, []);
 
   const handleOpenContact = (templateName?: string) => {
     setSelectedTemplateName(templateName);
@@ -120,6 +156,7 @@ export default function App() {
             isOpen={contactOpen}
             onClose={handleCloseContact}
             initialTemplate={selectedTemplateName}
+            onOpenPortfolio={handleOpenPortfolio}
           />
         </Suspense>
       )}

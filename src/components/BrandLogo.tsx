@@ -163,7 +163,7 @@ export function EDMonogramIcon({
 export default function BrandLogo({
   size = 'md',
   showText = true,
-  subtitle = 'CREATIVE WEB & DESIGN',
+  subtitle = 'EXPERIÊNCIAS DIGITAIS AUTORAIS',
   className = '',
   onClick,
   withGlow = true,
@@ -193,7 +193,7 @@ export default function BrandLogo({
         <div className={`flex flex-col ${layout === 'vertical' ? 'items-center mt-2' : ''}`}>
           <div className="flex items-center gap-1.5 leading-none">
             <span className={`font-mono font-bold tracking-[0.16em] uppercase text-white group-hover/brand:text-cyan-200 transition-colors ${currentSize.title}`}>
-              <span className="text-cyan-300 underline decoration-cyan-400 decoration-2 underline-offset-2">EDI</span>CRIA STUDIO
+              <span className="text-cyan-300 underline decoration-cyan-400 decoration-2 underline-offset-2">ED</span>CRIA ESTÚDIO
             </span>
           </div>
 

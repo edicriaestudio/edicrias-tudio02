@@ -1,6 +1,6 @@
-import { Sparkles } from 'lucide-react';
 import { useReveal } from '../hooks';
 import WebGLLiquidSurgeButton from './WebGLLiquidSurgeButton';
+import { trackClickPrimaryCta } from '../utils/analytics';
 
 interface PhilosophyProps {
   onOpenContact?: () => void;
@@ -11,6 +11,11 @@ export default function PhilosophySection({ onOpenContact }: PhilosophyProps) {
   const text1Ref = useReveal(200);
   const text2Ref = useReveal(350);
 
+  const handleContactClick = () => {
+    trackClickPrimaryCta('philosophy_section', 'SOLICITAR DIAGNÓSTICO');
+    onOpenContact?.();
+  };
+
   return (
     <section id="manifesto" className="relative py-16 sm:py-36 px-4 sm:px-8 md:px-12 bg-gradient-to-b from-transparent via-cyan-950/20 to-transparent backdrop-blur-3xl border-t border-b border-cyan-500/20 overflow-hidden">
       {/* Dynamic Ambient Glow (Pure CSS) */}
@@ -18,9 +23,9 @@ export default function PhilosophySection({ onOpenContact }: PhilosophyProps) {
 
       <div className="max-w-5xl mx-auto relative z-10">
         <div ref={badgeRef} className="flex items-center gap-2 mb-6 sm:mb-8">
-          <Sparkles size={16} className="text-cyan-300 animate-pulse" />
+          <span className="w-2 h-2 rounded-full bg-cyan-400" />
           <span className="font-mono text-[11px] sm:text-xs uppercase tracking-[0.18em] sm:tracking-[0.2em] text-cyan-300 font-medium">
-            // MANIFESTO EDICRIA STUDIO
+            // MANIFESTO EDCRIA ESTÚDIO
           </span>
         </div>
 
@@ -30,28 +35,30 @@ export default function PhilosophySection({ onOpenContact }: PhilosophyProps) {
             <span className="font-mono text-[10px] sm:text-xs uppercase tracking-widest text-cyan-300/80 block mb-2 font-medium">
               / O MERCADO COMUM
             </span>
-            <p className="text-lg sm:text-3xl md:text-4xl font-normal leading-relaxed text-zinc-200 font-sans">
-              A maioria foca em: <span className="text-cyan-300 font-serif italic underline decoration-cyan-400/60 underline-offset-4 sm:underline-offset-6">templates genéricos, sites pesados e sem identidade visual.</span>
+            <h3 className="text-xl sm:text-3xl font-medium text-white tracking-tight mb-2">
+              O problema não é ter um site. É ter um site que parece igual a todos.
+            </h3>
+            <p className="text-sm sm:text-lg font-light leading-relaxed text-zinc-300 font-sans">
+              Templates genéricos, excesso de informação e páginas sem direção dificultam a percepção do valor real de uma marca e transformam seu preço em commodity.
             </p>
           </div>
 
           {/* Contrast 2 - Ultra-Translucent Cyan Glow Card */}
           <div ref={text2Ref} className="p-6 sm:p-12 rounded-3xl bg-cyan-950/20 border border-cyan-400/50 backdrop-blur-3xl shadow-[0_0_60px_rgba(6,182,212,0.25)] relative overflow-hidden group">
-            <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity pointer-events-none">
-              <Sparkles size={140} className="text-cyan-300" />
-            </div>
-
             <span className="font-mono text-[10px] sm:text-xs uppercase tracking-widest text-cyan-300 font-semibold block mb-2 sm:mb-3">
-              / NOSSO DIFERENCIAL AUTORAL
+              / O DIFERENCIAL DA EDCRIA
             </span>
-            <p className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-normal leading-[1.14] sm:leading-[1.1] tracking-tight text-white">
-              Nós focamos em: <span className="italic font-serif text-cyan-300 font-light underline decoration-cyan-400 underline-offset-6 sm:underline-offset-8 drop-shadow-[0_0_25px_rgba(6,182,212,0.6)]">experiências cinematográficas 4K</span> que geram autoridade imediata, alta retenção e posicionamento de luxo.
+            <h3 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-normal leading-[1.14] sm:leading-[1.1] tracking-tight text-white mb-4">
+              Direção de arte, narrativa e tecnologia trabalhando juntas para criar uma <span className="italic font-serif text-cyan-300 font-light underline decoration-cyan-400 underline-offset-6 sm:underline-offset-8 drop-shadow-[0_0_25px_rgba(6,182,212,0.6)]">experiência memorável</span> e orientada à ação.
+            </h3>
+            <p className="text-sm sm:text-lg text-zinc-200 font-light leading-relaxed max-w-3xl">
+              Eliminamos o ruído e colocamos sua marca em um patamar de autoridade inquestionável, com alta retenção e taxas superiores de conversão.
             </p>
 
             <div className="mt-6 sm:mt-10 flex flex-wrap items-center gap-4">
               <WebGLLiquidSurgeButton
-                label="SOLICITAR PROJETO AUTORAL"
-                onClick={onOpenContact}
+                label="SOLICITAR DIAGNÓSTICO"
+                onClick={handleContactClick}
                 width="w-full sm:w-[310px]"
                 height="h-[62px] sm:h-[68px]"
               />

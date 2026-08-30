@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import {
   Terminal,
   Layers,
-  Sparkles,
   Calculator,
   Calendar,
   ExternalLink,
@@ -12,9 +11,9 @@ import {
 // 1. Diagnostic Shuffler: Clean Single Translucent Cyan Glass Card (No overlapping cards underneath)
 export function DiagnosticShuffler() {
   const cards = [
-    { id: 1, title: 'Conversão & Mobile-First', metric: '+340% Engajamento', tag: 'UI / UX Autoral' },
-    { id: 2, title: 'Animações 60 FPS GSAP', metric: '0.2s LCP Load Time', tag: 'Performance' },
-    { id: 3, title: 'Arquitetura de Marca de Luxo', metric: 'Posicionamento Premium', tag: 'Branding' },
+    { id: 1, title: 'Conversão & Mobile-First', metric: '+30% a +45% Retenção', tag: 'UI / UX Autoral' },
+    { id: 2, title: 'Animações 60 FPS & Shaders', metric: '0.8s LCP • 98+ Lighthouse', tag: 'Performance Web' },
+    { id: 3, title: 'Arquitetura de Marca & Autoridade', metric: 'Posicionamento Premium', tag: 'Branding & Percepção' },
   ];
 
   const [activeIdx, setActiveIdx] = useState(0);
@@ -52,11 +51,11 @@ export function DiagnosticShuffler() {
 }
 
 const TELEMETRY_LOGS = [
-  'SYSTEM.INIT: EdiCria Studio Core v2.4 initialized...',
-  'PERF.AUDIT: 100/100 Lighthouse Performance Index verified.',
+  'SYSTEM.INIT: Edcria Estúdio Core v2.4 initialized...',
+  'PERF.AUDIT: 98/100 Lighthouse Performance Index verified.',
   'SCROLL.ENGINE: Canvas frame scrub active (60 FPS).',
-  'AI.GEN: Neural responsive layout grid synthesized.',
-  'DEPLOY.VERCEL: Edge CDN cached across global nodes.',
+  'UI.AUTORAL: Responsive layout grid synthesized.',
+  'DEPLOY.EDGE: Global CDN cached with low latency (0.8s LCP).',
 ];
 
 // 2. Telemetry Typewriter: Live monospace terminal feed (Ultra-Translucent Cyan Glass)
@@ -142,24 +141,29 @@ export function ProtocolScheduler({ onOpenContact }: { onOpenContact?: () => voi
   // Dynamic calculations based on user selection
   const getCalculation = () => {
     let baseDays = 5;
-    let baseRoi = '+280%';
+    let baseImpact = '+25% a +40%';
+    let impactLabel = 'Geração de Leads Qualificados';
 
     if (projectType === 'landing') {
       baseDays = 5;
-      baseRoi = '+340%';
+      baseImpact = '+30% a +45%';
+      impactLabel = 'Taxa de Conversão & Leads';
     } else if (projectType === 'institutional') {
       baseDays = 8;
-      baseRoi = '+260%';
+      baseImpact = '+35% a +50%';
+      impactLabel = 'Retenção & Confiança';
     } else if (projectType === 'ecommerce') {
       baseDays = 12;
-      baseRoi = '+390%';
+      baseImpact = '+20% a +35%';
+      impactLabel = 'Conversão no Checkout';
     }
 
     if (features.webgl) baseDays += 1;
     if (features.video4k) baseDays += 1;
     if (features.soundtrack) baseDays += 1;
+    if (features.ia) baseDays += 2;
 
-    return { days: baseDays, roi: baseRoi };
+    return { days: baseDays, impact: baseImpact, impactLabel };
   };
 
   const calc = getCalculation();
@@ -169,15 +173,15 @@ export function ProtocolScheduler({ onOpenContact }: { onOpenContact?: () => voi
     const dayName = dayObj ? dayObj.full : selectedDay;
     const typeLabel =
       projectType === 'landing'
-        ? 'Landing Page Cinematográfica'
+        ? 'Landing Page Autoral'
         : projectType === 'institutional'
-        ? 'Site Institucional de Luxo'
-        : 'E-commerce Premium';
+        ? 'Site Institucional Autoral'
+        : 'E-commerce Autoral';
 
     const text = encodeURIComponent(
-      `Olá EdiCria Studio! Gostaria de agendar uma Reunião de Diagnóstico VIP para ${dayName} às ${selectedTime}.\n\nInteresse: ${typeLabel}\nRecursos: ${
+      `Olá Edcria Estúdio! Gostaria de agendar uma Reunião de Diagnóstico para ${dayName} às ${selectedTime}.\n\nInteresse: ${typeLabel}\nRecursos: ${
         features.webgl ? 'Shader WebGL 60FPS, ' : ''
-      }${features.soundtrack ? 'Trilha Sonora, ' : ''}${features.video4k ? 'Vídeos 4K, ' : ''}\n\nPodemos confirmar esse horário?`
+      }${features.soundtrack ? 'Trilha Sonora, ' : ''}${features.video4k ? 'Vídeos 4K, ' : ''}${features.ia ? 'Automação IA, ' : ''}\n\nPodemos confirmar esse horário?`
     );
     window.open(`https://wa.me/5511999999999?text=${text}`, '_blank');
   };
@@ -314,23 +318,28 @@ export function ProtocolScheduler({ onOpenContact }: { onOpenContact?: () => voi
           </div>
 
           {/* Results Metric Card */}
-          <div className="p-3.5 rounded-2xl bg-cyan-950/40 border border-cyan-500/40 flex items-center justify-between">
-            <div>
-              <span className="font-mono text-[9px] uppercase text-zinc-400 block">ESTIMATIVA DE ENTREGA</span>
-              <span className="text-base font-bold text-white font-mono">{calc.days} a {calc.days + 3} dias úteis</span>
+          <div className="p-3.5 rounded-2xl bg-cyan-950/40 border border-cyan-500/40 space-y-2">
+            <div className="flex items-center justify-between">
+              <div>
+                <span className="font-mono text-[9px] uppercase text-zinc-400 block">ESTIMATIVA DE ENTREGA</span>
+                <span className="text-base font-bold text-white font-mono">{calc.days} a {calc.days + 3} dias úteis</span>
+              </div>
+              <div className="text-right">
+                <span className="font-mono text-[9px] uppercase text-zinc-400 block">IMPACTO ESTIMADO</span>
+                <span className="text-base font-bold text-cyan-300 font-mono">{calc.impact}</span>
+              </div>
             </div>
-            <div className="text-right">
-              <span className="font-mono text-[9px] uppercase text-zinc-400 block">IMPACTO CONVERSÃO</span>
-              <span className="text-base font-bold text-cyan-300 font-mono">{calc.roi}</span>
+            <div className="pt-2 border-t border-cyan-500/20 flex items-center justify-between text-[10px] font-mono text-zinc-300">
+              <span className="text-cyan-200">FOCO: {calc.impactLabel}</span>
+              <span className="text-zinc-400">Benchmark CRO & UX</span>
             </div>
           </div>
 
           {/* Action Button */}
           <button
             onClick={onOpenContact || handleOpenWhatsAppSchedule}
-            className="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-cyan-400 via-cyan-300 to-white text-black hover:from-cyan-300 hover:to-cyan-100 text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(6,182,212,0.4)] active:scale-95"
+            className="w-full py-4 px-5 rounded-xl bg-gradient-to-r from-cyan-400 via-cyan-300 to-white text-black hover:from-cyan-300 hover:to-cyan-100 text-xs sm:text-sm font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(6,182,212,0.4)] active:scale-95"
           >
-            <Sparkles size={15} className="text-black" />
             SOLICITAR COM ESTE ESCOPO
           </button>
         </div>

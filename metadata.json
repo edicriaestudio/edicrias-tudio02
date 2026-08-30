@@ -1,6 +1,6 @@
 {
-  "name": "EDICRIA STUDIO",
-  "description": "Estúdio de criação digital especializado em websites premium, landing pages cinematográficas e experiências interativas de alto impacto.",
+  "name": "Edcria Estúdio",
+  "description": "Criamos experiências digitais autorais que combinam direção de arte, interface e performance para transformar percepção em confiança — e confiança em ação.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

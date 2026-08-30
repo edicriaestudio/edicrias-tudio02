@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, lazy, Suspense } from 'react';
 import { createPortal } from 'react-dom';
-import { X, Sparkles, Filter, Film, Image as ImageIcon, Zap, Maximize2, ShoppingBag } from 'lucide-react';
+import { X, Filter, Film, Image as ImageIcon, Zap, Maximize2, ShoppingBag, ArrowUpRight } from 'lucide-react';
 import SoundtrackBar from './components/SoundtrackBar';
 import WebGLLiquidSurgeButton from './components/WebGLLiquidSurgeButton';
 import ModalLoadingFallback from './components/ModalLoadingFallback';
@@ -782,7 +782,7 @@ export default function PortfolioModal({ isOpen, onClose, onSelectProjectForSite
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-white/10">
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <Sparkles size={16} className="text-cyan-300 animate-pulse" />
+              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
               <span className="font-mono text-xs uppercase tracking-[0.2em] text-cyan-300 font-medium">
                 EDICRIA STUDIO • 46 TEMPLATES FIGMA AUTORAIS (FOTO & VÍDEO WEBM 4K)
               </span>
@@ -1010,7 +1010,7 @@ export default function PortfolioModal({ isOpen, onClose, onSelectProjectForSite
                     }}
                     className="w-full sm:w-auto px-6 py-4 rounded-2xl bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-500/40 text-cyan-200 font-mono text-xs uppercase tracking-wider text-center transition-all flex items-center justify-center gap-2"
                   >
-                    <Sparkles size={14} className="text-cyan-300" />
+                    <ArrowUpRight size={14} className="text-cyan-300" />
                     QUERO UM SITE COM ESTE DESIGN
                   </button>
                 </div>

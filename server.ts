@@ -1,14 +1,49 @@
 import express, { Request, Response } from 'express';
 import cors from 'cors';
 import path from 'path';
+import fs from 'fs/promises';
+import { existsSync, mkdirSync } from 'fs';
 import { createServer as createViteServer } from 'vite';
 
 async function startServer() {
   const app = express();
   const PORT = 3000;
 
+  // Strict payload size limit for safety
   app.use(cors());
-  app.use(express.json());
+  app.use(express.json({ limit: '50kb' }));
+
+  // Ensure persistent data directory exists
+  const DATA_DIR = path.join(process.cwd(), 'data');
+  const LEADS_FILE = path.join(DATA_DIR, 'leads.json');
+
+  if (!existsSync(DATA_DIR)) {
+    mkdirSync(DATA_DIR, { recursive: true });
+  }
+
+  // Load existing leads from durable disk storage into cache
+  let leadsStore: Array<Record<string, any>> = [];
+  try {
+    if (existsSync(LEADS_FILE)) {
+      const fileData = await fs.readFile(LEADS_FILE, 'utf-8');
+      leadsStore = JSON.parse(fileData);
+    }
+  } catch (err) {
+    console.error('[Storage] Erro ao carregar leads.json inicial:', err);
+    leadsStore = [];
+  }
+
+  // Helper to persist leads to disk asynchronously
+  const persistLeads = async () => {
+    try {
+      await fs.writeFile(LEADS_FILE, JSON.stringify(leadsStore, null, 2), 'utf-8');
+    } catch (err) {
+      console.error('[Storage] Falha ao persistir lead em disco:', err);
+    }
+  };
+
+  // Anti-Spam & Duplicate Submission Rate Limiter Cache
+  const recentSubmissions = new Map<string, number>();
 
   // API Health Check
   app.get('/api/health', (_req: Request, res: Response) => {
@@ -16,7 +51,128 @@ async function startServer() {
       status: 'ok',
       timestamp: new Date().toISOString(),
       mercadopago_configured: Boolean(process.env.MERCADO_PAGO_ACCESS_TOKEN),
+      leads_count: leadsStore.length,
+      storage_type: 'durable_json_store',
     });
+  });
+
+  // Diagnóstico, Proposta & Captura de Leads Edcria Estúdio
+  app.post('/api/leads', async (req: Request, res: Response) => {
+    try {
+      const {
+        name,
+        email,
+        phone,
+        company,
+        segment,
+        current_url,
+        currentUrl,
+        objective,
+        mainGoal,
+        timeline,
+        budget_range,
+        budgetRange,
+        context,
+        additionalContext,
+        consent,
+        lead_type = 'diagnostico',
+        source_page = '/',
+        utms = {},
+      } = req.body;
+
+      // 1. Validação de campos obrigatórios
+      if (!name || !email || !company || !consent) {
+        return res.status(400).json({
+          success: false,
+          error: 'Por favor, preencha os campos obrigatórios (Nome, E-mail, Empresa e Consentimento LGPD).',
+        });
+      }
+
+      const cleanEmail = String(email).trim().toLowerCase();
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(cleanEmail)) {
+        return res.status(400).json({
+          success: false,
+          error: 'Por favor, forneça um endereço de e-mail corporativo válido.',
+        });
+      }
+
+      // 2. Proteção contra spam / submissão duplicada (30 segundos por e-mail)
+      const now = Date.now();
+      const lastSubmission = recentSubmissions.get(cleanEmail);
+      if (lastSubmission && now - lastSubmission < 30000) {
+        return res.status(429).json({
+          success: false,
+          error: 'Recebemos sua solicitação recentemente. Por favor, aguarde alguns instantes antes de reenviar.',
+        });
+      }
+      recentSubmissions.set(cleanEmail, now);
+
+      // Limpeza de cache de spam a cada 100 registros
+      if (recentSubmissions.size > 200) {
+        for (const [key, time] of recentSubmissions.entries()) {
+          if (now - time > 120000) recentSubmissions.delete(key);
+        }
+      }
+
+      // 3. Geração do ID exclusivo de atendimento (sem dados pessoais)
+      const randomSuffix = Math.floor(Math.random() * 8999 + 1000);
+      const leadId = `EDC-LEAD-${Date.now().toString().slice(-6)}-${randomSuffix}`;
+
+      const leadEntry = {
+        id: leadId,
+        timestamp: new Date().toISOString(),
+        name: String(name).trim().slice(0, 120),
+        email: cleanEmail.slice(0, 150),
+        phone: phone ? String(phone).trim().slice(0, 40) : null,
+        company: String(company).trim().slice(0, 120),
+        segment: segment ? String(segment).trim().slice(0, 100) : 'Geral',
+        current_url: (current_url || currentUrl) ? String(current_url || currentUrl).trim().slice(0, 200) : null,
+        objective: String(objective || mainGoal || 'Diagnóstico e Posicionamento').slice(0, 200),
+        timeline: String(timeline || 'A definir').slice(0, 100),
+        budget_range: String(budget_range || budgetRange || 'Ainda não definida').slice(0, 150),
+        context: (context || additionalContext) ? String(context || additionalContext).trim().slice(0, 1000) : null,
+        consent: Boolean(consent),
+        lead_type: String(lead_type).slice(0, 40),
+        source_page: String(source_page).slice(0, 150),
+        utm_source: utms?.utm_source ? String(utms.utm_source).slice(0, 80) : null,
+        utm_medium: utms?.utm_medium ? String(utms.utm_medium).slice(0, 80) : null,
+        utm_campaign: utms?.utm_campaign ? String(utms.utm_campaign).slice(0, 80) : null,
+        utm_content: utms?.utm_content ? String(utms.utm_content).slice(0, 80) : null,
+        utm_term: utms?.utm_term ? String(utms.utm_term).slice(0, 80) : null,
+        status: 'novo',
+      };
+
+      leadsStore.unshift(leadEntry);
+      if (leadsStore.length > 1000) {
+        leadsStore.pop();
+      }
+
+      // Persistência em disco
+      await persistLeads();
+
+      // Log seguro no servidor (SEM PII - apenas ID, empresa, tipo e timestamp)
+      console.log(`[Edcria Estúdio] Lead registrado com sucesso #${leadId} (empresa: ${leadEntry.company}, tipo: ${leadEntry.lead_type})`);
+
+      return res.status(201).json({
+        success: true,
+        leadId,
+        message: 'Solicitação registrada com sucesso. Nossa equipe entrará em contato.',
+        lead: {
+          id: leadId,
+          company: leadEntry.company,
+          objective: leadEntry.objective,
+          lead_type: leadEntry.lead_type,
+          timestamp: leadEntry.timestamp,
+        },
+      });
+    } catch (error) {
+      console.error('[Edcria Estúdio] Erro ao registrar lead:', error);
+      return res.status(500).json({
+        success: false,
+        error: 'Erro interno ao salvar sua solicitação. Por favor, tente novamente.',
+      });
+    }
   });
 
   // Mercado Pago - Criar Pagamento PIX
@@ -51,10 +207,10 @@ async function startServer() {
             },
             body: JSON.stringify({
               transaction_amount: transactionAmount,
-              description: description || `EdiCria Studio - ${serviceType || 'Projeto Autoral'}`,
+              description: description || `Edcria Estúdio - ${serviceType || 'Projeto Autoral'}`,
               payment_method_id: 'pix',
               payer: {
-                email: payerEmail || 'cliente@edicria.com',
+                email: payerEmail || 'cliente@edicria.com.br',
                 first_name: firstName,
                 last_name: lastName,
               },
@@ -95,7 +251,7 @@ async function startServer() {
       const uniquePaymentId = `MP-${Date.now()}-${Math.floor(Math.random() * 10000)}`;
       const safeAmountStr = transactionAmount.toFixed(2);
       
-      // Chave Pix padrão oficial da EdiCria Studio
+      // Chave Pix padrão oficial da Edcria Estúdio
       const pixKey = 'edicriaestudiocriativo@gmail.com';
       const pixPayload = `00020126580014br.gov.bcb.pix0136${pixKey}520400005303986540${safeAmountStr}5802BR5920EDICRIA STUDIO DIGIT6009SAO PAULO62070503***6304E8A2`;
 
@@ -154,11 +310,11 @@ async function startServer() {
             body: JSON.stringify({
               transaction_amount: transactionAmount,
               token: cardData.token,
-              description: description || `EdiCria Studio - ${serviceType || 'Projeto Autoral'}`,
+              description: description || `Edcria Estúdio - ${serviceType || 'Projeto Autoral'}`,
               installments: Number(installments) || 1,
               payment_method_id: cardData.paymentMethodId || 'master',
               payer: {
-                email: payerEmail || 'cliente@edicria.com',
+                email: payerEmail || 'cliente@edicria.com.br',
                 first_name: firstName,
                 last_name: lastName,
               },
@@ -219,19 +375,19 @@ async function startServer() {
         const preferencePayload = {
           items: [
             {
-              title: title || 'EdiCria Studio - Desenvolvimento de Website 4K',
+              title: title || 'Edcria Estúdio - Desenvolvimento de Website 4K',
               unit_price: Number(price) || 490.0,
               quantity: Number(quantity) || 1,
               currency_id: 'BRL',
             },
           ],
           payer: {
-            email: payerEmail || 'contato@edicria.com',
+            email: payerEmail || 'contato@edicria.com.br',
           },
           back_urls: {
-            success: 'https://edicria.com/sucesso',
-            failure: 'https://edicria.com/erro',
-            pending: 'https://edicria.com/pendente',
+            success: 'https://edicria.com.br/sucesso',
+            failure: 'https://edicria.com.br/erro',
+            pending: 'https://edicria.com.br/pendente',
           },
           auto_return: 'approved',
           external_reference: externalReference || `REF-${Date.now()}`,

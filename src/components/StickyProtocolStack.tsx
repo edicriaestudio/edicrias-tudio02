@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Sparkles, Cpu, Layers, Scan, ArrowUpRight, Activity, Waves, Radio } from 'lucide-react';
+import { Cpu, Layers, Scan, ArrowUpRight, Activity, Waves, Radio } from 'lucide-react';
 import { motion } from 'motion/react';
 import WebGLLiquidSurgeButton from './WebGLLiquidSurgeButton';
 
@@ -30,10 +30,10 @@ export default function StickyProtocolStack({ onOpenContact, onOpenPortfolio }: 
   const cards = [
     {
       id: '01',
-      title: 'LASER SCANNING & INTERAÇÃO SENSORIAL',
-      subtitle: 'Micro-UIs vivas com resposta háptica visual',
-      desc: 'Cada botão, card ou elemento reage instantaneamente aos toques com efeitos glassmorphism, scanner contínuo de alta precisão e iluminação volumétrica.',
-      tag: 'LASER MATRIX RESPONSIVA',
+      title: 'DIREÇÃO DE ARTE AUTORAL',
+      subtitle: 'Linguagem visual exclusiva e posicionamento de autoridade',
+      desc: 'Construímos uma identidade visual própria para o posicionamento da sua marca, substituindo layouts genéricos por uma estética cinematográfica memorável.',
+      tag: 'DIREÇÃO VISUAL EXCLUSIVA',
       graphic: (
         <div className="relative w-60 h-60 sm:w-72 sm:h-72 flex flex-col items-center justify-center border border-cyan-400/50 rounded-3xl overflow-hidden bg-gradient-to-b from-cyan-950/30 via-[#041520]/80 to-cyan-950/40 backdrop-blur-3xl shadow-[0_0_50px_rgba(6,182,212,0.28)] group">
           {/* Cyber Grid Texture */}
@@ -68,13 +68,13 @@ export default function StickyProtocolStack({ onOpenContact, onOpenPortfolio }: 
               <div className="absolute -inset-2 border border-dashed border-cyan-400/40 rounded-full animate-[spin_10s_linear_infinite]" />
             </div>
             <span className="mt-3 font-mono text-[10px] text-cyan-200 tracking-[0.2em] uppercase font-bold drop-shadow-[0_0_8px_rgba(6,182,212,0.6)]">
-              SCANNING MATRIX 4K
+              DIREÇÃO AUTORAL 4K
             </span>
           </div>
 
           {/* Bottom Status */}
           <div className="absolute bottom-3 inset-x-4 flex items-center justify-between font-mono text-[8px] tracking-widest text-cyan-400/80 z-20 pointer-events-none">
-            <span>GPU: REAC_60FPS</span>
+            <span>ARTE: VETORIAL_HDR</span>
             <span className="flex items-center gap-1">
               <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping" />
               ACTIVE
@@ -102,10 +102,10 @@ export default function StickyProtocolStack({ onOpenContact, onOpenPortfolio }: 
     },
     {
       id: '02',
-      title: 'MOTOR GRÁFICO WEBGL & ONDAS DE FLUIDO',
-      subtitle: 'Física de partículas reativas e osciladores de frequência 60 FPS',
-      desc: 'Nossa tecnologia proprietária de shaders WebGL renderiza simulações fluídas, oscilações harmônicas e campos de energia direto na placa gráfica do usuário.',
-      tag: 'GPU FLUID ENGINE 60FPS',
+      title: 'EXPERIÊNCIA & PERFORMANCE',
+      subtitle: 'Interações fluidas a 60 FPS e resposta instantânea',
+      desc: 'Micro-interações e tecnologia WebGL que tornam a navegação envolvente e intuitiva, garantindo tempo de resposta ultrarrápido em qualquer dispositivo.',
+      tag: 'ALTA PERFORMANCE 60FPS',
       graphic: (
         <div className="relative w-60 h-60 sm:w-72 sm:h-72 flex flex-col items-center justify-between border border-cyan-400/40 rounded-3xl overflow-hidden bg-gradient-to-b from-cyan-950/25 via-[#03131e]/85 to-cyan-950/35 backdrop-blur-3xl shadow-[0_0_50px_rgba(6,182,212,0.25)] p-4 group">
           {/* Ambient Nebula */}
@@ -151,19 +151,19 @@ export default function StickyProtocolStack({ onOpenContact, onOpenPortfolio }: 
           <div className="w-full flex items-center justify-between font-mono text-[8px] tracking-widest text-cyan-300/80 border-t border-cyan-500/20 pt-2 z-10">
             <span className="flex items-center gap-1">
               <Radio size={10} className="text-teal-300" />
-              FREQ: 432Hz HARMONIC
+              LATENCY: 0.8ms
             </span>
-            <span className="text-cyan-200 font-bold">LATENCY: 0.8ms</span>
+            <span className="text-cyan-200 font-bold">PERF: 100/100</span>
           </div>
         </div>
       ),
     },
     {
       id: '03',
-      title: 'ECOSSISTEMA FIGMA & TEMPLATES AUTORAIS',
-      subtitle: 'Kits completos prontos para foto e vídeo',
-      desc: 'Acesso imediato aos nossos componentes editáveis no Figma, criados especificamente para elevar a autoridade visual da sua marca.',
-      tag: 'FIGMA SYSTEM 2026',
+      title: 'CONVERSÃO & CONTINUIDADE',
+      subtitle: 'Estrutura desenhada para gerar confiança e ação',
+      desc: 'Páginas que orientam a tomada de decisão, captam contatos qualificados e oferecem acervo de templates e kits prontos para a evolução contínua da sua marca.',
+      tag: 'CONVERSÃO ESTRATÉGICA',
       graphic: (
         <div className="relative w-60 h-60 sm:w-72 sm:h-72 flex flex-col items-center justify-center border border-cyan-400/40 rounded-3xl overflow-hidden bg-gradient-to-b from-cyan-950/20 via-[#041520]/80 to-cyan-950/30 backdrop-blur-3xl shadow-[0_0_50px_rgba(6,182,212,0.22)] p-6 text-center group">
           {/* Ambient Background Shimmer */}
@@ -174,7 +174,7 @@ export default function StickyProtocolStack({ onOpenContact, onOpenPortfolio }: 
           </div>
 
           <span className="font-mono text-[11px] uppercase tracking-widest text-cyan-200 font-bold mb-4">
-            46+ COMPONENTES FIGMA 4K
+            TEMPLATES FIGMA & PACKS
           </span>
 
           {/* Direct CTA that opens the Template Portfolio */}
@@ -189,7 +189,7 @@ export default function StickyProtocolStack({ onOpenContact, onOpenPortfolio }: 
             onClick={onOpenPortfolio || onOpenContact}
             className="mt-3 inline-flex items-center gap-1 font-mono text-[10px] uppercase tracking-widest text-cyan-300 hover:text-white transition-colors"
           >
-            <span>VER CATÁLOGO AO VIVO</span>
+            <span>VER CATÁLOGO COMPLETO</span>
             <ArrowUpRight size={12} />
           </button>
         </div>
@@ -205,11 +205,11 @@ export default function StickyProtocolStack({ onOpenContact, onOpenPortfolio }: 
         <div className="mb-8 sm:mb-12 flex flex-col sm:flex-row sm:items-end justify-between gap-5 sm:gap-6 border-b border-white/10 pb-6">
           <div>
             <span className="font-mono text-[11px] sm:text-xs uppercase tracking-[0.18em] sm:tracking-[0.2em] text-cyan-300 flex items-center gap-2 mb-2 font-medium">
-              <Sparkles size={14} className="text-cyan-400" />
-              // PROTOCOLO DE CONSTRUÇÃO (WEBGL & SHADERS)
+              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
+              // METODOLOGIA & PROTOCOLOS
             </span>
             <h3 className="text-2xl sm:text-5xl font-normal text-white tracking-tight">
-              Os 3 pilares da <span className="font-serif italic text-cyan-300 underline decoration-cyan-400/50 underline-offset-8">EdiCria Studio</span>
+              Os 3 pilares da <span className="font-serif italic text-cyan-300 underline decoration-cyan-400/50 underline-offset-8">Edcria Estúdio</span>
             </h3>
           </div>
 

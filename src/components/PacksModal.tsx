@@ -56,7 +56,7 @@ const STUDIO_PACKS: StudioPack[] = [
     originalPrice: 'R$ 497,00',
     price: 97.00,
     installments: 'ou 4x de R$ 25,60 sem juros',
-    description: 'O acervo completo da EdiCria Studio: Pack 42 Templates + Curso Do Figma ao Site + Kit 85 Prompts IA + Design System Blueprint + 15 Golden Skills Motion.',
+    description: 'O acervo completo da Edcria Estúdio: Pack 42 Templates + Curso Do Figma ao Site + Kit 85 Prompts IA + Design System Blueprint + 15 Golden Skills Motion.',
     features: [
       'Pack Completo 42 Templates Figma 4K (R$ 66,90)',
       'Curso Prático: Do Figma ao Site no Ar (R$ 19,90)',

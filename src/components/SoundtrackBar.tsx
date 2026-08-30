@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Volume2, VolumeX, Music, Sparkles } from 'lucide-react';
+import { Volume2, VolumeX, Music } from 'lucide-react';
 import { ambientEngine } from '../utils/audioEngine';
 
 interface SoundtrackBarProps {
@@ -83,7 +83,7 @@ export default function SoundtrackBar({ compact = false }: SoundtrackBarProps) {
         </div>
         <div className="flex flex-col">
           <span className="font-mono text-[9px] uppercase tracking-widest text-white/50 flex items-center gap-1">
-            <Sparkles size={10} className="text-white/80" />
+            <span className="w-1 h-1 rounded-full bg-cyan-400" />
             Trilha Imersiva
           </span>
           <span className="text-xs font-medium text-white tracking-wide">

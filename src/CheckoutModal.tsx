@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import {
   X,
-  Sparkles,
   Check,
   CreditCard,
   QrCode,
@@ -242,9 +241,9 @@ export default function CheckoutModal({
             {/* Header */}
             <div className="space-y-1.5 border-b border-white/10 pb-4">
               <div className="flex items-center gap-2">
-                <Sparkles size={14} className="text-cyan-300 animate-pulse" />
+                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
                 <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-cyan-300 font-semibold">
-                  CHECKOUT SEGURO • EDICRIA STUDIO
+                  CHECKOUT SEGURO • EDCRIA ESTÚDIO
                 </span>
               </div>
               <h2 className="text-2xl sm:text-3xl font-normal tracking-tight text-white font-sans">
@@ -677,7 +676,7 @@ export default function CheckoutModal({
                 PAGAMENTO APROVADO • ACESSO LIBERADO
               </span>
               <h2 className="text-3xl font-normal tracking-tight text-white">
-                Bem-vindo ao Ecossistema EdiCria!
+                Bem-vindo ao Ecossistema Edcria Estúdio!
               </h2>
               <p className="text-sm text-zinc-200 max-w-md mx-auto leading-relaxed">
                 Enviamos todos os arquivos fontes do Figma (.fig), vídeos 4K e bônus selecionados para <span className="text-cyan-300 font-medium">{email}</span>.
@@ -717,7 +716,7 @@ export default function CheckoutModal({
               </a>
 
               <a
-                href={`https://wa.me/5511999999999?text=${encodeURIComponent(`Olá EdiCria Studio! Acabei de adquirir o ${productName} (E-mail: ${email}). Poderiam confirmar meu acesso VIP?`)}`}
+                href={`https://wa.me/5511999999999?text=${encodeURIComponent(`Olá Edcria Estúdio! Acabei de adquirir o ${productName} (E-mail: ${email}). Poderiam confirmar meu acesso VIP?`)}`}
                 target="_blank"
                 rel="noreferrer"
                 className="w-full py-3.5 px-4 rounded-xl bg-white/5 hover:bg-white/15 border border-white/15 text-zinc-200 font-mono text-xs uppercase tracking-wider transition-colors flex items-center justify-center gap-2"
