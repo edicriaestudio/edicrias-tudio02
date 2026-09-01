@@ -208,8 +208,8 @@ export default function StickyProtocolStack({ onOpenContact, onOpenPortfolio }: 
               <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
               // METODOLOGIA & PROTOCOLOS
             </span>
-            <h3 className="text-2xl sm:text-5xl font-normal text-white tracking-tight">
-              Os 3 pilares da <span className="font-serif italic text-cyan-300 underline decoration-cyan-400/50 underline-offset-8">Edcria Estúdio</span>
+            <h3 className="text-2xl sm:text-5xl font-display font-[450] text-white tracking-[-0.04em] [text-wrap:balance]">
+              Os 3 pilares da <span className="font-serif italic text-cyan-300 underline decoration-cyan-400/50 underline-offset-8">Edcria Studio</span>
             </h3>
           </div>
 
@@ -256,7 +256,7 @@ export default function StickyProtocolStack({ onOpenContact, onOpenPortfolio }: 
                       <span className="font-mono text-xs text-zinc-300 font-medium">PILAR {card.id}</span>
                     </div>
 
-                    <h4 className="text-xl sm:text-3xl lg:text-4xl font-medium text-white tracking-tight leading-snug">
+                    <h4 className="text-xl sm:text-3xl lg:text-4xl font-display font-[500] text-white tracking-[-0.03em] leading-snug [text-wrap:balance]">
                       {card.title}
                     </h4>
 

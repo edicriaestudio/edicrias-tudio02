@@ -25,7 +25,7 @@ export default function PhilosophySection({ onOpenContact }: PhilosophyProps) {
         <div ref={badgeRef} className="flex items-center gap-2 mb-6 sm:mb-8">
           <span className="w-2 h-2 rounded-full bg-cyan-400" />
           <span className="font-mono text-[11px] sm:text-xs uppercase tracking-[0.18em] sm:tracking-[0.2em] text-cyan-300 font-medium">
-            // MANIFESTO EDCRIA ESTÚDIO
+            // MANIFESTO EDCRIA STUDIO
           </span>
         </div>
 
@@ -35,7 +35,7 @@ export default function PhilosophySection({ onOpenContact }: PhilosophyProps) {
             <span className="font-mono text-[10px] sm:text-xs uppercase tracking-widest text-cyan-300/80 block mb-2 font-medium">
               / O MERCADO COMUM
             </span>
-            <h3 className="text-xl sm:text-3xl font-medium text-white tracking-tight mb-2">
+            <h3 className="text-xl sm:text-3xl font-display font-[500] text-white tracking-[-0.03em] leading-snug mb-2 [text-wrap:balance]">
               O problema não é ter um site. É ter um site que parece igual a todos.
             </h3>
             <p className="text-sm sm:text-lg font-light leading-relaxed text-zinc-300 font-sans">
@@ -48,7 +48,7 @@ export default function PhilosophySection({ onOpenContact }: PhilosophyProps) {
             <span className="font-mono text-[10px] sm:text-xs uppercase tracking-widest text-cyan-300 font-semibold block mb-2 sm:mb-3">
               / O DIFERENCIAL DA EDCRIA
             </span>
-            <h3 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-normal leading-[1.14] sm:leading-[1.1] tracking-tight text-white mb-4">
+            <h3 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-[450] leading-[1.14] sm:leading-[1.1] tracking-[-0.04em] text-white mb-4 [text-wrap:balance]">
               Direção de arte, narrativa e tecnologia trabalhando juntas para criar uma <span className="italic font-serif text-cyan-300 font-light underline decoration-cyan-400 underline-offset-6 sm:underline-offset-8 drop-shadow-[0_0_25px_rgba(6,182,212,0.6)]">experiência memorável</span> e orientada à ação.
             </h3>
             <p className="text-sm sm:text-lg text-zinc-200 font-light leading-relaxed max-w-3xl">

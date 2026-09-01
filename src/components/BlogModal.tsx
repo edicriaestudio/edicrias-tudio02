@@ -43,7 +43,7 @@ const BLOG_POSTS: BlogPost[] = [
     categoryLabel: 'Conversão & Vendas',
     readTime: '4 min de leitura',
     date: '28 de Agosto, 2026',
-    author: 'Edcria Estúdio Lab',
+    author: 'Edcria Studio Lab',
     highlightBadge: 'DESTAQUE',
     image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=900&auto=format&fit=crop&q=80',
     summary: 'Descubra por que a percepção de valor imediata gerada por direção de arte autoral e carregamento ultrarrápido transforma visitantes comuns em clientes qualificados.',
@@ -62,7 +62,7 @@ const BLOG_POSTS: BlogPost[] = [
           heading: '2. Por que Templates Padronizados Matam a Autoridade',
           body: [
             'A maioria das empresas usa os mesmos temas saturados de mercado. O cliente percebe o padrão genérico em milissegundos e passa a comparar seu preço com opções de baixo custo.',
-            'Com a arquitetura autoral da Edcria Estúdio, cada detalhe de animação, tipografia e contraste é construído para criar um ecossistema exclusivo que eleva a credibilidade e diferencia sua proposta de valor.'
+            'Com a arquitetura autoral da Edcria Studio, cada detalhe de animação, tipografia e contraste é construído para criar um ecossistema exclusivo que eleva a credibilidade e diferencia sua proposta de valor.'
           ]
         },
         {

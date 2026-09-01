@@ -88,7 +88,7 @@ export default function SoundtrackBar({ compact = false }: SoundtrackBarProps) {
             Trilha Imersiva
           </span>
           <span className="text-xs font-medium text-white tracking-wide">
-            {isPlaying ? 'Trilha Sonora Oficial' : 'Áudio Estúdio Off'}
+            {isPlaying ? 'Trilha Sonora Oficial' : 'Áudio Studio Off'}
           </span>
         </div>
       </div>

@@ -38,8 +38,8 @@ export function DiagnosticShuffler() {
       </div>
 
       <div className="my-4">
-        <h4 className="text-xl font-medium text-white tracking-tight">{card.title}</h4>
-        <p className="text-2xl sm:text-3xl font-bold text-cyan-300 mt-1.5 tracking-tight">{card.metric}</p>
+        <h4 className="text-xl sm:text-2xl font-display font-[500] text-white tracking-[-0.03em] [text-wrap:balance]">{card.title}</h4>
+        <p className="text-2xl sm:text-3xl font-display font-[600] text-cyan-300 mt-1.5 tracking-[-0.03em]">{card.metric}</p>
       </div>
 
       <div className="pt-3 border-t border-white/10 flex items-center justify-between text-[11px] font-mono text-zinc-300">
@@ -51,7 +51,7 @@ export function DiagnosticShuffler() {
 }
 
 const TELEMETRY_LOGS = [
-  'SYSTEM.INIT: Edcria Estúdio Core v2.4 initialized...',
+  'SYSTEM.INIT: Edcria Studio Core v2.4 initialized...',
   'PERF.AUDIT: 98/100 Lighthouse Performance Index verified.',
   'SCROLL.ENGINE: Canvas frame scrub active (60 FPS).',
   'UI.AUTORAL: Responsive layout grid synthesized.',
@@ -179,7 +179,7 @@ export function ProtocolScheduler({ onOpenContact }: { onOpenContact?: () => voi
         : 'E-commerce Autoral';
 
     const text = encodeURIComponent(
-      `Olá Edcria Estúdio! Gostaria de agendar uma Reunião de Diagnóstico para ${dayName} às ${selectedTime}.\n\nInteresse: ${typeLabel}\nRecursos: ${
+      `Olá Edcria Studio! Gostaria de agendar uma Reunião de Diagnóstico para ${dayName} às ${selectedTime}.\n\nInteresse: ${typeLabel}\nRecursos: ${
         features.webgl ? 'Shader WebGL 60FPS, ' : ''
       }${features.soundtrack ? 'Trilha Sonora, ' : ''}${features.video4k ? 'Vídeos 4K, ' : ''}${features.ia ? 'Automação IA, ' : ''}\n\nPodemos confirmar esse horário?`
     );

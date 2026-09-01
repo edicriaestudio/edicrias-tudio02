@@ -18,6 +18,7 @@ import {
   FolderKanban,
 } from 'lucide-react';
 import { EDMonogramIcon } from './components/BrandLogo';
+import InitialDiagnosticForm from './components/InitialDiagnosticForm';
 import { getStoredUtms, trackSubmitLead, trackContactWhatsapp, trackStartDiagnosis } from './utils/analytics';
 
 interface ContactModalProps {
@@ -259,7 +260,7 @@ export default function ContactModal({
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             amount: currentAmount,
-            description: `Edcria Estúdio - ${currentPlan.label}`,
+            description: `Edcria Studio - ${currentPlan.label}`,
             payerEmail: depositData.email,
             payerName: depositData.name,
             phone: depositData.phone,
@@ -288,7 +289,7 @@ export default function ContactModal({
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             amount: currentAmount,
-            description: `Edcria Estúdio - ${currentPlan.label}`,
+            description: `Edcria Studio - ${currentPlan.label}`,
             payerEmail: depositData.email,
             payerName: depositData.name,
             phone: depositData.phone,
@@ -606,7 +607,7 @@ export default function ContactModal({
                 <EDMonogramIcon size={22} glowing={true} />
                 <span className="font-mono text-xs uppercase tracking-[0.15em] text-cyan-300 font-semibold flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
-                  EDCRIA ESTÚDIO • ATENDIMENTO AUTORAL
+                  EDCRIA STUDIO • ATENDIMENTO AUTORAL
                 </span>
               </div>
               <h3 className="text-2xl sm:text-3xl font-normal tracking-tight text-white">
@@ -678,188 +679,16 @@ export default function ContactModal({
               </div>
             )}
 
-            {/* TAB 1: DIAGNÓSTICO GRATUITO */}
+            {/* TAB 1: DIAGNÓSTICO INICIAL (12 CAMPOS COMPLETOS) */}
             {modalFlow === 'diagnostico' && (
-              <form onSubmit={(e) => handleLeadSubmit(e, 'diagnostico')} className="flex flex-col gap-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                  <div className="flex flex-col gap-1.5">
-                    <label htmlFor="diag-name" className="font-mono text-[11px] uppercase tracking-wider text-cyan-300/80 font-medium">
-                      Seu Nome *
-                    </label>
-                    <input
-                      id="diag-name"
-                      type="text"
-                      required
-                      placeholder="Ex: Carlos Mendes"
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className="w-full px-4 py-2.5 rounded-xl bg-cyan-950/30 border border-cyan-500/30 text-white placeholder-zinc-500 text-sm focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all font-sans"
-                    />
-                  </div>
-
-                  <div className="flex flex-col gap-1.5">
-                    <label htmlFor="diag-email" className="font-mono text-[11px] uppercase tracking-wider text-cyan-300/80 font-medium">
-                      E-mail Profissional *
-                    </label>
-                    <input
-                      id="diag-email"
-                      type="email"
-                      required
-                      placeholder="carlos@empresa.com"
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full px-4 py-2.5 rounded-xl bg-cyan-950/30 border border-cyan-500/30 text-white placeholder-zinc-500 text-sm focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all font-sans"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                  <div className="flex flex-col gap-1.5">
-                    <label htmlFor="diag-phone" className="font-mono text-[11px] uppercase tracking-wider text-cyan-300/80 font-medium">
-                      WhatsApp / Telefone
-                    </label>
-                    <input
-                      id="diag-phone"
-                      type="tel"
-                      placeholder="(11) 99999-9999"
-                      value={formData.phone}
-                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      className="w-full px-4 py-2.5 rounded-xl bg-cyan-950/30 border border-cyan-500/30 text-white placeholder-zinc-500 text-sm focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all font-sans"
-                    />
-                  </div>
-
-                  <div className="flex flex-col gap-1.5">
-                    <label htmlFor="diag-company" className="font-mono text-[11px] uppercase tracking-wider text-cyan-300/80 font-medium">
-                      Empresa / Marca *
-                    </label>
-                    <input
-                      id="diag-company"
-                      type="text"
-                      required
-                      placeholder="Nome da sua marca"
-                      value={formData.company}
-                      onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                      className="w-full px-4 py-2.5 rounded-xl bg-cyan-950/30 border border-cyan-500/30 text-white placeholder-zinc-500 text-sm focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all font-sans"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                  <div className="flex flex-col gap-1.5">
-                    <label htmlFor="diag-segment" className="font-mono text-[11px] uppercase tracking-wider text-cyan-300/80 font-medium">
-                      Segmento de Atuação
-                    </label>
-                    <select
-                      id="diag-segment"
-                      value={formData.segment}
-                      onChange={(e) => setFormData({ ...formData, segment: e.target.value })}
-                      className="w-full px-3 py-2.5 rounded-xl bg-[#061019] border border-cyan-500/30 text-white text-xs sm:text-sm focus:outline-none focus:border-cyan-400 font-sans"
-                    >
-                      <option value="Tecnologia / SaaS / Digital">Tecnologia / SaaS / Digital</option>
-                      <option value="Consultoria & Serviços Corporativos">Consultoria & Serviços Corporativos</option>
-                      <option value="Saúde & Bem-Estar">Saúde & Bem-Estar</option>
-                      <option value="Arquitetura, Design & Moda">Arquitetura, Design & Moda</option>
-                      <option value="E-commerce & Varejo Premium">E-commerce & Varejo Premium</option>
-                      <option value="Outro">Outro segmento</option>
-                    </select>
-                  </div>
-
-                  <div className="flex flex-col gap-1.5">
-                    <label htmlFor="diag-url" className="font-mono text-[11px] uppercase tracking-wider text-cyan-300/80 font-medium">
-                      Site Atual (opcional)
-                    </label>
-                    <input
-                      id="diag-url"
-                      type="url"
-                      placeholder="https://suaempresa.com"
-                      value={formData.currentUrl}
-                      onChange={(e) => setFormData({ ...formData, currentUrl: e.target.value })}
-                      className="w-full px-4 py-2.5 rounded-xl bg-cyan-950/30 border border-cyan-500/30 text-white placeholder-zinc-500 text-sm focus:outline-none focus:border-cyan-400 font-sans"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                  <div className="flex flex-col gap-1.5">
-                    <label htmlFor="diag-goal" className="font-mono text-[11px] uppercase tracking-wider text-cyan-300/80 font-medium">
-                      Principal Objetivo do Diagnóstico
-                    </label>
-                    <select
-                      id="diag-goal"
-                      value={formData.mainGoal}
-                      onChange={(e) => setFormData({ ...formData, mainGoal: e.target.value })}
-                      className="w-full px-3 py-2.5 rounded-xl bg-[#061019] border border-cyan-500/30 text-white text-xs sm:text-sm focus:outline-none focus:border-cyan-400 font-sans"
-                    >
-                      <option value="Posicionamento e autoridade premium">Posicionamento e autoridade premium</option>
-                      <option value="Aumento de conversão e geração de leads">Aumento de conversão e geração de leads</option>
-                      <option value="Lançamento de novo produto / serviço">Lançamento de produto / serviço</option>
-                      <option value="Redesign completo da presença digital">Redesign completo da presença digital</option>
-                    </select>
-                  </div>
-
-                  <div className="flex flex-col gap-1.5">
-                    <label htmlFor="diag-timeline" className="font-mono text-[11px] uppercase tracking-wider text-cyan-300/80 font-medium">
-                      Prazo Estimado
-                    </label>
-                    <select
-                      id="diag-timeline"
-                      value={formData.timeline}
-                      onChange={(e) => setFormData({ ...formData, timeline: e.target.value })}
-                      className="w-full px-3 py-2.5 rounded-xl bg-[#061019] border border-cyan-500/30 text-white text-xs sm:text-sm focus:outline-none focus:border-cyan-400 font-sans"
-                    >
-                      <option value="Imediato (próximos 15-30 dias)">Imediato (próximos 15-30 dias)</option>
-                      <option value="1 a 2 meses">1 a 2 meses</option>
-                      <option value="Planejamento futuro (3+ meses)">Planejamento futuro (3+ meses)</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div className="flex flex-col gap-1.5">
-                  <label htmlFor="diag-context" className="font-mono text-[11px] uppercase tracking-wider text-cyan-300/80 font-medium">
-                    Contexto ou Desafios Atuais (opcional)
-                  </label>
-                  <textarea
-                    id="diag-context"
-                    rows={2}
-                    placeholder="Ex: Sentimos que nosso site atual não transmite o valor real dos nossos serviços..."
-                    value={formData.additionalContext}
-                    onChange={(e) => setFormData({ ...formData, additionalContext: e.target.value })}
-                    className="w-full px-4 py-2.5 rounded-xl bg-cyan-950/30 border border-cyan-500/30 text-white placeholder-zinc-500 text-sm focus:outline-none focus:border-cyan-400 resize-none font-sans"
-                  />
-                </div>
-
-                <label className="flex items-start gap-2.5 cursor-pointer text-xs text-zinc-300 pt-1">
-                  <input
-                    type="checkbox"
-                    checked={formData.consent}
-                    onChange={(e) => setFormData({ ...formData, consent: e.target.checked })}
-                    className="mt-0.5 rounded border-cyan-500/40 text-cyan-400 focus:ring-0"
-                  />
-                  <span>
-                    Concordo com o tratamento dos dados informados para receber o diagnóstico autoral da Edcria Estúdio (LGPD).
-                  </span>
-                </label>
-
-                <div className="pt-2">
-                  <button
-                    type="submit"
-                    disabled={isProcessing}
-                    className="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-cyan-400 via-cyan-300 to-white text-black hover:from-cyan-300 hover:to-cyan-100 font-mono text-sm sm:text-base font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2.5 shadow-[0_0_35px_rgba(6,182,212,0.45)] active:scale-95 disabled:opacity-60"
-                  >
-                    {isProcessing ? (
-                      <span className="flex items-center gap-2">
-                        <RefreshCw size={18} className="animate-spin" />
-                        PROCESSANDO DIAGNÓSTICO...
-                      </span>
-                    ) : (
-                      <>
-                        SOLICITAR DIAGNÓSTICO
-                        <ArrowRight size={18} />
-                      </>
-                    )}
-                  </button>
-                </div>
-              </form>
+              <div className="pt-2">
+                <InitialDiagnosticForm
+                  onSuccess={(id) => {
+                    setLeadId(id);
+                    setIsSuccess(true);
+                  }}
+                />
+              </div>
             )}
 
             {/* TAB 2: PROPOSTA SOB MEDIDA */}

@@ -77,14 +77,14 @@ export default function SectionOne({ onOpenContact, onOpenPortfolio }: SectionOn
             >
               <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
               <span className="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.16em] sm:tracking-[0.18em] text-cyan-200 font-medium">
-                EDCRIA ESTÚDIO • EXPERIÊNCIAS DIGITAIS AUTORAIS
+                EDCRIA STUDIO • EXPERIÊNCIAS DIGITAIS AUTORAIS
               </span>
             </div>
           </div>
 
           <h1
             ref={h1Ref}
-            className="text-[clamp(2.1rem,5.5vw,4.4rem)] font-normal leading-[1.08] tracking-tight text-white drop-shadow-2xl"
+            className="text-[clamp(2.2rem,5.8vw,4.6rem)] font-display font-[450] leading-[1.08] tracking-[-0.04em] text-white drop-shadow-2xl [text-wrap:balance]"
           >
             Sua marca entrega mais do que o seu site <br className="hidden sm:inline" />
             <span className="italic font-serif font-light text-cyan-300 underline decoration-cyan-400 underline-offset-8 drop-shadow-[0_0_20px_rgba(6,182,212,0.6)]">

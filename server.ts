@@ -83,7 +83,7 @@ async function startServer() {
     });
   });
 
-  // Diagnóstico, Proposta & Captura de Leads Edcria Estúdio
+  // Diagnóstico, Proposta & Captura de Leads Edcria Studio
   app.post('/api/leads', async (req: Request, res: Response) => {
     try {
       const {
@@ -91,18 +91,27 @@ async function startServer() {
         email,
         phone,
         company,
+        cityState,
+        city_state,
         segment,
         current_url,
         currentUrl,
+        hasNoSite,
+        has_no_site,
+        instagram,
+        instagram_channel,
         objective,
         mainGoal,
         timeline,
         budget_range,
         budgetRange,
+        referralSource,
+        referral_source,
         context,
         additionalContext,
+        oneSentenceGoal,
         consent,
-        lead_type = 'diagnostico',
+        lead_type = 'diagnostico_inicial',
         source_page = '/',
         utms = {},
       } = req.body || {};
@@ -111,32 +120,48 @@ async function startServer() {
       const cleanName = sanitizeText(name, 120);
       const cleanCompany = sanitizeText(company, 120);
       const cleanEmail = typeof email === 'string' ? email.trim().toLowerCase() : '';
+      const cleanPhone = sanitizeText(phone, 40);
+      const cleanCityState = sanitizeText(cityState || city_state, 100);
 
       if (!cleanName || cleanName.length < 2) {
         return res.status(400).json({
           success: false,
-          error: 'Por favor, informe um nome válido (mínimo 2 caracteres).',
-        });
-      }
-
-      if (!isValidEmail(cleanEmail)) {
-        return res.status(400).json({
-          success: false,
-          error: 'Por favor, forneça um endereço de e-mail corporativo válido.',
+          error: 'Por favor, informe seu nome completo (mínimo 2 caracteres).',
         });
       }
 
       if (!cleanCompany || cleanCompany.length < 2) {
         return res.status(400).json({
           success: false,
-          error: 'Por favor, informe o nome da sua empresa ou projeto.',
+          error: 'Por favor, informe o nome da sua empresa ou marca.',
+        });
+      }
+
+      if (!cleanPhone || cleanPhone.replace(/\D/g, '').length < 10) {
+        return res.status(400).json({
+          success: false,
+          error: 'Por favor, informe um WhatsApp válido com DDD (mínimo 10 dígitos).',
+        });
+      }
+
+      if (!isValidEmail(cleanEmail)) {
+        return res.status(400).json({
+          success: false,
+          error: 'Por favor, forneça um endereço de e-mail válido.',
+        });
+      }
+
+      if (!cleanCityState || cleanCityState.length < 2) {
+        return res.status(400).json({
+          success: false,
+          error: 'Por favor, informe sua cidade e estado.',
         });
       }
 
       if (consent !== true && consent !== 'true') {
         return res.status(400).json({
           success: false,
-          error: 'É necessário concordar com os termos de consentimento e LGPD.',
+          error: 'É necessário concordar com os termos de consentimento e LGPD para prosseguir.',
         });
       }
 
@@ -160,23 +185,27 @@ async function startServer() {
 
       // 3. Geração do ID exclusivo de atendimento
       const randomSuffix = Math.floor(Math.random() * 8999 + 1000);
-      const leadId = `EDC-LEAD-${Date.now().toString().slice(-6)}-${randomSuffix}`;
+      const leadId = `EDC-DIAG-${Date.now().toString().slice(-6)}-${randomSuffix}`;
 
       const leadEntry = {
         id: leadId,
         timestamp: new Date().toISOString(),
         name: cleanName,
-        email: cleanEmail,
-        phone: phone ? sanitizeText(phone, 40) : null,
         company: cleanCompany,
-        segment: segment ? sanitizeText(segment, 100) : 'Geral',
-        current_url: (current_url || currentUrl) ? sanitizeText(current_url || currentUrl, 200) : null,
-        objective: sanitizeText(objective || mainGoal || 'Diagnóstico e Posicionamento', 200),
-        timeline: sanitizeText(timeline || 'A definir', 100),
+        phone: cleanPhone,
+        email: cleanEmail,
+        city_state: cleanCityState,
+        has_no_site: Boolean(hasNoSite || has_no_site),
+        current_url: (hasNoSite || has_no_site) ? null : sanitizeText(current_url || currentUrl, 200),
+        instagram: sanitizeText(instagram || instagram_channel, 120),
+        objective: sanitizeText(objective || mainGoal || 'criar presença digital', 200),
+        timeline: sanitizeText(timeline || 'Ainda não definido', 100),
         budget_range: sanitizeText(budget_range || budgetRange || 'Ainda não definida', 150),
-        context: (context || additionalContext) ? sanitizeText(context || additionalContext, 1000) : null,
+        referral_source: sanitizeText(referralSource || referral_source, 100),
+        context: sanitizeText(oneSentenceGoal || context || additionalContext, 1000),
+        segment: segment ? sanitizeText(segment, 100) : 'Geral',
         consent: true,
-        lead_type: sanitizeText(lead_type, 40),
+        lead_type: sanitizeText(lead_type, 50),
         source_page: sanitizeText(source_page, 150),
         utm_source: utms?.utm_source ? sanitizeText(utms.utm_source, 80) : null,
         utm_medium: utms?.utm_medium ? sanitizeText(utms.utm_medium, 80) : null,
@@ -184,6 +213,7 @@ async function startServer() {
         utm_content: utms?.utm_content ? sanitizeText(utms.utm_content, 80) : null,
         utm_term: utms?.utm_term ? sanitizeText(utms.utm_term, 80) : null,
         status: 'novo',
+        next_step: 'manual_review', // Próximo passo estritamente manual: EdiCria revisa -> qualifica -> entra em contato
       };
 
       leadsStore.unshift(leadEntry);
@@ -194,25 +224,24 @@ async function startServer() {
       // Persistência em disco
       await persistLeads();
 
-      console.log(`[Edcria Estúdio] Lead registrado com sucesso #${leadId} (empresa: ${leadEntry.company}, tipo: ${leadEntry.lead_type})`);
+      console.log(`[Edcria Studio] Lead diagnóstico #${leadId} registrado com sucesso para a empresa: ${leadEntry.company}`);
 
       return res.status(201).json({
         success: true,
         leadId,
-        message: 'Solicitação registrada com sucesso. Nossa equipe entrará em contato.',
+        message: 'Recebemos suas informações. A EdiCria vai analisar o contexto e retornará com os próximos passos. O briefing completo será solicitado somente se fizer sentido avançar.',
         lead: {
           id: leadId,
           company: leadEntry.company,
           objective: leadEntry.objective,
-          lead_type: leadEntry.lead_type,
           timestamp: leadEntry.timestamp,
         },
       });
     } catch (error) {
-      console.error('[Edcria Estúdio] Erro ao registrar lead:', error);
+      console.error('[Edcria Studio] Erro ao registrar lead:', error);
       return res.status(500).json({
         success: false,
-        error: 'Erro interno ao salvar sua solicitação. Por favor, tente novamente.',
+        error: 'Não foi possível enviar agora. Confira os campos ou tente novamente em alguns instantes. Seus dados não foram descartados sem aviso.',
       });
     }
   });
@@ -267,7 +296,7 @@ async function startServer() {
             },
             body: JSON.stringify({
               transaction_amount: transactionAmount,
-              description: sanitizeText(description || `Edcria Estúdio - ${serviceType || 'Projeto Autoral'}`, 150),
+              description: sanitizeText(description || `Edcria Studio - ${serviceType || 'Projeto Autoral'}`, 150),
               payment_method_id: 'pix',
               payer: {
                 email: cleanPayerEmail || 'cliente@edicria.com.br',
@@ -307,7 +336,7 @@ async function startServer() {
         }
       }
 
-      // Fallback robusto / Chave Pix direta do estúdio
+      // Fallback robusto / Chave Pix direta do studio
       const uniquePaymentId = `MP-${Date.now()}-${Math.floor(Math.random() * 10000)}`;
       const safeAmountStr = transactionAmount.toFixed(2);
       
@@ -388,7 +417,7 @@ async function startServer() {
             body: JSON.stringify({
               transaction_amount: transactionAmount,
               token: cardData.token,
-              description: sanitizeText(description || `Edcria Estúdio - ${serviceType || 'Projeto Autoral'}`, 150),
+              description: sanitizeText(description || `Edcria Studio - ${serviceType || 'Projeto Autoral'}`, 150),
               installments: parsedInstallments,
               payment_method_id: cardData.paymentMethodId || 'master',
               payer: {
@@ -449,7 +478,7 @@ async function startServer() {
       const { title, price, quantity = 1, payerEmail, externalReference } = req.body || {};
       const accessToken = process.env.MERCADO_PAGO_ACCESS_TOKEN;
 
-      const cleanTitle = sanitizeText(title || 'Edcria Estúdio - Desenvolvimento de Website 4K', 120);
+      const cleanTitle = sanitizeText(title || 'Edcria Studio - Desenvolvimento de Website 4K', 120);
       const parsedPrice = Number(price);
       const cleanPayerEmail = typeof payerEmail === 'string' ? payerEmail.trim().toLowerCase() : '';
 

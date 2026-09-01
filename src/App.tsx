@@ -5,6 +5,7 @@ import SectionOne from './SectionOne';
 import SectionTwo from './SectionTwo';
 import PhilosophySection from './components/PhilosophySection';
 import StickyProtocolStack from './components/StickyProtocolStack';
+import CommercialProcessSection from './components/CommercialProcessSection';
 import Footer from './components/Footer';
 import ModalLoadingFallback from './components/ModalLoadingFallback';
 import type { LegalTab } from './components/LegalModal';
@@ -129,6 +130,9 @@ export default function App() {
             onOpenContact={() => handleOpenContact()}
             onOpenPortfolio={handleOpenPortfolio}
           />
+
+          {/* Commercial Journey Process Roadmap (6 Steps) */}
+          <CommercialProcessSection onOpenContact={() => handleOpenContact()} />
 
           {/* Studio Footer (With Direct Links to Legal LGPD, Packs, Blog, Portfolio) */}
           <Footer

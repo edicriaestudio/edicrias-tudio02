@@ -36,7 +36,7 @@ export default function ModalLoadingFallback({
             {message}
           </span>
           <span className="font-mono text-[10px] tracking-widest text-zinc-400 mt-1 block">
-            OTIMIZAÇÃO 60 FPS • EDCRIA ESTÚDIO
+            OTIMIZAÇÃO 60 FPS • EDCRIA STUDIO
           </span>
         </div>
       </div>

@@ -1,5 +1,5 @@
 /**
- * Edcria Estúdio - Camada de Mensuração & Rastreamento Seguro de Eventos
+ * Edcria Studio - Camada de Mensuração & Rastreamento Seguro de Eventos
  *
  * Diretrizes:
  * - Totalmente assíncrono e não-bloqueante
@@ -110,7 +110,7 @@ export function trackEvent(eventName: string, params: Record<string, any> = {}) 
   }
 }
 
-// Helpers tipados para eventos do funil da Edcria Estúdio
+// Helpers tipados para eventos do funil da Edcria Studio
 
 export function trackViewService(serviceType: string, ctaLocation = 'body') {
   trackEvent('view_service', { service_type: serviceType, source_location: ctaLocation });

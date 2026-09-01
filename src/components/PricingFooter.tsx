@@ -74,7 +74,7 @@ export default function PricingFooter({ onOpenContact, onOpenPortfolio }: Pricin
             Escolha o nível de excelência para seu projeto
           </h3>
           <p className="text-sm text-white/70 font-light">
-            Transparência total, entrega agilizada e padrão cinematográfico em todas as criações da Edcria Estúdio.
+            Transparência total, entrega agilizada e padrão cinematográfico em todas as criações da Edcria Studio.
           </p>
         </div>
 
@@ -147,7 +147,7 @@ export default function PricingFooter({ onOpenContact, onOpenPortfolio }: Pricin
             <Hexagon size={24} strokeWidth={1.5} className="text-white" />
             <div className="flex flex-col">
               <span className="font-mono text-sm font-bold tracking-widest text-white">
-                EDCRIA ESTÚDIO
+                EDCRIA STUDIO
               </span>
               <span className="text-[11px] text-white/50 font-mono">
                 TECNOLOGIA & DIREÇÃO DE ARTE DIGITAL © 2026

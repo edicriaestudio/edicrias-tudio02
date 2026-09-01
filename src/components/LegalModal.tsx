@@ -298,7 +298,7 @@ export default function LegalModal({ isOpen, onClose, initialTab = 'privacy' }: 
                 <h4 className="font-semibold text-cyan-300 text-sm">4.1. Dados de Identificação do Anunciante</h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-mono">
                   <div className="p-3 rounded-xl bg-white/5 border border-white/10">
-                    <span className="text-zinc-400 block">ESTÚDIO / TITULAR:</span>
+                    <span className="text-zinc-400 block">STUDIO / TITULAR:</span>
                     <strong className="text-white">EDICRIA STUDIO DIGITAL</strong>
                   </div>
                   <div className="p-3 rounded-xl bg-white/5 border border-white/10">

@@ -45,7 +45,7 @@ function CapabilityRow({ cap, delay, isLast }: { cap: Capability; delay: number;
       </span>
       <div className="flex-1">
         <div className="flex items-center gap-2 group cursor-default">
-          <span className="text-base font-medium text-white group-hover:text-cyan-200 transition-colors">
+          <span className="text-base sm:text-lg font-display font-[500] tracking-[-0.025em] text-white group-hover:text-cyan-200 transition-colors">
             {cap.title}
           </span>
         </div>
@@ -98,7 +98,7 @@ export default function SectionTwo({ onOpenContact, onOpenPortfolio: _onOpenPort
         <div className="lg:col-span-6 space-y-5 sm:space-y-6">
           <h2
             ref={h2Ref}
-            className="text-[clamp(2rem,4.5vw,3.6rem)] font-normal leading-[1.08] tracking-tight text-white drop-shadow-lg"
+            className="text-[clamp(2.1rem,4.8vw,3.8rem)] font-display font-[450] leading-[1.08] tracking-[-0.04em] text-white drop-shadow-lg [text-wrap:balance]"
           >
             Como transformamos <br />
             presença digital em <br />
@@ -108,7 +108,7 @@ export default function SectionTwo({ onOpenContact, onOpenPortfolio: _onOpenPort
           </h2>
 
           <p className="text-xs sm:text-sm md:text-base text-zinc-200 font-light leading-relaxed max-w-lg">
-            A Edcria Estúdio combina direção de arte, desenvolvimento de alta performance, biblioteca de templates e arquitetura orientada à conversão para marcas que buscam destaque real.
+            A Edcria Studio combina direção de arte, desenvolvimento de alta performance, biblioteca de templates e arquitetura orientada à conversão para marcas que buscam destaque real.
           </p>
 
           {/* Ultra-Translucent Cyan Capability panel */}

@@ -85,7 +85,7 @@ export default function Navbar({
               onFocus={() => prefetchModal('contact')}
               className="hidden sm:flex items-center justify-center h-9 sm:h-10 px-4 sm:px-5 rounded-full bg-gradient-to-r from-cyan-400 via-cyan-300 to-teal-300 text-black border border-cyan-100 font-mono font-bold text-xs sm:text-[13px] uppercase tracking-wider shadow-[0_0_16px_rgba(6,182,212,0.45)] hover:shadow-[0_0_24px_rgba(6,182,212,0.75)] hover:brightness-110 active:scale-95 transition-all whitespace-nowrap"
             >
-              <span>SOLICITAR DIAGNÓSTICO</span>
+              <span>SOLICITAR DIAGNÓSTICO INICIAL</span>
             </button>
           </div>
         </div>
