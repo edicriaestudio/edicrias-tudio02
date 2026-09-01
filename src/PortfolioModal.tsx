@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, lazy, Suspense } from 'react';
 import { createPortal } from 'react-dom';
-import { X, Filter, Film, Image as ImageIcon, Zap, Maximize2, ShoppingBag, ArrowUpRight } from 'lucide-react';
+import { X, Filter, Layers, Layout, Grid, Maximize2, ShoppingBag, ArrowUpRight } from 'lucide-react';
 import SoundtrackBar from './components/SoundtrackBar';
 import WebGLLiquidSurgeButton from './components/WebGLLiquidSurgeButton';
 import ModalLoadingFallback from './components/ModalLoadingFallback';
@@ -17,7 +17,7 @@ export interface TemplateItem {
   id: string;
   num: string;
   title: string;
-  category: 'foto' | 'video' | 'web';
+  category: 'hero' | 'web' | 'componentes';
   categoryLabel: string;
   tag: string;
   desc: string;
@@ -29,7 +29,7 @@ export interface TemplateItem {
   price?: string;
 }
 
-// Lazy Video Renderer that only mounts and decodes video when visible in viewport
+// Lazy Media Renderer that mounts video/image smoothly when in viewport
 function LazyTemplateMedia({
   item,
   onOpenPreview,
@@ -38,6 +38,7 @@ function LazyTemplateMedia({
   onOpenPreview: () => void;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -48,12 +49,20 @@ function LazyTemplateMedia({
       ([entry]) => {
         setIsVisible(entry.isIntersecting);
       },
-      { rootMargin: '180px 0px 180px 0px', threshold: 0.05 }
+      { rootMargin: '250px 0px 250px 0px', threshold: 0.01 }
     );
 
     observer.observe(el);
     return () => observer.disconnect();
   }, []);
+
+  useEffect(() => {
+    if (isVisible && videoRef.current) {
+      videoRef.current.play().catch(() => {
+        // Autoplay policy fallback
+      });
+    }
+  }, [isVisible, item.videoPreview]);
 
   return (
     <div
@@ -62,22 +71,16 @@ function LazyTemplateMedia({
       className="relative w-full h-[280px] sm:h-[320px] overflow-hidden bg-black border-b border-white/10 flex items-center justify-center cursor-pointer group/media"
     >
       {item.videoPreview && isVisible ? (
-        <div className="relative w-full h-full">
-          <video
-            src={item.videoPreview}
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="metadata"
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 filter brightness-95 group-hover:brightness-100 pointer-events-none"
-          />
-          {/* Live Motion Badge */}
-          <div className="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-red-600/90 border border-red-400/40 backdrop-blur-md font-mono text-[9px] text-white uppercase tracking-wider flex items-center gap-1.5 shadow-lg z-10">
-            <span className="w-1.5 h-1.5 rounded-full bg-white animate-ping" />
-            VÍDEO REAL FIGMA 60FPS
-          </div>
-        </div>
+        <video
+          ref={videoRef}
+          src={item.videoPreview}
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="auto"
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 filter brightness-95 group-hover:brightness-100 pointer-events-none"
+        />
       ) : (
         <img
           src={item.previewUrl}
@@ -91,20 +94,20 @@ function LazyTemplateMedia({
       <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/media:opacity-100 transition-opacity flex items-center justify-center gap-2 z-10 backdrop-blur-[2px]">
         <span className="px-3.5 py-1.5 rounded-full bg-cyan-950/90 border border-cyan-400/60 text-cyan-200 text-xs font-mono uppercase tracking-wider flex items-center gap-1.5 shadow-lg">
           <Maximize2 size={12} className="text-cyan-400" />
-          VER DETALHES 4K
+          VER DETALHES DO TEMPLATE
         </span>
       </div>
 
       {/* Gradient Overlay for Contrast */}
       <div className="absolute inset-0 bg-gradient-to-t from-[#050b11] via-transparent to-black/30 pointer-events-none" />
 
-      {/* Badge Tag */}
+      {/* Badge Tag Top Left */}
       <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-[#050b11]/90 border border-cyan-500/40 backdrop-blur-md text-[10px] font-mono text-cyan-300 tracking-wider uppercase flex items-center gap-1.5 z-10">
         <span className="text-zinc-400">#{item.num}</span>
         <span>{item.categoryLabel}</span>
       </div>
 
-      {/* Rating Badge */}
+      {/* Rating Badge Bottom Right */}
       <div className="absolute bottom-3 right-3 px-2.5 py-1 rounded-full bg-[#050b11]/90 border border-cyan-500/40 backdrop-blur-md text-[10px] font-mono text-cyan-300 z-10">
         {item.rating}
       </div>
@@ -112,635 +115,584 @@ function LazyTemplateMedia({
   );
 }
 
+// 100% Unique, Curated Professional Figma Templates
 const templatesData: TemplateItem[] = [
   {
-    id: 'hero-dark-luxury-2',
+    id: 'hero-ophidia-snake-luxury',
     num: '01',
+    title: 'Hero Ophidia High Jewelry & The Vault',
+    category: 'hero',
+    categoryLabel: 'TEMPLATE FIGMA',
+    tag: 'Alta Joalheria & Dark Luxury',
+    desc: 'Template cinematográfico com serpente albina em alta joalheria de ouro branco e diamantes, tipografia serifada de luxo e vitrine 3D The Vault com frascos de poção iluminados.',
+    rating: '5.0 ★★★★★',
+    likes: 1240,
+    previewUrl: '/figma/hero-ophidia-snake-luxury-1.webp',
+    videoPreview: '/figma/hero-ophidia-snake-luxury.webm',
+    features: ['Tipografia Editorial Serif', 'Cards The Vault 3D', 'Auto Layout 5.0 Completo'],
+  },
+  {
+    id: 'hero-atom-esg-sustainable',
+    num: '02',
+    title: 'Hero Átom ESGX & Sustentabilidade',
+    category: 'hero',
+    categoryLabel: 'TEMPLATE FIGMA',
+    tag: 'ESG, Sustentabilidade & Consultoria',
+    desc: 'Template moderno e clean para consultoria empresarial em sustentabilidade, estratégia ESGX, arquitetura biofílica e ecossistemas corporativos sustentáveis.',
+    rating: '5.0 ★★★★★',
+    likes: 1150,
+    previewUrl: '/figma/hero-atom-esg-sustainable-1.webp',
+    videoPreview: '/figma/hero-atom-esg-sustainable.webm',
+    features: ['Paleta Biofílica Clean', 'Navbar Flutuante Pílula', 'Cards de Metodologia'],
+  },
+  {
+    id: 'hero-alodhx-water-tech',
+    num: '03',
+    title: 'Hero Alodhx Bio-Water Architecture',
+    category: 'hero',
+    categoryLabel: 'TEMPLATE FIGMA',
+    tag: 'Tratamento de Água & BioTech',
+    desc: 'Template de alto padrão para tratamento inteligente de água, cleantech, sustentabilidade e biotecnologia com estética submarina deep-ocean, micro-interações e badges analíticas.',
+    rating: '5.0 ★★★★★',
+    likes: 980,
+    previewUrl: '/figma/hero-alodhx-water-tech-1.webp',
+    videoPreview: '/figma/hero-alodhx-water-tech.webm',
+    features: ['Estética Deep Ocean Frosted', 'Badges de Eficiência H₂O', 'Auto Layout 5.0 Completo'],
+  },
+  {
+    id: 'hero-dark-luxury-2',
+    num: '04',
     title: 'Hero Dark Luxury VIP',
-    category: 'video',
-    categoryLabel: 'FIGMA • VÍDEO REAL 60FPS',
-    tag: 'Dark Luxury 3D',
-    desc: 'Layout Hero de luxo extremo com iluminação volumétrica dourada e vídeo gravado direto do Figma em 60 FPS.',
+    category: 'hero',
+    categoryLabel: 'TEMPLATE FIGMA',
+    tag: 'Dark Luxury & High-End',
+    desc: 'Template de Hero Section premium para marcas de luxo, joalherias e serviços exclusivos com iluminação volumétrica e hierarquia visual refinada.',
     rating: '5.0 ★★★★★',
     likes: 890,
     previewUrl: '/figma/hero-dark-luxury-2.webp',
     videoPreview: '/figma/hero-dark-luxury.webm',
-    features: ['Vídeo Real Figma 60FPS', 'Dark Luxury 3D', 'Vidro Temperado'],
+    features: ['Auto Layout 5.0', 'Paleta Dark Gold', 'Camadas 100% Editáveis'],
   },
   {
     id: 'hero-amethyst-1',
-    num: '02',
+    num: '05',
     title: 'Hero Amethyst Crystal',
-    category: 'video',
-    categoryLabel: 'FIGMA • VÍDEO REAL 60FPS',
-    tag: 'Amethyst Glass',
-    desc: 'Composição 3D com cristais de ametista flutuantes e refração de luz em degradê púrpura neon em movimento.',
+    category: 'hero',
+    categoryLabel: 'TEMPLATE FIGMA',
+    tag: 'Cristais & BioTech',
+    desc: 'Interface conceitual com elementos 3D translúcidos em tons de ametista e degradê púrpura, ideal para produtos inovadores e cosmética de luxo.',
     rating: '4.9 ★★★★★',
     likes: 720,
     previewUrl: '/figma/hero-amethyst-1.webp',
     videoPreview: '/figma/hero-amethyst.webm',
-    features: ['Vídeo Real Figma 60FPS', 'Amethyst Shader', 'Neon Glow'],
+    features: ['Efeito Glassmorphism', 'Design System Modular', 'Componentes Tipográficos'],
   },
   {
     id: 'hero-aqua-glass-1',
-    num: '03',
+    num: '06',
     title: 'Hero Aqua Glass Ultra',
-    category: 'video',
-    categoryLabel: 'FIGMA • VÍDEO REAL 60FPS',
+    category: 'hero',
+    categoryLabel: 'TEMPLATE FIGMA',
     tag: 'Aqua Glassmorphism',
-    desc: 'Estética aquática ultra-refritiva com cartões semi-transparentes de acrílico e tipografia técnica animada.',
+    desc: 'Layout com estética de vidro temperado translúcido e acentos ciano neon para plataformas digitais, fintechs e produtos de alta tecnologia.',
     rating: '5.0 ★★★★★',
     likes: 810,
     previewUrl: '/figma/hero-aqua-glass-1.webp',
     videoPreview: '/figma/hero-aqua-glass.webm',
-    features: ['Vídeo Real Figma 60FPS', 'Frosted Glass', 'Aqua Wave'],
+    features: ['Camadas Translúcidas', 'Grid Responsivo', 'Variáveis de Cores'],
   },
   {
     id: 'hero-aurora-heart-1',
-    num: '04',
-    title: 'Hero Aurora Heart Glow',
-    category: 'video',
-    categoryLabel: 'FIGMA • VÍDEO REAL 60FPS',
-    tag: 'BioTech Holographic',
-    desc: 'Hero responsivo para bio-tecnologia com coração 3D holográfico pulsante gravado em alta definição.',
+    num: '07',
+    title: 'Hero Aurora BioTech',
+    category: 'hero',
+    categoryLabel: 'TEMPLATE FIGMA',
+    tag: 'Saúde & Biotecnologia',
+    desc: 'Composição de alto impacto para saúde digital, clínicas médicas avançadas e biotecnologia com visual limpo e moderno.',
     rating: '5.0 ★★★★★',
     likes: 940,
     previewUrl: '/figma/hero-aurora-heart-1.webp',
     videoPreview: '/figma/hero-aurora-heart.webm',
-    features: ['Vídeo Real Figma 60FPS', 'Coração 3D Pulse', 'EKG Holograma'],
+    features: ['Tipografia Médica Clean', 'Cards de Indicadores', 'Layout Responsivo'],
   },
   {
     id: 'hero-crystal-lotus-1',
-    num: '05',
-    title: 'Hero Crystal Lotus 3D',
-    category: 'video',
-    categoryLabel: 'FIGMA • VÍDEO REAL 60FPS',
-    tag: 'Organic 3D Lotus',
-    desc: 'Fusão entre botânica digital e renderização 3D de alta precisão para marcas sustentáveis de alto padrão.',
+    num: '08',
+    title: 'Hero Crystal Lotus',
+    category: 'hero',
+    categoryLabel: 'TEMPLATE FIGMA',
+    tag: 'Sustentabilidade & Luxo',
+    desc: 'Fusão elegante entre botânica digital e design refinado para marcas sustentáveis, spas, estética e bem-estar de alto padrão.',
     rating: '4.9 ★★★★★',
     likes: 680,
     previewUrl: '/figma/hero-crystal-lotus-1.webp',
     videoPreview: '/figma/hero-crystal-lotus.webm',
-    features: ['Vídeo Real Figma 60FPS', 'Lotus 3D Render', 'Organic Bio'],
+    features: ['Estética Orgânica', 'Auto Layout Completo', 'Design System Incluso'],
   },
   {
     id: 'hero-crystal-sphere-1',
-    num: '06',
+    num: '09',
     title: 'Hero Crystal Sphere Orbit',
-    category: 'video',
-    categoryLabel: 'FIGMA • VÍDEO REAL 60FPS',
-    tag: 'Orb 3D Cobalt',
-    desc: 'Esfera de vidro translúcido em órbita com sombras suavizadas por ray-tracing em movimento.',
+    category: 'hero',
+    categoryLabel: 'TEMPLATE FIGMA',
+    tag: 'SaaS & Web3',
+    desc: 'Composição com esferas translúcidas em cobalto profundo e sombras suaves para startups, softwares B2B e produtos digitais.',
     rating: '4.8 ★★★★★',
     likes: 610,
     previewUrl: '/figma/hero-crystal-sphere-1.webp',
     videoPreview: '/figma/hero-crystal-sphere.webm',
-    features: ['Vídeo Real Figma 60FPS', 'Crystal Orb 3D', 'Ray-Tracing'],
+    features: ['Hierarquia Tecnológica', 'Cards de Métricas', 'Figma Variables'],
   },
   {
     id: 'hero-cycle-zephyr-1',
-    num: '07',
-    title: 'Hero Cycle Zephyr Motion',
-    category: 'video',
-    categoryLabel: 'FIGMA • VÍDEO REAL 60FPS',
-    tag: 'Clean Motion Zephyr',
-    desc: 'Design editorial ultra-limpo com micro-interações de rolagem e física de movimento real.',
+    num: '10',
+    title: 'Hero Cycle Zephyr',
+    category: 'hero',
+    categoryLabel: 'TEMPLATE FIGMA',
+    tag: 'Editorial & Lifestyle',
+    desc: 'Design editorial ultra-limpo com micro-espaçamentos calculados e tipografia expressiva para moda, mobilidade e lifestyle contemporâneo.',
     rating: '4.9 ★★★★★',
     likes: 750,
     previewUrl: '/figma/hero-cycle-zephyr-1.webp',
     videoPreview: '/figma/hero-cycle-zephyr.webm',
-    features: ['Vídeo Real Figma 60FPS', 'Zephyr Motion', 'Clean Editorial'],
+    features: ['Grid Editorial Suíço', 'Espaço Negativo Amplo', 'Tipografia em Escala'],
   },
   {
     id: 'hero-editorial-medieval-1',
-    num: '08',
+    num: '11',
     title: 'Hero Medieval Heritage',
-    category: 'foto',
-    categoryLabel: 'FIGMA • FOTO 4K',
-    tag: 'Heritage Serif',
-    desc: 'Tipografia serifada histórica contrastada com layout contemporâneo de revista de alta moda.',
+    category: 'hero',
+    categoryLabel: 'TEMPLATE FIGMA',
+    tag: 'Heritage & Alta Moda',
+    desc: 'Contraste imponente entre tipografia serifada clássica e layout minimalista contemporâneo para marcas tradicionais e alta costura.',
     rating: '5.0 ★★★★★',
     likes: 830,
     previewUrl: '/figma/hero-editorial-medieval-1.webp',
-    features: ['Medieval Serif', 'Revista Alta Moda', 'Espaço Negativo'],
+    features: ['Tipografia Serif Clássica', 'Composição Revista', 'Camadas Nomeadas'],
   },
   {
     id: 'hero-ferrari-296-1',
-    num: '09',
-    title: 'Hero Ferrari 296 GTB',
-    category: 'video',
-    categoryLabel: 'FIGMA • VÍDEO REAL 60FPS',
-    tag: 'Automotive Speed',
-    desc: 'Apresentação hiper-cinematográfica para hipercarros com vídeo real do protótipo e telemetria live.',
+    num: '12',
+    title: 'Hero Supercar Performance',
+    category: 'hero',
+    categoryLabel: 'TEMPLATE FIGMA',
+    tag: 'Automotivo & Performance',
+    desc: 'Apresentação hiper-sofisticada para o mercado automotivo de luxo, mobilidade elétrica e produtos de alta performance.',
     rating: '5.0 ★★★★★',
     likes: 1120,
     previewUrl: '/figma/hero-ferrari-296-1.webp',
     videoPreview: '/figma/hero-ferrari-296.webm',
-    features: ['Vídeo Real Figma 60FPS', 'Ferrari 296 4K', 'Telemetria Live'],
+    features: ['Cards de Telemetria', 'Contraste Preto Absoluto', 'Componentes UI'],
   },
   {
     id: 'hero-glacius-frost-1',
-    num: '10',
+    num: '13',
     title: 'Hero Glacius Frost Nordic',
-    category: 'video',
-    categoryLabel: 'FIGMA • VÍDEO REAL 60FPS',
-    tag: 'Nordic Frost',
-    desc: 'Estética nórdica gélida com tons brancos de neve e vídeo de vidro fosco reflexivo.',
+    category: 'hero',
+    categoryLabel: 'TEMPLATE FIGMA',
+    tag: 'Nordic & Minimal',
+    desc: 'Estética nórdica gélida com tons brancos nevados e cartões foscos para marcas de skincare, arquitetura e moda de inverno.',
     rating: '4.8 ★★★★★',
     likes: 540,
     previewUrl: '/figma/hero-glacius-frost-1.webp',
     videoPreview: '/figma/hero-glacius-frost.webm',
-    features: ['Vídeo Real Figma 60FPS', 'Nordic Frost', 'Gelo Reflexivo'],
+    features: ['Paleta Nordic Ice', 'Auto Layout 5.0', 'Cards Semi-transparentes'],
   },
   {
     id: 'hero-iris-vision-1',
-    num: '11',
-    title: 'Hero Iris Vision AI',
-    category: 'video',
-    categoryLabel: 'FIGMA • VÍDEO REAL 60FPS',
-    tag: 'Spatial Computing',
-    desc: 'Interface conceitual para realidade espacial e inteligência artificial generativa em vídeo.',
+    num: '14',
+    title: 'Hero Spatial Vision AI',
+    category: 'hero',
+    categoryLabel: 'TEMPLATE FIGMA',
+    tag: 'Spatial Computing & IA',
+    desc: 'Interface de vanguarda inspirada em computação espacial e inteligência artificial generativa com janelas flutuantes organizadas.',
     rating: '5.0 ★★★★★',
     likes: 990,
     previewUrl: '/figma/hero-iris-vision-1.webp',
     videoPreview: '/figma/hero-iris-vision.webm',
-    features: ['Vídeo Real Figma 60FPS', 'Vision OS UI', 'Janelas Flutuantes'],
+    features: ['UI Espacial Flutuante', 'Glows Radiais', 'Ícones Vetoriais'],
   },
   {
     id: 'hero-minimal-bold-2',
-    num: '12',
-    title: 'Hero Minimal Bold Swiss',
-    category: 'video',
-    categoryLabel: 'FIGMA • VÍDEO REAL 60FPS',
-    tag: 'Swiss Typography',
-    desc: 'Inspirado no design suíço internacional com vídeo de rolagem dos títulos em escala gigante.',
+    num: '15',
+    title: 'Hero Swiss Minimal Bold',
+    category: 'hero',
+    categoryLabel: 'TEMPLATE FIGMA',
+    tag: 'Design Suíço & Tipografia',
+    desc: 'Layout fundamentado na escola suíça de design com tipografia gigante de alto impacto para estúdios criativos e agências.',
     rating: '4.9 ★★★★★',
     likes: 670,
     previewUrl: '/figma/hero-minimal-bold-2.webp',
     videoPreview: '/figma/hero-minimal-bold.webm',
-    features: ['Vídeo Real Figma 60FPS', 'Swiss Design', 'Escala Gigante'],
+    features: ['Grid Suíço Rigoroso', 'Escala Tipográfica Display', 'Alto Contraste'],
   },
   {
     id: 'hero-mockup-3d-4',
-    num: '13',
-    title: 'Hero 3D Device Mockup',
-    category: 'foto',
-    categoryLabel: 'FIGMA • FOTO 4K',
-    tag: 'SaaS Isometric',
-    desc: 'Mockup 3D interativo de software em perspectiva isométrica com brilho radial no fundo.',
+    num: '16',
+    title: 'Hero SaaS 3D Perspective',
+    category: 'hero',
+    categoryLabel: 'TEMPLATE FIGMA',
+    tag: 'SaaS & Aplicativos',
+    desc: 'Apresentação isométrica para demonstrar softwares, painéis analíticos e dashboards de aplicativos modernos com clareza.',
     rating: '4.9 ★★★★★',
     likes: 880,
     previewUrl: '/figma/hero-mockup-3d-4.webp',
-    features: ['Device 3D Mockup', 'Isométrico SaaS', 'Glow Radial'],
+    features: ['Perspectiva Isométrica', 'Cards de Funcionalidades', 'Paleta Tecnológica'],
   },
   {
     id: 'hero-museum-imperial-1',
-    num: '14',
-    title: 'Hero Imperial Museum',
-    category: 'video',
-    categoryLabel: 'FIGMA • VÍDEO REAL 60FPS',
-    tag: 'Fine Art Museum',
-    desc: 'Layout para instituições culturais de prestígio com vídeo de navegação nas molduras douradas.',
+    num: '17',
+    title: 'Hero Imperial Gallery',
+    category: 'hero',
+    categoryLabel: 'TEMPLATE FIGMA',
+    tag: 'Cultura & Arte',
+    desc: 'Layout nobre para galerias de arte, museus, leilões e instituições culturais com acabamento refinado e molduras elegantes.',
     rating: '4.9 ★★★★★',
     likes: 620,
     previewUrl: '/figma/hero-museum-imperial-1.webp',
     videoPreview: '/figma/hero-museum-imperial.webm',
-    features: ['Vídeo Real Figma 60FPS', 'Imperial Museum', 'Molduras Douradas'],
+    features: ['Tipografia Nobre', 'Organização de Acervo', 'Design Clássico'],
   },
   {
     id: 'hero-noir-lux-1',
-    num: '15',
-    title: 'Hero Noir Monochromatic Luxe',
-    category: 'video',
-    categoryLabel: 'FIGMA • VÍDEO REAL 60FPS',
-    tag: 'Monochrome Noir',
-    desc: 'Estética noir de contraste máximo com vídeo gravado de sombras metálicas em movimento.',
+    num: '18',
+    title: 'Hero Noir Monochromatic',
+    category: 'hero',
+    categoryLabel: 'TEMPLATE FIGMA',
+    tag: 'Monocromático & Luxo',
+    desc: 'Estética noir monocromática com pretos absolutos e acentos metálicos sutis para marcas de moda autoral e relógios suíços.',
     rating: '5.0 ★★★★★',
     likes: 910,
     previewUrl: '/figma/hero-noir-lux-1.webp',
     videoPreview: '/figma/hero-noir-lux.webm',
-    features: ['Vídeo Real Figma 60FPS', 'Noir Luxe', 'Preto Absoluto'],
+    features: ['Preto Absoluto #000', 'Bordas Metálicas 1px', 'Tipografia Minimalista'],
   },
   {
     id: 'hero-organico-editorial-1',
-    num: '16',
-    title: 'Hero Organic Editorial 01',
-    category: 'video',
-    categoryLabel: 'FIGMA • VÍDEO REAL 60FPS',
-    tag: 'Organic Research',
-    desc: 'Textura cremosa e acentos verde-musgo com vídeo demonstrativo de tipografia poética.',
+    num: '19',
+    title: 'Hero Organic Editorial',
+    category: 'hero',
+    categoryLabel: 'TEMPLATE FIGMA',
+    tag: 'Orgânico & Cosméticos',
+    desc: 'Texturas suaves, acentos verde-musgo e tipografia poética para marcas orgânicas, fitoterápicas e sustentáveis.',
     rating: '4.9 ★★★★★',
     likes: 730,
     previewUrl: '/figma/hero-organico-editorial-1.webp',
     videoPreview: '/figma/hero-organico-editorial.webm',
-    features: ['Vídeo Real Figma 60FPS', 'Organic Research', 'Verde-Musgo'],
-  },
-  {
-    id: 'hero-organico-editorial-2',
-    num: '17',
-    title: 'Hero Organic Editorial 02',
-    category: 'video',
-    categoryLabel: 'FIGMA • VÍDEO REAL 60FPS',
-    tag: 'Earth Tones Botanic',
-    desc: 'Tons terrosos quentes e vídeo macro vegetal para marcas éticas de alto valor.',
-    rating: '4.8 ★★★★★',
-    likes: 590,
-    previewUrl: '/figma/hero-organico-editorial-2.webp',
-    videoPreview: '/figma/hero-organico-editorial (1).webm',
-    features: ['Vídeo Real Figma 60FPS', 'Tons Terrosos', 'Macro Vegetal'],
-  },
-  {
-    id: 'hero-organico-editorial-3',
-    num: '18',
-    title: 'Hero Organic Editorial 03',
-    category: 'foto',
-    categoryLabel: 'FIGMA • FOTO 4K',
-    tag: 'Minimal Sand Bio',
-    desc: 'Layout de revista arquitetônica focado em simplicidade orgânica e equilíbrio visual.',
-    rating: '4.9 ★★★★★',
-    likes: 640,
-    previewUrl: '/figma/hero-organico-editorial-3.webp',
-    features: ['Revista Arquitetura', 'Simplicidade Bio', 'Grid Assimétrico'],
-  },
-  {
-    id: 'hero-organico-editorial-4',
-    num: '19',
-    title: 'Hero Organic Editorial 04',
-    category: 'foto',
-    categoryLabel: 'FIGMA • FOTO 4K',
-    tag: 'Macro Mineral Texture',
-    desc: 'Superfícies minerais táteis e tipografia com contraste de peso acentuado.',
-    rating: '4.8 ★★★★★',
-    likes: 520,
-    previewUrl: '/figma/hero-organico-editorial-4.webp',
-    features: ['Texturas Minerais', 'Peso Acentuado', 'Look Técnico'],
-  },
-  {
-    id: 'hero-organico-editorial-5',
-    num: '20',
-    title: 'Hero Organic Editorial 05',
-    category: 'foto',
-    categoryLabel: 'FIGMA • FOTO 4K',
-    tag: 'Warm Linen Serif',
-    desc: 'Textura de linho cru com degradê natural e alinhamento assimétrico.',
-    rating: '4.9 ★★★★★',
-    likes: 610,
-    previewUrl: '/figma/hero-organico-editorial-5.webp',
-    features: ['Linho Cru', 'Degradê Natural', 'Assimétrico'],
-  },
-  {
-    id: 'hero-organico-editorial-6',
-    num: '21',
-    title: 'Hero Organic Editorial 06',
-    category: 'foto',
-    categoryLabel: 'FIGMA • FOTO 4K',
-    tag: 'Stone Gray Spa',
-    desc: 'Ambiente visual inspirado em rochas vulcânicas e estéticas de spas de luxo.',
-    rating: '4.8 ★★★★★',
-    likes: 550,
-    previewUrl: '/figma/hero-organico-editorial-6.webp',
-    features: ['Rochas Vulcânicas', 'Spa de Luxo', 'Cinza Pedra'],
-  },
-  {
-    id: 'hero-organico-editorial-7',
-    num: '22',
-    title: 'Hero Organic Editorial 07',
-    category: 'foto',
-    categoryLabel: 'FIGMA • FOTO 4K',
-    tag: 'Terracotta Golden Sun',
-    desc: 'Iluminação de hora dourada com paleta terracota e tipografia marcante.',
-    rating: '4.9 ★★★★★',
-    likes: 680,
-    previewUrl: '/figma/hero-organico-editorial-7.webp',
-    features: ['Hora Dourada', 'Terracota Warm', 'Marcante'],
+    features: ['Tons Terrosos & Musgo', 'Auto Layout Flexível', 'Hierarquia Poética'],
   },
   {
     id: 'hero-paradise-caribe-1',
-    num: '23',
-    title: 'Hero Caribbean Paradise',
-    category: 'video',
-    categoryLabel: 'FIGMA • VÍDEO REAL 60FPS',
-    tag: 'Private Island Resort',
-    desc: 'Vídeo imersivo do protótipo para hotelaria de ilhas privadas e iates de luxo.',
+    num: '20',
+    title: 'Hero Resort & Hospitality',
+    category: 'hero',
+    categoryLabel: 'TEMPLATE FIGMA',
+    tag: 'Hotelaria & Resorts',
+    desc: 'Template de alta conversão para hotelaria de luxo, ilhas privadas, charters de iates e turismo de alto padrão.',
     rating: '5.0 ★★★★★',
     likes: 870,
     previewUrl: '/figma/hero-paradise-caribe-1.webp',
     videoPreview: '/figma/hero-paradise-caribe.webm',
-    features: ['Vídeo Real Figma 60FPS', 'Resort de Luxo', 'Iates Privados'],
+    features: ['Cards de Reserva Rápida', 'Paleta Turquesa Tropical', 'Componentes UI'],
   },
   {
     id: 'hero-primal-1',
-    num: '24',
-    title: 'Hero Primal Brutalist',
-    category: 'video',
-    categoryLabel: 'FIGMA • VÍDEO REAL 60FPS',
-    tag: 'Raw Concrete Tech',
-    desc: 'Vídeo gravado em 60 FPS da arquitetura brutalista em concreto aparente e tipografia industrial.',
+    num: '21',
+    title: 'Hero Brutalist Architecture',
+    category: 'hero',
+    categoryLabel: 'TEMPLATE FIGMA',
+    tag: 'Brutalismo & Engenharia',
+    desc: 'Estética brutalista com estética de concreto aparente e tipografia industrial forte para escritórios de engenharia e arquitetura.',
     rating: '5.0 ★★★★★',
     likes: 930,
     previewUrl: '/figma/hero-primal-1.webp',
     videoPreview: '/figma/hero-primal.webm',
-    features: ['Vídeo Real Figma 60FPS', 'Brutalismo Cru', 'Concreto Aparente'],
+    features: ['Design Brutalista', 'Tipografia Mono & Sans', 'Bordas Geométricas'],
   },
   {
     id: 'hero-samurai-purple-1',
-    num: '25',
-    title: 'Hero Cyberpunk Samurai',
-    category: 'foto',
-    categoryLabel: 'FIGMA • FOTO 4K',
-    tag: 'Neon Neo-Tokyo',
-    desc: 'Estética neon cyberpunk inspirada na cultura futurista de Neo-Tóquio.',
+    num: '22',
+    title: 'Hero Cyberpunk Neon',
+    category: 'hero',
+    categoryLabel: 'TEMPLATE FIGMA',
+    tag: 'Gaming & Cyberpunk',
+    desc: 'Composição vibrante com degradês violeta e ciano neon para o universo gamer, entretenimento digital e Web3.',
     rating: '5.0 ★★★★★',
     likes: 1050,
     previewUrl: '/figma/hero-samurai-purple-1.webp',
-    features: ['Cyberpunk Neo-Tokyo', 'Violet Neon', 'Samurai 3D'],
+    features: ['Paleta Neon Vibrante', 'Estética Futurista', 'Componentes Temáticos'],
   },
   {
     id: 'hero-smart-key-1',
-    num: '26',
-    title: 'Hero Smart Key IoT',
-    category: 'video',
-    categoryLabel: 'FIGMA • VÍDEO REAL 60FPS',
-    tag: 'Hardware Cyber Security',
-    desc: 'Vídeo real da animação do dispositivo metálico 3D e chaveiro inteligente.',
+    num: '23',
+    title: 'Hero IoT & Cyber Security',
+    category: 'hero',
+    categoryLabel: 'TEMPLATE FIGMA',
+    tag: 'Hardware & Segurança',
+    desc: 'Template para lançamento de produtos de hardware inteligente, dispositivos biométricos e segurança digital.',
     rating: '4.9 ★★★★★',
     likes: 790,
     previewUrl: '/figma/hero-smart-key-1.webp',
     videoPreview: '/figma/hero-smart-key.webm',
-    features: ['Vídeo Real Figma 60FPS', 'Smart Key IoT', 'Animação Metálica'],
+    features: ['Showcase de Produto', 'Cards de Especificação', 'Design Industrial'],
   },
   {
     id: 'hero-smart-product-3d-1',
-    num: '27',
-    title: 'Hero Smart Product 3D',
-    category: 'video',
-    categoryLabel: 'FIGMA • VÍDEO REAL 60FPS',
-    tag: '3D Consumer Tech',
-    desc: 'Vídeo do protótipo com rotação 360° interativa de hardware de alta tecnologia.',
+    num: '24',
+    title: 'Hero Consumer Tech 3D',
+    category: 'hero',
+    categoryLabel: 'TEMPLATE FIGMA',
+    tag: 'Hardware & Eletrônicos',
+    desc: 'Layout comercial com foco na apresentação de eletrônicos, fones de ouvido e gadgets de última geração.',
     rating: '4.9 ★★★★★',
     likes: 820,
     previewUrl: '/figma/hero-smart-product-3d-1.webp',
     videoPreview: '/figma/hero-smart-product-3d.webm',
-    features: ['Vídeo Real Figma 60FPS', 'Hardware 3D', 'Rotação 360'],
+    features: ['Vitrine de Hardware', 'Badges de Performance', 'Hierarquia Comercial'],
   },
   {
     id: 'hero-solace-1',
-    num: '28',
-    title: 'Hero Solace Zen Sanctuary',
-    category: 'video',
-    categoryLabel: 'FIGMA • VÍDEO REAL 60FPS',
-    tag: 'Zen Serenity Minimal',
-    desc: 'Vídeo da interface minimalista focada no bem-estar, meditação e paz de espírito.',
+    num: '25',
+    title: 'Hero Zen Wellness',
+    category: 'hero',
+    categoryLabel: 'TEMPLATE FIGMA',
+    tag: 'Mindfulness & Saúde',
+    desc: 'Ambiente visual suave e harmonioso para aplicativos de meditação, terapias holísticas e bem-estar integral.',
     rating: '4.9 ★★★★★',
     likes: 610,
     previewUrl: '/figma/hero-solace-1.webp',
     videoPreview: '/figma/hero-solace.webm',
-    features: ['Vídeo Real Figma 60FPS', 'Zen Sanctuary', 'Meditação'],
+    features: ['Paleta Relaxante', 'Tipografia Acolhedora', 'Grid Suave'],
   },
   {
     id: 'hero-split-screen-1',
-    num: '29',
+    num: '26',
     title: 'Hero Split Screen Modern',
-    category: 'foto',
-    categoryLabel: 'FIGMA • FOTO 4K',
-    tag: 'Split Screen Editorial',
-    desc: 'Layout dividido ao meio com contraste dramático entre tipografia e imagem 4K.',
+    category: 'hero',
+    categoryLabel: 'TEMPLATE FIGMA',
+    tag: 'Editorial & Moda',
+    desc: 'Composição de tela dividida com contraste equilibrado entre imagem de destaque e bloco tipográfico de conversão.',
     rating: '4.8 ★★★★★',
     likes: 570,
     previewUrl: '/figma/hero-split-screen-1.webp',
-    features: ['Split Screen UI', 'Contraste Dramático', 'Modern Editorial'],
+    features: ['Split Screen 50/50', 'Foco de Conversão', 'Adaptabilidade Mobile'],
   },
   {
     id: 'hero-stats-flutuantes-3',
-    num: '30',
-    title: 'Hero Floating Telemetry',
-    category: 'video',
-    categoryLabel: 'FIGMA • VÍDEO REAL 60FPS',
-    tag: 'Fintech Telemetry',
-    desc: 'Vídeo real dos cartões flutuantes de telemetria financeira em tempo real.',
+    num: '27',
+    title: 'Hero Fintech Telemetry',
+    category: 'hero',
+    categoryLabel: 'TEMPLATE FIGMA',
+    tag: 'Fintech & Finanças',
+    desc: 'Interface analítica com cards flutuantes de telemetria, gráficos de rendimento e prova social para fintechs e bancos digitais.',
     rating: '5.0 ★★★★★',
     likes: 940,
     previewUrl: '/figma/hero-stats-flutuantes-3.webp',
     videoPreview: '/figma/hero-stats-flutuantes.webm',
-    features: ['Vídeo Real Figma 60FPS', 'Telemetria Fintech', 'Cards Flutuantes'],
+    features: ['Cards de Métricas Flutuantes', 'Gráficos Vetoriais', 'Auto Layout'],
   },
   {
     id: 'hero-techwear-1',
-    num: '31',
-    title: 'Hero Techwear Fashion',
-    category: 'video',
-    categoryLabel: 'FIGMA • VÍDEO REAL 60FPS',
-    tag: 'Kinetic Techwear',
-    desc: 'Vídeo de moda funcional urbana com acentos amarelo neon e nylon 3D.',
+    num: '28',
+    title: 'Hero Kinetic Techwear',
+    category: 'hero',
+    categoryLabel: 'TEMPLATE FIGMA',
+    tag: 'Streetwear & Moda Urbana',
+    desc: 'Visual de alto impacto para marcas de vestuário técnico, calçados esportivos e cultura urbana contemporânea.',
     rating: '5.0 ★★★★★',
     likes: 880,
     previewUrl: '/figma/hero-techwear-1.webp',
     videoPreview: '/figma/hero-techwear.webm',
-    features: ['Vídeo Real Figma 60FPS', 'Techwear Urbano', 'Amarelo Neon'],
+    features: ['Acentos Amarelo Neon', 'Tipografia Técnica', 'Cards de Coleção'],
   },
   {
     id: 'blog-post-hero-1',
-    num: '32',
-    title: 'Blog Post Editorial Grid',
+    num: '29',
+    title: 'Blog Post & Magazine Grid',
     category: 'web',
-    categoryLabel: 'WEBSITES 4K',
-    tag: 'Article Magazine Grid',
-    desc: 'Grade editorial para artigos de revista com tempo de leitura e autores em destaque.',
+    categoryLabel: 'TEMPLATE FIGMA',
+    tag: 'Editorial & Conteúdo',
+    desc: 'Grade editorial para artigos de revista, publicações especializadas e blogs corporativos com tempo de leitura e autores.',
     rating: '4.8 ★★★★★',
     likes: 490,
     previewUrl: '/figma/blog-post-hero-1.webp',
-    features: ['Grid Editorial', 'Artigos Revista', 'Tempo de Leitura'],
+    features: ['Grid de Artigos', 'Metadados de Leitura', 'Hierarquia de Textos'],
+  },
+  {
+    id: 'landing-page-full-2',
+    num: '30',
+    title: 'Full Landing Page Architecture',
+    category: 'web',
+    categoryLabel: 'TEMPLATE FIGMA',
+    tag: 'Landing Pages Completas',
+    desc: 'Arquitetura integral de landing page comercial, incluindo Hero, Prova Social, Features, Planos e Rodapé.',
+    rating: '5.0 ★★★★★',
+    likes: 1250,
+    previewUrl: '/figma/landing-page-full-2.webp',
+    features: ['Estrutura Completa de LP', 'Hierarquia Comercial', 'Componentes Aninhados'],
+  },
+  {
+    id: 'portfolio-hero-cover',
+    num: '31',
+    title: 'Portfolio Showcase Master Layout',
+    category: 'web',
+    categoryLabel: 'TEMPLATE FIGMA',
+    tag: 'Portfólios & Agências',
+    desc: 'Layout mestre para apresentação de cases criativos, estúdios de design e profissionais independentes.',
+    rating: '5.0 ★★★★★',
+    likes: 1180,
+    previewUrl: '/figma/portfolio-hero-cover.webp',
+    features: ['Showcase de Projetos', 'Capa de Apresentação', 'Grid de Trabalhos'],
+  },
+  {
+    id: 'sobre-dark-1',
+    num: '32',
+    title: 'About & Manifesto Dark Layout',
+    category: 'web',
+    categoryLabel: 'TEMPLATE FIGMA',
+    tag: 'Páginas Institucionais',
+    desc: 'Seção institucional e manifesto de marca com tipografia de destaque, declaração de valores e linha do tempo.',
+    rating: '4.9 ★★★★★',
+    likes: 690,
+    previewUrl: '/figma/sobre-dark-1.webp',
+    features: ['Manifesto de Marca', 'Linha Editorial Dark', 'Tipografia Display'],
   },
   {
     id: 'cards-produto-glassmorphism-2',
     num: '33',
-    title: 'Glassmorphism E-Commerce Cards',
-    category: 'foto',
-    categoryLabel: 'FIGMA • FOTO 4K',
-    tag: 'Glass E-Commerce',
-    desc: 'Cards de produtos de luxo com bordas reluzentes e desfoque de fundo de 20px.',
+    title: 'E-Commerce Glassmorphism Cards',
+    category: 'componentes',
+    categoryLabel: 'TEMPLATE FIGMA',
+    tag: 'E-Commerce & Vendas',
+    desc: 'Conjunto de cards de produto com efeito de vidro translúcido, tags de preço, variantes de cores e botão de compra.',
     rating: '4.9 ★★★★★',
     likes: 760,
     previewUrl: '/figma/cards-produto-glassmorphism-2.webp',
-    features: ['Glass E-Commerce', 'Bordas Reluzentes', 'Desfoque 20px'],
+    features: ['Cards de Produto', 'Variantes de Estado', 'Botões de Checkout'],
   },
   {
     id: 'cards-servico-editorial-1',
     num: '34',
-    title: 'Editorial Service Cards',
-    category: 'video',
-    categoryLabel: 'FIGMA • VÍDEO REAL 60FPS',
-    tag: 'Editorial Services',
-    desc: 'Vídeo da grade de serviços editoriais com ícones minimalistas e botões de agendamento.',
+    title: 'Editorial Service Cards UI',
+    category: 'componentes',
+    categoryLabel: 'TEMPLATE FIGMA',
+    tag: 'Serviços & Consultoria',
+    desc: 'Grade de apresentação de serviços com numeração sequencial, ícones minimalistas e botões de contratação rápida.',
     rating: '4.8 ★★★★★',
     likes: 510,
     previewUrl: '/figma/cards-servico-editorial-1.webp',
     videoPreview: '/figma/cards-servico-editorial.webm',
-    features: ['Vídeo Real Figma 60FPS', 'Cards Editoriais', 'Ícones Minimalistas'],
+    features: ['3 Colunas de Serviços', 'Ícones Vetoriais', 'Auto Layout 5.0'],
   },
   {
     id: 'cta-section-premium-1',
     num: '35',
-    title: 'Premium Conversion CTA',
-    category: 'web',
-    categoryLabel: 'WEBSITES 4K',
-    tag: 'High Conversion CTA',
-    desc: 'Seção de chamada para ação de alta conversão com campo em vidro temperado.',
+    title: 'Premium Conversion CTA Block',
+    category: 'componentes',
+    categoryLabel: 'TEMPLATE FIGMA',
+    tag: 'Conversão & Leads',
+    desc: 'Seção de chamada para ação de alta conversão com campo de captura, garantia e efeito de iluminação nobre.',
     rating: '5.0 ★★★★★',
     likes: 870,
     previewUrl: '/figma/cta-section-premium-1.webp',
-    features: ['High Conversion CTA', 'Vidro Temperado', 'Glow Gold'],
+    features: ['Campo de Captura de Lead', 'Badges de Confiança', 'Glows de Destaque'],
   },
   {
     id: 'depoimentos-2',
     num: '36',
-    title: 'Testimonials Slider Micro-UI',
-    category: 'web',
-    categoryLabel: 'WEBSITES 4K',
-    tag: 'Social Proof Slider',
-    desc: 'Carrossel de depoimentos com avaliação de 5 estrelas e selo de cliente verificado.',
+    title: 'Testimonials & Social Proof Slider',
+    category: 'componentes',
+    categoryLabel: 'TEMPLATE FIGMA',
+    tag: 'Prova Social & Reviews',
+    desc: 'Componente de avaliações com notas 5 estrelas, fotos de clientes, selos de verificação e depoimentos destacados.',
     rating: '4.9 ★★★★★',
     likes: 630,
     previewUrl: '/figma/depoimentos-2.webp',
-    features: ['Depoimentos 5★', 'Selo Verificado', 'Slider Smooth'],
+    features: ['Cards de Depoimento', 'Estrelas de Avaliação', 'Selo Verificado'],
   },
   {
     id: 'features-grid-2',
     num: '37',
     title: 'Bento Grid Features Layout',
-    category: 'web',
-    categoryLabel: 'WEBSITES 4K',
-    tag: 'Bento Grid UI',
-    desc: 'Bento box assimétrico exibindo métricas, gráficos ao vivo e funcionalidades chave.',
+    category: 'componentes',
+    categoryLabel: 'TEMPLATE FIGMA',
+    tag: 'Bento Grid & Recursos',
+    desc: 'Estrutura assimétrica em formato bento box para organizar funcionalidades, diferenciais e métricas de forma dinâmica.',
     rating: '5.0 ★★★★★',
     likes: 920,
     previewUrl: '/figma/features-grid-2.webp',
-    features: ['Bento Grid UI', 'Métricas Live', 'Gráficos ao Vivo'],
+    features: ['Bento Grid Assimétrico', 'Métricas em Destaque', 'Grid Responsivo'],
   },
   {
     id: 'footer-editorial-dark-1',
     num: '38',
-    title: 'Dark Editorial Footer UI',
-    category: 'web',
-    categoryLabel: 'WEBSITES 4K',
-    tag: 'Dark Mode Footer',
-    desc: 'Rodapé de curvatura superior ultra-arredondada (64px) com indicador pulsante de status.',
+    title: 'Dark Editorial Curved Footer',
+    category: 'componentes',
+    categoryLabel: 'TEMPLATE FIGMA',
+    tag: 'Rodapés & Navegação',
+    desc: 'Rodapé imponente com curvatura superior arredondada, colunas de links, newsletter e indicador de status da equipe.',
     rating: '4.9 ★★★★★',
     likes: 710,
     previewUrl: '/figma/footer-editorial-dark-1.webp',
-    features: ['Rodapé Ultra Rounded', 'Curvatura 64px', 'Status Pulsante'],
+    features: ['Curvatura Superior 48px', 'Links Organizados', 'Status em Tempo Real'],
   },
   {
     id: 'footer-minimal-clean-1',
     num: '39',
-    title: 'Minimalist Clean Footer UI',
-    category: 'web',
-    categoryLabel: 'WEBSITES 4K',
-    tag: 'Clean White Footer',
-    desc: 'Rodapé minimalista em fundo branco com links organizados em colunas perfeitas.',
+    title: 'Minimalist Light Footer',
+    category: 'componentes',
+    categoryLabel: 'TEMPLATE FIGMA',
+    tag: 'Rodapés & Navegação',
+    desc: 'Rodapé minimalista em fundo claro com alinhamento preciso, redes sociais e direitos autorais em conformidade.',
     rating: '4.7 ★★★★★',
     likes: 420,
     previewUrl: '/figma/footer-minimal-clean-1.webp',
-    features: ['Clean Footer', 'White Minimal', 'Links Colunas'],
+    features: ['Design Minimalista Light', 'Hierarquia de Links', 'Redes Sociais'],
   },
   {
     id: 'navigation-bar-minimal-3',
     num: '40',
     title: 'Floating Pill Navbar Minimal',
-    category: 'video',
-    categoryLabel: 'FIGMA • VÍDEO REAL 60FPS',
-    tag: 'Floating Pill Header',
-    desc: 'Vídeo da navegação em formato de pílula flutuante para telas limpas e focadas.',
+    category: 'componentes',
+    categoryLabel: 'TEMPLATE FIGMA',
+    tag: 'Headers & Menus',
+    desc: 'Menu de navegação flutuante em formato de pílula com links centrados e botão de ação de alto contraste.',
     rating: '4.8 ★★★★★',
     likes: 560,
     previewUrl: '/figma/navigation-bar-minimal-3.webp',
     videoPreview: '/figma/navigation-bar-minimal.webm',
-    features: ['Vídeo Real Figma 60FPS', 'Floating Pill', 'Clean Header'],
+    features: ['Header Pílula Flutuante', 'Estados Hover & Active', 'Auto Layout'],
   },
   {
     id: 'navigation-bar-premium-1',
     num: '41',
-    title: 'Floating Pill Navbar Glass',
-    category: 'web',
-    categoryLabel: 'WEBSITES 4K',
-    tag: 'Glassmorphism Header',
-    desc: 'Menu superior em pílula com desfoque de 25px e botão CTA com aura iluminada.',
+    title: 'Glassmorphism Navbar Header',
+    category: 'componentes',
+    categoryLabel: 'TEMPLATE FIGMA',
+    tag: 'Headers & Menus',
+    desc: 'Barra de navegação premium com desfoque de fundo de 25px, logotipo em vetor e botão CTA com aura iluminada.',
     rating: '5.0 ★★★★★',
     likes: 890,
     previewUrl: '/figma/navigation-bar-premium-1.webp',
-    features: ['Navbar Glass 25px', 'Aura CTA', 'Pílula Flutuante'],
+    features: ['Vidro Fosco Backdrop', 'CTA com Efeito Glow', 'Menu Responsivo'],
   },
   {
     id: 'preco-planos-cards-cover',
     num: '42',
-    title: 'Membership Pricing Tier Stack',
-    category: 'web',
-    categoryLabel: 'WEBSITES 4K',
-    tag: 'Pricing Tier Stack',
-    desc: 'Tabela de preços de 3 níveis com card destaque saltado.',
+    title: 'Membership & Pricing Tier Stack',
+    category: 'componentes',
+    categoryLabel: 'TEMPLATE FIGMA',
+    tag: 'Preços & Planos',
+    desc: 'Tabela comparativa de planos em 3 níveis com destaque para o plano mais vendido, checklists e botão de adesão.',
     rating: '4.9 ★★★★★',
     likes: 780,
     previewUrl: '/figma/preco-planos-cards-cover.webp',
-    features: ['3 Níveis de Preço', 'Card Pop-Out', 'Checklist Recursos'],
-  },
-  {
-    id: 'landing-page-full-2',
-    num: '43',
-    title: 'Full Landing Page Architecture',
-    category: 'video',
-    categoryLabel: 'FIGMA • VÍDEO REAL 60FPS',
-    tag: 'Complete LP Architecture',
-    desc: 'Estrutura completa de landing page cinematográfica do topo ao rodapé com vídeo motion.',
-    rating: '5.0 ★★★★★',
-    likes: 1250,
-    previewUrl: '/figma/landing-page-full-2.webp',
-    videoPreview: '/figma/hero-dark-luxury.webm',
-    features: ['Vídeo Real Figma 60FPS', 'Landing Page Full', '60 FPS Canvas'],
-  },
-  {
-    id: 'portfolio-hero-cover',
-    num: '44',
-    title: 'Portfolio Master Showcase Cover',
-    category: 'web',
-    categoryLabel: 'WEBSITES 4K',
-    tag: 'Master Portfolio Cover',
-    desc: 'Capa principal do portfólio Figma com visão geral dos 46 protótipos de alta performance.',
-    rating: '5.0 ★★★★★',
-    likes: 1180,
-    previewUrl: '/figma/portfolio-hero-cover.webp',
-    features: ['Cover Master 46', 'Visão Geral 4K', 'Portfólio Completo'],
-  },
-  {
-    id: 'sobre-dark-1',
-    num: '45',
-    title: 'About & Philosophy Dark Layout',
-    category: 'web',
-    categoryLabel: 'WEBSITES 4K',
-    tag: 'Manifesto About Dark',
-    desc: 'Seção de manifesto sobre visão estratégica, princípios criativos e manifesto de marca.',
-    rating: '4.9 ★★★★★',
-    likes: 690,
-    previewUrl: '/figma/sobre-dark-1.webp',
-    features: ['Manifesto Dark', 'Visão Estratégica', 'Princípios'],
-  },
-  {
-    id: 'videoframe_4286',
-    num: '46',
-    title: 'Cinematic Motion Video Frame',
-    category: 'video',
-    categoryLabel: 'FIGMA • VÍDEO REAL 60FPS',
-    tag: 'Motion Video Frame 4K',
-    desc: 'Frame de vídeo cinematográfico demonstrando transições e fluidez das interfaces.',
-    rating: '4.9 ★★★★★',
-    likes: 740,
-    previewUrl: '/figma/videoframe_4286.png',
-    videoPreview: '/figma/hero-techwear.webm',
-    features: ['Vídeo Real Figma 60FPS', 'Cinematic Motion', 'Frame 4K'],
+    features: ['3 Tiers de Precificação', 'Card Destaque Saltado', 'Checklist de Recursos'],
   },
 ];
 
 export default function PortfolioModal({ isOpen, onClose, onSelectProjectForSite }: PortfolioModalProps) {
-  const [filter, setFilter] = useState<'all' | 'foto' | 'video' | 'web'>('all');
+  const [filter, setFilter] = useState<'all' | 'hero' | 'web' | 'componentes'>('all');
   const [selectedTemplate, setSelectedTemplate] = useState<TemplateItem | null>(null);
   const [checkoutTemplate, setCheckoutTemplate] = useState<TemplateItem | null>(null);
 
@@ -761,6 +713,10 @@ export default function PortfolioModal({ isOpen, onClose, onSelectProjectForSite
   }, [isOpen, onClose, selectedTemplate, checkoutTemplate]);
 
   if (!isOpen) return null;
+
+  const countHero = templatesData.filter((t) => t.category === 'hero').length;
+  const countWeb = templatesData.filter((t) => t.category === 'web').length;
+  const countComponentes = templatesData.filter((t) => t.category === 'componentes').length;
 
   const filteredTemplates = templatesData.filter((item) => {
     if (filter === 'all') return true;
@@ -784,14 +740,14 @@ export default function PortfolioModal({ isOpen, onClose, onSelectProjectForSite
             <div className="flex items-center gap-2 mb-1">
               <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
               <span className="font-mono text-xs uppercase tracking-[0.2em] text-cyan-300 font-medium">
-                EDICRIA STUDIO • 46 TEMPLATES FIGMA AUTORAIS (FOTO & VÍDEO WEBM 4K)
+                EDICRIA STUDIO • {templatesData.length} TEMPLATES FIGMA PROFISSIONAIS
               </span>
             </div>
-            <h3 className="text-2xl sm:text-3xl font-normal tracking-tight text-white">
-              Biblioteca de Protótipos & Checkout de Templates
+            <h3 className="text-2xl sm:text-3xl font-display font-[450] tracking-tight text-white">
+              Biblioteca de Templates
             </h3>
-            <p className="mt-1 text-xs sm:text-sm text-zinc-300 font-light leading-relaxed">
-              24 Vídeos .WebM originais extraídos do Figma + 22 Imagens High-Res 4K com arquivos fontes editáveis.
+            <p className="mt-1 text-xs sm:text-sm text-zinc-300 font-light leading-relaxed max-w-3xl">
+              Templates Figma profissionais e editáveis, desenvolvidos para criar websites de alto padrão, landing pages cinematográficas e interfaces comerciais de alto impacto.
             </p>
           </div>
 
@@ -801,6 +757,7 @@ export default function PortfolioModal({ isOpen, onClose, onSelectProjectForSite
             <button
               onClick={onClose}
               className="p-2.5 rounded-full text-cyan-200 hover:text-white bg-cyan-950/60 border border-cyan-500/40 hover:bg-cyan-900 transition-all"
+              aria-label="Fechar biblioteca"
             >
               <X size={18} />
             </button>
@@ -818,29 +775,18 @@ export default function PortfolioModal({ isOpen, onClose, onSelectProjectForSite
                   : 'text-zinc-300 hover:text-white hover:bg-white/10'
               }`}
             >
-              <Filter size={12} /> TODOS (46 TEMPLATES)
+              <Filter size={12} /> TODOS ({templatesData.length} TEMPLATES)
             </button>
 
             <button
-              onClick={() => setFilter('video')}
+              onClick={() => setFilter('hero')}
               className={`px-4 py-2 rounded-xl text-xs font-mono font-semibold uppercase tracking-wider transition-all flex items-center gap-1.5 ${
-                filter === 'video'
-                  ? 'bg-red-600 text-white shadow-lg scale-105 border border-red-400/50'
-                  : 'text-zinc-300 hover:text-white hover:bg-white/10'
-              }`}
-            >
-              <Film size={12} /> VÍDEOS REAIS FIGMA 60FPS
-            </button>
-
-            <button
-              onClick={() => setFilter('foto')}
-              className={`px-4 py-2 rounded-xl text-xs font-mono font-semibold uppercase tracking-wider transition-all flex items-center gap-1.5 ${
-                filter === 'foto'
+                filter === 'hero'
                   ? 'bg-cyan-400 text-black border-cyan-300 font-bold shadow-[0_0_20px_rgba(6,182,212,0.6)] scale-105'
                   : 'text-zinc-300 hover:text-white hover:bg-white/10'
               }`}
             >
-              <ImageIcon size={12} /> TEMPLATES FOTO 4K
+              <Layers size={12} /> HERO SECTIONS ({countHero})
             </button>
 
             <button
@@ -851,16 +797,27 @@ export default function PortfolioModal({ isOpen, onClose, onSelectProjectForSite
                   : 'text-zinc-300 hover:text-white hover:bg-white/10'
               }`}
             >
-              <Zap size={12} /> WEBSITES & COMPONENTES 4K
+              <Layout size={12} /> WEBSITES & PÁGINAS ({countWeb})
+            </button>
+
+            <button
+              onClick={() => setFilter('componentes')}
+              className={`px-4 py-2 rounded-xl text-xs font-mono font-semibold uppercase tracking-wider transition-all flex items-center gap-1.5 ${
+                filter === 'componentes'
+                  ? 'bg-cyan-400 text-black border-cyan-300 font-bold shadow-[0_0_20px_rgba(6,182,212,0.6)] scale-105'
+                  : 'text-zinc-300 hover:text-white hover:bg-white/10'
+              }`}
+            >
+              <Grid size={12} /> COMPONENTES & UI KITS ({countComponentes})
             </button>
           </div>
 
           <span className="text-[11px] font-mono text-cyan-300/70 hidden lg:inline-block pr-2">
-            ARQUIVOS .FIG + ASSETS 4K PRONTOS PARA USO
+            ARQUIVOS .FIG + DESIGN SYSTEM MODULAR PRONTOS PARA USO
           </span>
         </div>
 
-        {/* 46 Optimized Lazy Media Grid - Translucent Cyan Frosted Glass Cards */}
+        {/* Optimized Lazy Media Grid - Translucent Cyan Frosted Glass Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7 py-2">
           {filteredTemplates.map((item) => (
             <div
@@ -906,9 +863,9 @@ export default function PortfolioModal({ isOpen, onClose, onSelectProjectForSite
                   ))}
                 </div>
 
-                {/* High-Conversion Checkout Action Buttons */}
+                {/* High-Conversion Action Buttons */}
                 <div className="pt-3 border-t border-white/10 flex flex-col gap-2">
-                  {/* Primary Checkout Button - Opens direct Checkout Modal */}
+                  {/* Primary Button */}
                   <button
                     onClick={() => setCheckoutTemplate(item)}
                     className="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-cyan-400 via-cyan-300 to-white text-black hover:from-cyan-300 hover:to-cyan-100 text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(6,182,212,0.4)] active:scale-95"
@@ -917,13 +874,13 @@ export default function PortfolioModal({ isOpen, onClose, onSelectProjectForSite
                     ADQUIRIR TEMPLATE
                   </button>
 
-                  {/* Secondary Preview & Specs Action */}
+                  {/* Secondary Details Action */}
                   <button
                     onClick={() => setSelectedTemplate(item)}
                     className="w-full py-2.5 px-3 rounded-xl bg-cyan-950/30 hover:bg-cyan-900/50 border border-cyan-500/30 text-cyan-200 hover:text-white text-[11px] font-mono uppercase tracking-wider transition-all flex items-center justify-center gap-1.5"
                   >
                     <Maximize2 size={12} className="text-cyan-400" />
-                    VER DETALHES & VÍDEO 4K
+                    VER DETALHES DO TEMPLATE
                   </button>
                 </div>
               </div>
@@ -931,7 +888,7 @@ export default function PortfolioModal({ isOpen, onClose, onSelectProjectForSite
           ))}
         </div>
 
-        {/* High-Resolution Cinematic Lightbox Modal */}
+        {/* High-Resolution Lightbox Modal */}
         {selectedTemplate && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/95 backdrop-blur-3xl">
             <div className="relative w-full max-w-4xl bg-cyan-950/25 border border-cyan-400/50 rounded-3xl p-6 sm:p-8 space-y-6 shadow-[0_0_80px_rgba(6,182,212,0.3)] text-white my-auto max-h-[90vh] overflow-y-auto backdrop-blur-3xl">
@@ -939,6 +896,7 @@ export default function PortfolioModal({ isOpen, onClose, onSelectProjectForSite
               <button
                 onClick={() => setSelectedTemplate(null)}
                 className="absolute top-5 right-5 p-2.5 rounded-full bg-cyan-950/80 border border-cyan-500/40 hover:bg-cyan-900 text-white transition-colors z-20"
+                aria-label="Fechar detalhes"
               >
                 <X size={18} />
               </button>
@@ -954,7 +912,7 @@ export default function PortfolioModal({ isOpen, onClose, onSelectProjectForSite
                 {selectedTemplate.num}. {selectedTemplate.title}
               </h3>
 
-              {/* EXPANDED CINEMATIC MEDIA CONTAINER (h-[380px] sm:h-[460px]) */}
+              {/* MEDIA CONTAINER */}
               <div className="rounded-2xl overflow-hidden border border-cyan-500/30 h-[380px] sm:h-[460px] bg-black relative flex items-center justify-center shadow-2xl">
                 {selectedTemplate.videoPreview ? (
                   <div className="relative w-full h-full flex items-center justify-center">
@@ -1022,7 +980,7 @@ export default function PortfolioModal({ isOpen, onClose, onSelectProjectForSite
 
       </div>
 
-      {/* Dedicated Modern Checkout Modal with Upsells, PIX & Card (Centered Pop-up) */}
+      {/* Dedicated Modern Checkout Modal */}
       {checkoutTemplate && (
         <Suspense
           fallback={
