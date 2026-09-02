@@ -128,7 +128,7 @@ const templatesData: TemplateItem[] = [
     rating: '5.0 ★★★★★',
     likes: 1240,
     previewUrl: '/figma/hero-ophidia-snake-luxury-1.webp',
-    videoPreview: '/figma/hero-ophidia-snake-luxury.webm',
+    videoPreview: '/figma/hero-ophidia.webm',
     features: ['Tipografia Editorial Serif', 'Cards The Vault 3D', 'Auto Layout 5.0 Completo'],
   },
   {
@@ -142,7 +142,7 @@ const templatesData: TemplateItem[] = [
     rating: '5.0 ★★★★★',
     likes: 1150,
     previewUrl: '/figma/hero-atom-esg-sustainable-1.webp',
-    videoPreview: '/figma/hero-atom-esg-sustainable.webm',
+    videoPreview: '/figma/hero-atom.webm',
     features: ['Paleta Biofílica Clean', 'Navbar Flutuante Pílula', 'Cards de Metodologia'],
   },
   {
@@ -156,7 +156,7 @@ const templatesData: TemplateItem[] = [
     rating: '5.0 ★★★★★',
     likes: 980,
     previewUrl: '/figma/hero-alodhx-water-tech-1.webp',
-    videoPreview: '/figma/hero-alodhx-water-tech.webm',
+    videoPreview: '/figma/hero-aloohxi.webm',
     features: ['Estética Deep Ocean Frosted', 'Badges de Eficiência H₂O', 'Auto Layout 5.0 Completo'],
   },
   {
