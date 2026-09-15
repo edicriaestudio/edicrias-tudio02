@@ -118,6 +118,20 @@ function LazyTemplateMedia({
 // 100% Unique, Curated Professional Design Templates
 const templatesData: TemplateItem[] = [
   {
+    id: 'hero-kairo',
+    num: '00',
+    title: 'Kairo / Expedition Island',
+    category: 'hero',
+    categoryLabel: 'PROJETO VIP',
+    tag: 'Three.js & Luxury Travel',
+    desc: 'Landing page imersiva de expedições de luxo. Utiliza Three.js para renderizar uma ilha vulcânica 3D, Lenis Smooth Scroll e transição Day/Night fluida.',
+    rating: '5.0 ★★★★★',
+    likes: 6230,
+    previewUrl: 'https://kairo-expedition.aura.build/og-image.jpg',
+    videoPreview: '/kairo_video.mp4',
+    features: ['WebGL Volcanic Island', 'Day/Night Toggle', 'Lenis Scroll'],
+  },
+  {
     id: 'hero-kuro',
     num: '00',
     title: 'Kuro / 3D Katana',
