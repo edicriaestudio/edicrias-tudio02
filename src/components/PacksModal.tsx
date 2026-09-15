@@ -29,22 +29,22 @@ export interface StudioPack {
 const STUDIO_PACKS: StudioPack[] = [
   {
     id: 'pack-master-42',
-    title: 'Pack Master · 42 Templates Figma 4K',
+    title: 'Mega Pack Convites EdCria Kids',
     subtitle: 'A biblioteca definitiva de design cinematográfico para foto e vídeo.',
     badge: 'MAIS VENDIDO',
     badgeColor: 'bg-gradient-to-r from-cyan-400 to-cyan-300 text-black',
     originalPrice: 'R$ 297,00',
     price: 66.90,
     installments: 'ou 3x de R$ 23,40 sem juros',
-    description: '42 arquivos Figma (.fig) 100% editáveis com auto-layout rigoroso, mídias 4K em 60 FPS originais e licença comercial vitalícia.',
+    description: 'Dezenas de templates Canva/Capcut (.fig) 100% editáveis com auto-layout rigoroso, mídias 4K em 60 FPS originais e licença comercial vitalícia.',
     features: [
-      '42 Arquivos Figma (.fig) completos e organizados em camadas',
+      'Dezenas de templates Canva/Capcut (.fig) completos e organizados em camadas',
       'Formatos para Web Desktop, Mobile App e Reels/Stories 4K',
       'Mídias e vídeos 60 FPS de alta fidelidade inclusos',
       'Licença Comercial Vitalícia (Uso ilimitado em clientes)',
       'Atualizações gratuitas de novos componentes'
     ],
-    includes: ['Figma (.fig)', 'Mídias 4K', 'Vídeos 60fps', 'Licença Comercial'],
+    includes: ['Canva Edit�vel', 'Mídias 4K', 'Vídeos 60fps', 'Licença Comercial'],
     bannerImage: 'https://images.unsplash.com/photo-1558655146-d09347e92766?w=800&auto=format&fit=crop&q=80'
   },
   {

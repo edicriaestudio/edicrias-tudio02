@@ -56,7 +56,7 @@ export default function SectionOne({ onOpenContact, onOpenPortfolio }: SectionOn
             <ServiceLine text="/ EXPERIÊNCIAS AUTORAIS" delay={150} />
             <ServiceLine text="/ LANDING PAGES DE ALTA CONVERSÃO" delay={270} />
             <ServiceLine text="/ SITES INSTITUCIONAIS" delay={390} />
-            <ServiceLine text="/ TEMPLATES FIGMA & PACKS" delay={510} />
+            <ServiceLine text="/ TEMPLATES PREMIUM & PACKS" delay={510} />
           </div>
         </div>
 

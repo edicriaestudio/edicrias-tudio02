@@ -51,7 +51,7 @@ export default function ContactModal({
     projectType: initialTemplate ? `Template Figma: ${initialTemplate}` : 'Landing Page de Alta Conversão',
     mainGoal: 'Posicionamento e autoridade premium',
     timeline: '1 a 2 meses',
-    budgetRange: 'R$ 6.000 a R$ 15.000 (Projeto Autoral 4K)',
+    budgetRange: 'R$ 3.000 a R$ 6.000 (Projeto Autoral)',
     additionalContext: initialTemplate ? `Gostaria de basear meu projeto no template: ${initialTemplate}` : '',
     consent: true,
   });
@@ -785,10 +785,10 @@ export default function ContactModal({
                       onChange={(e) => setFormData({ ...formData, budgetRange: e.target.value })}
                       className="w-full px-3 py-2.5 rounded-xl bg-[#061019] border border-cyan-500/30 text-white text-xs sm:text-sm focus:outline-none focus:border-cyan-400 font-sans"
                     >
-                      <option value="R$ 4.000 a R$ 8.000">R$ 4.000 a R$ 8.000 (Landing Page Autoral)</option>
-                      <option value="R$ 8.000 a R$ 18.000">R$ 8.000 a R$ 18.000 (Site Institucional 4K)</option>
-                      <option value="R$ 18.000 a R$ 35.000">R$ 18.000 a R$ 35.000 (Ecossistema / E-commerce)</option>
-                      <option value="Acima de R$ 35.000">Acima de R$ 35.000 (Escopo Customizado)</option>
+                      <option value="R$ 1.500 a R$ 3.000">R$ 1.500 a R$ 3.000 (Landing Page Autoral)</option>
+                      <option value="R$ 3.000 a R$ 6.000">R$ 3.000 a R$ 6.000 (Site Institucional Premium)</option>
+                      <option value="R$ 6.000 a R$ 12.000">R$ 6.000 a R$ 12.000 (Ecossistema / E-commerce)</option>
+                      <option value="Acima de R$ 12.000">Acima de R$ 12.000 (Escopo Customizado)</option>
                     </select>
                   </div>
                 </div>
