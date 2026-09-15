@@ -48,7 +48,7 @@ export default function ContactModal({
     company: '',
     segment: 'Tecnologia / SaaS / Digital',
     currentUrl: '',
-    projectType: initialTemplate ? `Template Figma: ${initialTemplate}` : 'Landing Page de Alta Conversão',
+    projectType: initialTemplate ? `Template Premium: ${initialTemplate}` : 'Landing Page de Alta Conversão',
     mainGoal: 'Posicionamento e autoridade premium',
     timeline: '1 a 2 meses',
     budgetRange: 'R$ 3.000 a R$ 6.000 (Projeto Autoral)',
@@ -61,7 +61,7 @@ export default function ContactModal({
     name: '',
     email: '',
     phone: '',
-    projectType: initialTemplate ? `Template Figma: ${initialTemplate}` : 'Website Autoral 4K',
+    projectType: initialTemplate ? `Template Premium: ${initialTemplate}` : 'Website Autoral 4K',
     depositPlan: 'sinal_padrao', // 'sinal_padrao' (R$ 490), 'consultoria' (R$ 197), 'completo_vip' (R$ 1.490)
     notes: '',
   });

@@ -56,10 +56,10 @@ const STUDIO_PACKS: StudioPack[] = [
     originalPrice: 'R$ 497,00',
     price: 97.00,
     installments: 'ou 4x de R$ 25,60 sem juros',
-    description: 'O acervo completo da Edcria Studio: Pack 42 Templates + Curso Do Figma ao Site + Kit 85 Prompts IA + Design System Blueprint + 15 Golden Skills Motion.',
+    description: 'O acervo completo da Edcria Studio: Pack 42 Templates + Curso Do Design ao Site + Kit 85 Prompts IA + Design System Blueprint + 15 Golden Skills Motion.',
     features: [
-      'Pack Completo 42 Templates Figma 4K (R$ 66,90)',
-      'Curso Prático: Do Figma ao Site no Ar (R$ 19,90)',
+      'Pack Completo 42 Templates Premium 4K (R$ 66,90)',
+      'Curso Prático: Do Design ao Site no Ar (R$ 19,90)',
       'Kit Sites Cinematográficos com IA (85+ Prompts) (R$ 14,90)',
       'Design System Blueprint dos Sites Caros (R$ 14,90)',
       '15 Golden Skills de Motion & Shaders (R$ 29,90)',
@@ -101,7 +101,7 @@ const STUDIO_PACKS: StudioPack[] = [
       '85+ Prompts estruturados para criação e refatoração de código',
       'Framework de design tokens pronto para colar na IA',
       'Instruções de anti-alucinação para Shaders e WebGL',
-      'Guia de integração do MCP Figma com IA'
+      'Guia de integração do MCP Design com IA'
     ],
     includes: ['PDF Guia', '85+ Prompts', 'Prompt Library'],
     bannerImage: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&auto=format&fit=crop&q=80'
@@ -122,7 +122,7 @@ const STUDIO_PACKS: StudioPack[] = [
       'Componentes de botões líquidos e cartões de vidro fosco',
       'Checklist de validação estética contra AI-Slop'
     ],
-    includes: ['Figma Tokens', 'CSS Variables', 'Style Guide'],
+    includes: ['Design Tokens', 'CSS Variables', 'Style Guide'],
     bannerImage: 'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=800&auto=format&fit=crop&q=80'
   }
 ];

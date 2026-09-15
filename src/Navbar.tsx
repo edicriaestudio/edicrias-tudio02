@@ -45,7 +45,7 @@ export default function Navbar({
               className="hover:text-cyan-300 transition-colors flex items-center gap-1.5 py-1"
             >
               <FolderKanban size={13} className="text-cyan-400" />
-              TEMPLATES FIGMA <span className="text-[10px] text-cyan-200 bg-cyan-950/60 px-2 py-0.5 rounded-full border border-cyan-500/40">4K</span>
+              TEMPLATES PREMIUM <span className="text-[10px] text-cyan-200 bg-cyan-950/60 px-2 py-0.5 rounded-full border border-cyan-500/40">4K</span>
             </button>
 
             <button

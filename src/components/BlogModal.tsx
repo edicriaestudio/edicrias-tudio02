@@ -110,20 +110,20 @@ const BLOG_POSTS: BlogPost[] = [
   },
   {
     id: '3',
-    title: 'Do Figma ao Código com IA: Como Criar Landing Pages que Parecem Obras de Arte',
+    title: 'Do Design ao Código com IA: Como Criar Landing Pages que Parecem Obras de Arte',
     slug: 'figma-ao-codigo-ia-guia',
     category: 'figma',
-    categoryLabel: 'Figma & IA',
+    categoryLabel: 'Design & IA',
     readTime: '6 min de leitura',
     date: '20 de Agosto, 2026',
     author: 'Equipe EdiCria',
     image: 'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=900&auto=format&fit=crop&q=80',
-    summary: 'Aprenda como utilizar modelos de IA e o MCP do Claude para exportar designs complexos do Figma diretamente para React/Vite com fidelidade de 100%.',
+    summary: 'Aprenda como utilizar modelos de IA e o MCP do Claude para exportar designs complexos do Design diretamente para React/Vite com fidelidade de 100%.',
     content: {
       intro: 'O fluxo de desenvolvimento web mudou para sempre. Hoje, designers e desenvolvedores podem conectar seus protótipos de alta fidelidade a agentes de IA para gerar código limpo em minutos.',
       sections: [
         {
-          heading: '1. Estruturação Correta no Figma (.fig)',
+          heading: '1. Estruturação Correta no Projetos',
           body: [
             'A base de qualquer código perfeito gerado por IA começa com Auto Layout rigoroso, nomeação semântica de camadas e definição de tokens de design consistentes.',
             'Nossa biblioteca de 46 templates já vem 100% pronta para essa ponte, com componentes atômicos organizados.'
@@ -136,7 +136,7 @@ const BLOG_POSTS: BlogPost[] = [
           ]
         }
       ],
-      conclusion: 'Dominar o ecossistema Figma + IA é a maior vantagem competitiva que qualquer profissional digital pode ter.'
+      conclusion: 'Dominar o ecossistema Design + IA é a maior vantagem competitiva que qualquer profissional digital pode ter.'
     }
   },
   {
@@ -282,7 +282,7 @@ export default function BlogModal({
                 Conteúdos, Tendências & Estratégias Digitais
               </h2>
               <p className="text-xs sm:text-sm text-zinc-300 font-light max-w-2xl leading-relaxed">
-                Artigos exclusivos sobre design cinematográfico, inteligência artificial aplicada ao Figma, shaders em WebGL e estratégias de alta conversão para marcas de alto ticket.
+                Artigos exclusivos sobre design cinematográfico, inteligência artificial aplicada ao Design, shaders em WebGL e estratégias de alta conversão para marcas de alto ticket.
               </p>
             </div>
 
@@ -326,7 +326,7 @@ export default function BlogModal({
                     : 'text-zinc-300 hover:text-white hover:bg-white/5'
                 }`}
               >
-                Figma & IA
+                Design & IA
               </button>
               <button
                 onClick={() => setSelectedCategory('webgl')}
@@ -492,7 +492,7 @@ export default function BlogModal({
                   APLIQUE ESSE PADRÃO NO SEU NEGÓCIO
                 </span>
                 <h4 className="text-lg font-semibold text-white">
-                  Quer um site cinematográfico ou nossos templates Figma?
+                  Quer um site cinematográfico ou nossos templates Design?
                 </h4>
               </div>
 
@@ -516,7 +516,7 @@ export default function BlogModal({
                   }}
                   className="w-full sm:w-auto px-4 py-3 rounded-xl bg-cyan-400 hover:bg-cyan-300 text-black font-mono text-xs font-bold uppercase tracking-wider transition-all"
                 >
-                  46 TEMPLATES FIGMA
+                  46 TEMPLATES PREMIUM
                 </button>
                 <button
                   onClick={() => {

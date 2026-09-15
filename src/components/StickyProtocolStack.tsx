@@ -174,7 +174,7 @@ export default function StickyProtocolStack({ onOpenContact, onOpenPortfolio }: 
           </div>
 
           <span className="font-mono text-[11px] uppercase tracking-widest text-cyan-200 font-bold mb-4">
-            TEMPLATES FIGMA & PACKS
+            TEMPLATES PREMIUM & PACKS
           </span>
 
           {/* Direct CTA that opens the Template Portfolio */}

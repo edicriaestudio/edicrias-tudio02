@@ -36,7 +36,7 @@ interface CheckoutModalProps {
 export default function CheckoutModal({
   isOpen,
   onClose,
-  productName = 'Pack · 42 templates Figma 4K',
+  productName = 'Pack · 42 templates Design 4K',
   productPrice = 66.90,
   templateId: _templateId,
 }: CheckoutModalProps) {
@@ -46,7 +46,7 @@ export default function CheckoutModal({
       badge: 'RECOMENDADO',
       badgeColor: 'bg-orange-500 text-black',
       borderClass: 'border-orange-500/50 bg-orange-950/15 shadow-[0_0_25px_rgba(249,115,22,0.15)]',
-      title: '+ Curso: Do Figma ao Site no Ar',
+      title: '+ Curso: Do Design ao Site no Ar',
       description: 'coloque qualquer design no ar com o MCP do Claude — sem programar',
       price: 19.90,
       priceFormatted: '+R$ 19,90',
@@ -679,7 +679,7 @@ export default function CheckoutModal({
                 Bem-vindo ao Ecossistema Edcria Studio!
               </h2>
               <p className="text-sm text-zinc-200 max-w-md mx-auto leading-relaxed">
-                Enviamos todos os arquivos fontes do Figma (.fig), vídeos 4K e bônus selecionados para <span className="text-cyan-300 font-medium">{email}</span>.
+                Enviamos todos os arquivos fontes do Projetos, vídeos 4K e bônus selecionados para <span className="text-cyan-300 font-medium">{email}</span>.
               </p>
             </div>
 

@@ -115,7 +115,7 @@ function LazyTemplateMedia({
   );
 }
 
-// 100% Unique, Curated Professional Figma Templates
+// 100% Unique, Curated Professional Design Templates
 const templatesData: TemplateItem[] = [
   {
     id: 'hero-rio-estate',
@@ -311,7 +311,7 @@ const templatesData: TemplateItem[] = [
     likes: 610,
     previewUrl: '/figma/hero-crystal-sphere-1.webp',
     videoPreview: '/figma/hero-crystal-sphere.webm',
-    features: ['Hierarquia Tecnológica', 'Cards de Métricas', 'Figma Variables'],
+    features: ['Hierarquia Tecnológica', 'Cards de Métricas', 'Design Variables'],
   },
   {
     id: 'hero-cycle-zephyr-1',

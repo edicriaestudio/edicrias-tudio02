@@ -83,7 +83,7 @@ export default function Footer({
                   className="w-full sm:w-auto px-5 py-3.5 sm:py-4 rounded-2xl border border-white/10 bg-white/5 text-zinc-300 text-xs font-mono uppercase tracking-wider hover:bg-white/15 hover:text-white transition-all flex items-center justify-center gap-2 active:scale-95"
                 >
                   <FolderKanban size={14} className="text-cyan-300" />
-                  TEMPLATES FIGMA
+                  TEMPLATES PREMIUM
                 </button>
               </div>
             </div>
@@ -140,7 +140,7 @@ export default function Footer({
           <div className="space-y-3 md:col-span-2">
             <BrandLogo size="lg" subtitle="STUDIO DE CRIAÇÃO DIGITAL & 4K" />
             <p className="text-zinc-300 font-light max-w-md leading-relaxed text-xs">
-              Studio de criação digital de alta performance especializado em websites autorais, shaders WebGL a 60 FPS e biblioteca de templates Figma profissionais para criadores e marcas de alto padrão.
+              Studio de criação digital de alta performance especializado em websites autorais, shaders WebGL a 60 FPS e biblioteca de templates Design profissionais para criadores e marcas de alto padrão.
             </p>
             <div className="pt-2 flex items-center gap-2 text-cyan-300 font-mono text-[11px]">
               <span>E-mail:</span>
@@ -160,7 +160,7 @@ export default function Footer({
               onTouchStart={() => prefetchModal('portfolio')}
               className="block text-zinc-300 hover:text-white text-left transition-colors"
             >
-              • 46 Templates Figma 4K
+              • 46 Templates Premium 4K
             </button>
             <button
               onClick={onOpenPacks}

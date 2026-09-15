@@ -18,7 +18,7 @@ export default function PricingFooter({ onOpenContact, onOpenPortfolio }: Pricin
       desc: 'Ideal para profissionais autônomos e startups que precisam de presença autoral imediata.',
       features: [
         'Landing Page 100% Responsiva Mobile-First',
-        'Design Autoral no Figma Incluso',
+        'Design Autoral no Design Incluso',
         'SEO Avançado & Carregamento Ultra-Rápido',
         'Formulário de Contato Direto no Whatsapp',
         'Hospedagem & Domínio Configurados',
@@ -34,7 +34,7 @@ export default function PricingFooter({ onOpenContact, onOpenPortfolio }: Pricin
       features: [
         'Tudo do Plano Essencial',
         'Animações de Scroll Canvas 60 FPS (VFX)',
-        'Showroom de Portfólio / Templates Figma',
+        'Showroom de Portfólio / Templates Premium',
         'Trilha Sonora Imersiva Integrada (Web Audio)',
         'Integração com CRM, Analytics & Meta Pixel',
         'Suporte VIP Prioritário por 90 Dias',
@@ -158,7 +158,7 @@ export default function PricingFooter({ onOpenContact, onOpenPortfolio }: Pricin
           {/* Quick links */}
           <div className="flex items-center gap-6 text-xs text-white/70 font-mono">
             <button onClick={onOpenPortfolio} className="hover:text-white transition-colors">
-              TEMPLATES FIGMA
+              TEMPLATES PREMIUM
             </button>
             <button onClick={onOpenContact} className="hover:text-white transition-colors">
               CONTATO

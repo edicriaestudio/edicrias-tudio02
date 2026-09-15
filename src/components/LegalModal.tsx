@@ -215,14 +215,14 @@ export default function LegalModal({ isOpen, onClose, initialTab = 'privacy' }: 
               </div>
 
               <p>
-                Ao navegar no portal da <strong>EDICRIA STUDIO</strong> ou adquirir qualquer template Figma (.fig), kit de prompts IA ou projeto sob medida, você concorda expressamente com as diretrizes e regras aqui estipuladas.
+                Ao navegar no portal da <strong>EDICRIA STUDIO</strong> ou adquirir qualquer template premium (.fig), kit de prompts IA ou projeto sob medida, você concorda expressamente com as diretrizes e regras aqui estipuladas.
               </p>
 
               <div className="space-y-2">
                 <h4 className="font-semibold text-cyan-300 text-sm">2.1. Escopo da Licença Comercial</h4>
                 <ul className="list-disc pl-5 space-y-1 text-zinc-300">
                   <li><strong>Uso Autorizado:</strong> Você adquire uma licença perpétua e não-exclusiva para editar, personalizar e publicar websites finais para si ou para clientes comerciais de forma ilimitada.</li>
-                  <li><strong>Restrição de Redistribuição:</strong> É estritamente proibido revender, redistribuir, sublicenciar ou compartilhar os arquivos fonte brutos do Figma (.fig) em outros marketplaces, comunidades abertas ou pacotes piratas.</li>
+                  <li><strong>Restrição de Redistribuição:</strong> É estritamente proibido revender, redistribuir, sublicenciar ou compartilhar os arquivos fonte brutos do Projetos em outros marketplaces, comunidades abertas ou pacotes piratas.</li>
                   <li><strong>Propriedade Intelectual:</strong> Todos os direitos autorais sobre a estrutura visual, componentes e shaders permanecem sob titularidade da EdiCria Studio.</li>
                 </ul>
               </div>
@@ -290,7 +290,7 @@ export default function LegalModal({ isOpen, onClose, initialTab = 'privacy' }: 
                   Garantia Incondicional de 7 Dias (CDC Art. 49)
                 </h4>
                 <p className="text-zinc-200">
-                  Se por qualquer motivo você não ficar 100% satisfeito com o pacote de templates Figma ou treinamentos adquiridos, você pode solicitar o reembolso total do seu valor em até 7 dias corridos a partir da data de compra, sem burocracia.
+                  Se por qualquer motivo você não ficar 100% satisfeito com o pacote de templates Design ou treinamentos adquiridos, você pode solicitar o reembolso total do seu valor em até 7 dias corridos a partir da data de compra, sem burocracia.
                 </p>
               </div>
 
