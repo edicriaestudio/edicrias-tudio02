@@ -118,6 +118,20 @@ function LazyTemplateMedia({
 // 100% Unique, Curated Professional Design Templates
 const templatesData: TemplateItem[] = [
   {
+    id: 'hero-kuro',
+    num: '00',
+    title: 'Kuro / 3D Katana',
+    category: 'hero',
+    categoryLabel: 'PROJETO VIP',
+    tag: 'Three.js & GSAP Scroll',
+    desc: 'Uma obra de arte digital interativa. Construído com Three.js e WebGL, apresentando objetos 3D gerados proceduralmente controlados pela rolagem do usuário via GSAP.',
+    rating: '5.0 ★★★★★',
+    likes: 5120,
+    previewUrl: 'https://kurogane-artisanal.aura.build/og-image.jpg',
+    videoPreview: '/kuro_video.mp4',
+    features: ['WebGL Canvas 3D', 'Procedural Katana', 'Japanese Typography'],
+  },
+  {
     id: 'hero-indie-showcase',
     num: '00',
     title: 'Indie Showcase / Aetherfall',
