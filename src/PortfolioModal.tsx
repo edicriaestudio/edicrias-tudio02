@@ -118,6 +118,20 @@ function LazyTemplateMedia({
 // 100% Unique, Curated Professional Design Templates
 const templatesData: TemplateItem[] = [
   {
+    id: 'hero-caio',
+    num: '00',
+    title: 'Caio / 3D Portfolio',
+    category: 'hero',
+    categoryLabel: 'PROJETO VIP',
+    tag: '3D Character & Typography',
+    desc: 'Template imersivo estilo Apple. Focado em tipografia brutalista, animações suaves e renderização 3D de alta definição para portfólios pessoais e criadores.',
+    rating: '5.0 ★★★★★',
+    likes: 3120,
+    previewUrl: 'https://site-tampletes-caio.vercel.app/og-image.jpg',
+    videoPreview: '/caio_video.mp4',
+    features: ['3D Character', 'Brutalist Typography', 'Dark Mode Vibe'],
+  },
+  {
     id: 'hero-rio-estate',
     num: '00',
     title: 'Rio Estate / Imobiliï¿½ria Drone',
