@@ -118,6 +118,20 @@ function LazyTemplateMedia({
 // 100% Unique, Curated Professional Design Templates
 const templatesData: TemplateItem[] = [
   {
+    id: 'hero-kaltgrat',
+    num: '00',
+    title: 'Kaltgrat / Sports Event',
+    category: 'hero',
+    categoryLabel: 'PROJETO VIP',
+    tag: 'High Performance & Data',
+    desc: 'Template ultra-técnico focado em alta performance. Design de alto contraste, tipografia fluída, tabelas de dados precisas e scroll suave (Lenis) para eventos esportivos e de tecnologia.',
+    rating: '5.0 ★★★★★',
+    likes: 3890,
+    previewUrl: 'https://kaltgrat-abfahrt-95.aura.build/og-image.jpg',
+    videoPreview: '/kaltgrat_video.mp4',
+    features: ['Tabular Layouts', 'High-Contrast UI', 'Parallax Overlap'],
+  },
+  {
     id: 'hero-kairo',
     num: '00',
     title: 'Kairo / Expedition Island',
