@@ -112,7 +112,7 @@ export default function CheckoutModal({
     currency: 'BRL',
   });
 
-  const defaultPixCode = `00020126580014br.gov.bcb.pix0136edicriaestudiocriativo@gmail.com520400005303986540${finalTotal.toFixed(2)}5802BR5920EDICRIA STUDIO DIGIT6009SAO PAULO62070503***6304E8A2`;
+  const defaultPixCode = `00020126580014br.gov.bcb.pix0136edcriaestudiocriativo@gmail.com520400005303986540${finalTotal.toFixed(2)}5802BR5920EDCRIA STUDIO DIGIT6009SAO PAULO62070503***6304E8A2`;
   const activePixCode = dynamicPixCode || defaultPixCode;
 
   useEffect(() => {
@@ -163,7 +163,7 @@ export default function CheckoutModal({
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             amount: finalTotal,
-            description: `EdiCria Studio - ${productName}`,
+            description: `EdCria Studio - ${productName}`,
             payerEmail: email,
             payerName: name,
             phone,
@@ -182,7 +182,7 @@ export default function CheckoutModal({
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             amount: finalTotal,
-            description: `EdiCria Studio - ${productName}`,
+            description: `EdCria Studio - ${productName}`,
             payerEmail: email,
             payerName: name,
             phone,
@@ -706,7 +706,7 @@ export default function CheckoutModal({
             {/* Immediate Action Buttons */}
             <div className="space-y-3 pt-2">
               <a
-                href="https://figma.com/@edicria"
+                href="https://figma.com/@edcria"
                 target="_blank"
                 rel="noreferrer"
                 className="w-full py-4 px-6 rounded-2xl bg-cyan-400 hover:bg-cyan-300 text-black font-mono text-xs sm:text-sm font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-[0_0_30px_rgba(6,182,212,0.4)]"

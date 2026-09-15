@@ -25,7 +25,7 @@ const STEPS = [
   {
     num: '02',
     icon: Search,
-    title: 'A EdiCria analisa a oportunidade',
+    title: 'A EdCria analisa a oportunidade',
     desc: 'Avaliamos a aderência técnica, posicionamento da marca e potencial de impacto da experiência.',
   },
   {
@@ -71,7 +71,7 @@ export default function CommercialProcessSection({ onOpenContact }: CommercialPr
           </div>
 
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-[450] tracking-tight text-white leading-tight">
-            Como funciona a jornada de trabalho com a EdiCria.
+            Como funciona a jornada de trabalho com a EdCria.
           </h2>
 
           <p className="text-sm sm:text-base text-zinc-300 font-light leading-relaxed">

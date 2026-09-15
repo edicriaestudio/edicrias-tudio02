@@ -213,7 +213,7 @@ async function startServer() {
         utm_content: utms?.utm_content ? sanitizeText(utms.utm_content, 80) : null,
         utm_term: utms?.utm_term ? sanitizeText(utms.utm_term, 80) : null,
         status: 'novo',
-        next_step: 'manual_review', // Próximo passo estritamente manual: EdiCria revisa -> qualifica -> entra em contato
+        next_step: 'manual_review', // Próximo passo estritamente manual: EdCria revisa -> qualifica -> entra em contato
       };
 
       leadsStore.unshift(leadEntry);
@@ -229,7 +229,7 @@ async function startServer() {
       return res.status(201).json({
         success: true,
         leadId,
-        message: 'Recebemos suas informações. A EdiCria vai analisar o contexto e retornará com os próximos passos. O briefing completo será solicitado somente se fizer sentido avançar.',
+        message: 'Recebemos suas informações. A EdCria vai analisar o contexto e retornará com os próximos passos. O briefing completo será solicitado somente se fizer sentido avançar.',
         lead: {
           id: leadId,
           company: leadEntry.company,
@@ -299,7 +299,7 @@ async function startServer() {
               description: sanitizeText(description || `Edcria Studio - ${serviceType || 'Projeto Autoral'}`, 150),
               payment_method_id: 'pix',
               payer: {
-                email: cleanPayerEmail || 'cliente@edicria.com.br',
+                email: cleanPayerEmail || 'cliente@edcria.com.br',
                 first_name: firstName,
                 last_name: lastName,
               },
@@ -340,8 +340,8 @@ async function startServer() {
       const uniquePaymentId = `MP-${Date.now()}-${Math.floor(Math.random() * 10000)}`;
       const safeAmountStr = transactionAmount.toFixed(2);
       
-      const pixKey = 'edicriaestudiocriativo@gmail.com';
-      const pixPayload = `00020126580014br.gov.bcb.pix0136${pixKey}520400005303986540${safeAmountStr}5802BR5920EDICRIA STUDIO DIGIT6009SAO PAULO62070503***6304E8A2`;
+      const pixKey = 'edcriaestudiocriativo@gmail.com';
+      const pixPayload = `00020126580014br.gov.bcb.pix0136${pixKey}520400005303986540${safeAmountStr}5802BR5920EDCRIA STUDIO DIGIT6009SAO PAULO62070503***6304E8A2`;
 
       return res.json({
         success: true,
@@ -421,7 +421,7 @@ async function startServer() {
               installments: parsedInstallments,
               payment_method_id: cardData.paymentMethodId || 'master',
               payer: {
-                email: cleanPayerEmail || 'cliente@edicria.com.br',
+                email: cleanPayerEmail || 'cliente@edcria.com.br',
                 first_name: firstName,
                 last_name: lastName,
               },
@@ -501,12 +501,12 @@ async function startServer() {
             },
           ],
           payer: {
-            email: cleanPayerEmail || 'contato@edicria.com.br',
+            email: cleanPayerEmail || 'contato@edcria.com.br',
           },
           back_urls: {
-            success: 'https://edicria.com.br/sucesso',
-            failure: 'https://edicria.com.br/erro',
-            pending: 'https://edicria.com.br/pendente',
+            success: 'https://edcria.com.br/sucesso',
+            failure: 'https://edcria.com.br/erro',
+            pending: 'https://edcria.com.br/pendente',
           },
           auto_return: 'approved',
           external_reference: sanitizeText(externalReference || `REF-${Date.now()}`, 64),

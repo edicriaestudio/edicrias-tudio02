@@ -53,7 +53,7 @@ export default function Footer({
                 </h3>
 
                 <p className="text-xs sm:text-sm text-zinc-200 font-light leading-relaxed">
-                  Conte brevemente onde sua presença digital está hoje. A EdiCria analisa o contexto e retorna com os próximos passos mais adequados para o seu negócio.
+                  Conte brevemente onde sua presença digital está hoje. A EdCria analisa o contexto e retorna com os próximos passos mais adequados para o seu negócio.
                 </p>
               </div>
 
@@ -127,7 +127,7 @@ export default function Footer({
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 text-zinc-400 hover:text-cyan-300 transition-colors"
                 >
-                  <span>Já recebeu uma proposta da EdiCria? Acesse o briefing completo</span>
+                  <span>Já recebeu uma proposta da EdCria? Acesse o briefing completo</span>
                   <ExternalLink size={12} />
                 </a>
               </div>
@@ -144,8 +144,8 @@ export default function Footer({
             </p>
             <div className="pt-2 flex items-center gap-2 text-cyan-300 font-mono text-[11px]">
               <span>E-mail:</span>
-              <a href="mailto:edicriaestudiocriativo@gmail.com" className="text-white hover:text-cyan-300 underline underline-offset-4">
-                edicriaestudiocriativo@gmail.com
+              <a href="mailto:edcriaestudiocriativo@gmail.com" className="text-white hover:text-cyan-300 underline underline-offset-4">
+                edcriaestudiocriativo@gmail.com
               </a>
             </div>
           </div>

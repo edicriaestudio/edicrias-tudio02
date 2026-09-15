@@ -13,7 +13,7 @@ interface BrandLogoProps {
 /**
  * Modern Geometric Monogram "ED" Vector Emblem
  * Crafted with precision cyber-minimalist paths, continuous gradients,
- * and high-contrast ambient neon glow for EdiCria Studio.
+ * and high-contrast ambient neon glow for EdCria Studio.
  */
 export function EDMonogramIcon({
   size = 32,

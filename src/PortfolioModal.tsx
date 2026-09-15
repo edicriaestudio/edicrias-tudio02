@@ -880,7 +880,7 @@ export default function PortfolioModal({ isOpen, onClose, onSelectProjectForSite
             <div className="flex items-center gap-2 mb-1">
               <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
               <span className="font-mono text-xs uppercase tracking-[0.2em] text-cyan-300 font-medium">
-                EDICRIA STUDIO â€¢ {templatesData.length} PROJETOS & TEMPLATES PROFISSIONAIS
+                EDCRIA STUDIO â€¢ {templatesData.length} PROJETOS & TEMPLATES PROFISSIONAIS
               </span>
             </div>
             <h3 className="text-2xl sm:text-3xl font-display font-[450] tracking-tight text-white">

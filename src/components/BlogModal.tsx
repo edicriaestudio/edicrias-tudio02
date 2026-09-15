@@ -83,7 +83,7 @@ const BLOG_POSTS: BlogPost[] = [
     categoryLabel: 'Design & Luxo',
     readTime: '5 min de leitura',
     date: '24 de Agosto, 2026',
-    author: 'EdiCria Studio Lab',
+    author: 'EdCria Studio Lab',
     highlightBadge: 'TENDÊNCIA 2026',
     image: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=900&auto=format&fit=crop&q=80',
     summary: 'A anatomia de uma landing page de alta costura digital: como harmonizar tipografia display, distorções de líquido e trilha sonora interativa.',
@@ -116,7 +116,7 @@ const BLOG_POSTS: BlogPost[] = [
     categoryLabel: 'Design & IA',
     readTime: '6 min de leitura',
     date: '20 de Agosto, 2026',
-    author: 'Equipe EdiCria',
+    author: 'Equipe EdCria',
     image: 'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=900&auto=format&fit=crop&q=80',
     summary: 'Aprenda como utilizar modelos de IA e o MCP do Claude para exportar designs complexos do Design diretamente para React/Vite com fidelidade de 100%.',
     content: {
@@ -147,7 +147,7 @@ const BLOG_POSTS: BlogPost[] = [
     categoryLabel: 'Estratégia & ROI',
     readTime: '4 min de leitura',
     date: '15 de Agosto, 2026',
-    author: 'EdiCria Estratégia',
+    author: 'EdCria Estratégia',
     image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=900&auto=format&fit=crop&q=80',
     summary: 'O público de alto valor não responde mais a fórmulas prontas de 2018 com contadores regressivos falsos e botões verdes piscantes.',
     content: {
@@ -177,7 +177,7 @@ const BLOG_POSTS: BlogPost[] = [
     categoryLabel: 'WebGL & Tech',
     readTime: '5 min de leitura',
     date: '10 de Agosto, 2026',
-    author: 'EdiCria Studio Lab',
+    author: 'EdCria Studio Lab',
     image: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=900&auto=format&fit=crop&q=80',
     summary: 'Como criar tokens de cores com saturação calculada, tipografia com razão matemática e botões líquidos que elevam a percepção de qualquer interface.',
     content: {
@@ -275,7 +275,7 @@ export default function BlogModal({
               <div className="flex items-center gap-2">
                 <BookOpen size={16} className="text-cyan-300" />
                 <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-cyan-300 font-semibold">
-                  EDICRIA JOURNAL • INSIGHTS, WEBGL & DESIGN DE AUTOR
+                  EDCRIA JOURNAL • INSIGHTS, WEBGL & DESIGN DE AUTOR
                 </span>
               </div>
               <h2 className="text-2xl sm:text-4xl font-normal tracking-tight text-white">

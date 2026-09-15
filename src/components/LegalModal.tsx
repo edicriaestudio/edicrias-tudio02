@@ -156,21 +156,21 @@ export default function LegalModal({ isOpen, onClose, initialTab = 'privacy' }: 
               </div>
 
               <p>
-                A <strong>EDICRIA STUDIO</strong> valoriza a privacidade e a proteção dos dados pessoais de seus clientes, usuários e parceiros. Esta Política de Privacidade descreve de forma clara e transparente como coletamos, tratamos, armazenamos e protegemos os seus dados, em integral conformidade com a <strong>Lei Geral de Proteção de Dados Pessoais (Lei nº 13.709/2018 - LGPD)</strong> e regulamentações internacionais como o GDPR.
+                A <strong>EDCRIA STUDIO</strong> valoriza a privacidade e a proteção dos dados pessoais de seus clientes, usuários e parceiros. Esta Política de Privacidade descreve de forma clara e transparente como coletamos, tratamos, armazenamos e protegemos os seus dados, em integral conformidade com a <strong>Lei Geral de Proteção de Dados Pessoais (Lei nº 13.709/2018 - LGPD)</strong> e regulamentações internacionais como o GDPR.
               </p>
 
               <div className="space-y-2">
                 <h4 className="font-semibold text-cyan-300 text-sm">1.1. Dados Coletados e Finalidades</h4>
                 <ul className="list-disc pl-5 space-y-1 text-zinc-300">
                   <li><strong>Dados de Identificação e Contato:</strong> Nome completo, endereço de e-mail e número de WhatsApp para processamento do pedido de templates, envio dos links de download e suporte técnico.</li>
-                  <li><strong>Dados de Pagamento:</strong> Processados de forma 100% criptografada através de gateways certificados PCI-DSS (ex: Mercado Pago, Stripe). A EdiCria Studio <em>não armazena números de cartões de crédito</em> em seus servidores.</li>
+                  <li><strong>Dados de Pagamento:</strong> Processados de forma 100% criptografada através de gateways certificados PCI-DSS (ex: Mercado Pago, Stripe). A EdCria Studio <em>não armazena números de cartões de crédito</em> em seus servidores.</li>
                   <li><strong>Dados de Navegação e Diagnóstico:</strong> Endereço IP anônimo, tipo de navegador, páginas acessadas e métricas de desempenho para garantir a estabilidade do site e otimização dos shaders WebGL.</li>
                 </ul>
               </div>
 
               <div className="space-y-2">
                 <h4 className="font-semibold text-cyan-300 text-sm">1.2. Seus Direitos como Titular dos Dados (Art. 18 da LGPD)</h4>
-                <p>Você pode a qualquer momento exercer seus direitos perante a EdiCria Studio:</p>
+                <p>Você pode a qualquer momento exercer seus direitos perante a EdCria Studio:</p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1 font-mono text-xs">
                   <div className="p-2.5 rounded-xl bg-white/5 border border-white/10 flex items-center gap-2">
                     <CheckCircle2 size={14} className="text-cyan-400 shrink-0" />
@@ -195,8 +195,8 @@ export default function LegalModal({ isOpen, onClose, initialTab = 'privacy' }: 
                 <h4 className="font-semibold text-cyan-300 text-sm">1.3. Contato do Encarregado de Dados (DPO)</h4>
                 <p>
                   Para solicitações relativas a dados pessoais, envie um e-mail para{' '}
-                  <a href="mailto:edicriaestudiocriativo@gmail.com" className="text-cyan-300 underline underline-offset-4">
-                    edicriaestudiocriativo@gmail.com
+                  <a href="mailto:edcriaestudiocriativo@gmail.com" className="text-cyan-300 underline underline-offset-4">
+                    edcriaestudiocriativo@gmail.com
                   </a> com o assunto <em>&quot;Privacidade LGPD - Titular&quot;</em>.
                 </p>
               </div>
@@ -215,7 +215,7 @@ export default function LegalModal({ isOpen, onClose, initialTab = 'privacy' }: 
               </div>
 
               <p>
-                Ao navegar no portal da <strong>EDICRIA STUDIO</strong> ou adquirir qualquer template premium (.fig), kit de prompts IA ou projeto sob medida, você concorda expressamente com as diretrizes e regras aqui estipuladas.
+                Ao navegar no portal da <strong>EDCRIA STUDIO</strong> ou adquirir qualquer template premium (.fig), kit de prompts IA ou projeto sob medida, você concorda expressamente com as diretrizes e regras aqui estipuladas.
               </p>
 
               <div className="space-y-2">
@@ -223,7 +223,7 @@ export default function LegalModal({ isOpen, onClose, initialTab = 'privacy' }: 
                 <ul className="list-disc pl-5 space-y-1 text-zinc-300">
                   <li><strong>Uso Autorizado:</strong> Você adquire uma licença perpétua e não-exclusiva para editar, personalizar e publicar websites finais para si ou para clientes comerciais de forma ilimitada.</li>
                   <li><strong>Restrição de Redistribuição:</strong> É estritamente proibido revender, redistribuir, sublicenciar ou compartilhar os arquivos fonte brutos do Projetos em outros marketplaces, comunidades abertas ou pacotes piratas.</li>
-                  <li><strong>Propriedade Intelectual:</strong> Todos os direitos autorais sobre a estrutura visual, componentes e shaders permanecem sob titularidade da EdiCria Studio.</li>
+                  <li><strong>Propriedade Intelectual:</strong> Todos os direitos autorais sobre a estrutura visual, componentes e shaders permanecem sob titularidade da EdCria Studio.</li>
                 </ul>
               </div>
 
@@ -299,11 +299,11 @@ export default function LegalModal({ isOpen, onClose, initialTab = 'privacy' }: 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-mono">
                   <div className="p-3 rounded-xl bg-white/5 border border-white/10">
                     <span className="text-zinc-400 block">STUDIO / TITULAR:</span>
-                    <strong className="text-white">EDICRIA STUDIO DIGITAL</strong>
+                    <strong className="text-white">EDCRIA STUDIO DIGITAL</strong>
                   </div>
                   <div className="p-3 rounded-xl bg-white/5 border border-white/10">
                     <span className="text-zinc-400 block">E-MAIL PROFISSIONAL:</span>
-                    <strong className="text-cyan-300">edicriaestudiocriativo@gmail.com</strong>
+                    <strong className="text-cyan-300">edcriaestudiocriativo@gmail.com</strong>
                   </div>
                   <div className="p-3 rounded-xl bg-white/5 border border-white/10">
                     <span className="text-zinc-400 block">LOCALIZAÇÃO:</span>
@@ -326,10 +326,10 @@ export default function LegalModal({ isOpen, onClose, initialTab = 'privacy' }: 
             <Mail size={14} className="text-cyan-400" />
             <span>Dúvidas jurídicas ou suporte?</span>
             <a
-              href="mailto:edicriaestudiocriativo@gmail.com"
+              href="mailto:edcriaestudiocriativo@gmail.com"
               className="text-cyan-300 hover:text-white font-mono underline underline-offset-4"
             >
-              edicriaestudiocriativo@gmail.com
+              edcriaestudiocriativo@gmail.com
             </a>
           </div>
 

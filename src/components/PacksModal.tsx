@@ -177,7 +177,7 @@ export default function PacksModal({ isOpen, onClose }: PacksModalProps) {
           <div className="flex items-center gap-2">
             <PackageCheck size={16} className="text-cyan-300" />
             <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-cyan-300 font-semibold">
-              LOJA OFICIAL EDICRIA STUDIO • ARQUIVOS FIGMA & TREINAMENTOS
+              LOJA OFICIAL EDCRIA STUDIO • ARQUIVOS FIGMA & TREINAMENTOS
             </span>
           </div>
           <h2 className="text-2xl sm:text-4xl font-normal tracking-tight text-white">

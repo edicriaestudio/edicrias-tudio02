@@ -51,7 +51,7 @@ const REFERRAL_OPTIONS = [
   'Outro Canal',
 ];
 
-const DRAFT_STORAGE_KEY = 'edicria_diagnostic_draft_v2';
+const DRAFT_STORAGE_KEY = 'edcria_diagnostic_draft_v2';
 
 const getInitialFormData = () => {
   const defaultData = {
@@ -312,7 +312,7 @@ export default function InitialDiagnosticForm({
             Diagnóstico Inicial em Análise
           </h4>
           <p className="text-sm sm:text-base text-zinc-200 font-light leading-relaxed pt-1">
-            Recebemos suas informações. A EdiCria vai analisar o contexto e retornará com os próximos passos. O briefing completo será solicitado somente se fizer sentido avançar.
+            Recebemos suas informações. A EdCria vai analisar o contexto e retornará com os próximos passos. O briefing completo será solicitado somente se fizer sentido avançar.
           </p>
         </div>
 
@@ -663,7 +663,7 @@ export default function InitialDiagnosticForm({
           </select>
         </div>
 
-        {/* 11. Como conheceu a EdiCria */}
+        {/* 11. Como conheceu a EdCria */}
         <div className="space-y-1.5">
           <label
             htmlFor="diag-referral"
@@ -723,7 +723,7 @@ export default function InitialDiagnosticForm({
             className="mt-1 rounded border-cyan-500/40 text-cyan-400 focus:ring-0 w-4 h-4 bg-black/50"
           />
           <span className="text-xs text-zinc-300 leading-relaxed group-hover:text-white transition-colors">
-            Concordo que a EdiCria utilize os dados enviados para responder à minha solicitação, conforme a{' '}
+            Concordo que a EdCria utilize os dados enviados para responder à minha solicitação, conforme a{' '}
             <button
               type="button"
               onClick={() => onOpenLegal && onOpenLegal('privacy')}
@@ -789,7 +789,7 @@ export default function InitialDiagnosticForm({
           rel="noopener noreferrer"
           className="inline-flex items-center gap-1.5 text-xs font-mono text-zinc-400 hover:text-cyan-300 transition-colors"
         >
-          <span>Já recebeu uma proposta da EdiCria? Acesse o briefing completo</span>
+          <span>Já recebeu uma proposta da EdCria? Acesse o briefing completo</span>
           <ExternalLink size={12} />
         </a>
       </div>
