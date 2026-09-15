@@ -184,7 +184,7 @@ const templatesData: TemplateItem[] = [
     rating: '5.0 ?????',
     likes: 2540,
     previewUrl: 'https://suvcinematic.vercel.app/og-image.jpg',
-    videoPreview: '/akim_video.mp4',
+    videoPreview: '/suv_video.mp4',
     features: ['Efeito Parallax', 'Tipografia Fluida', 'Performance 60FPS'],
   },
   {
@@ -1074,3 +1074,4 @@ export default function PortfolioModal({ isOpen, onClose, onSelectProjectForSite
 
   return typeof document !== 'undefined' ? createPortal(modalContent, document.body) : modalContent;
 }
+
