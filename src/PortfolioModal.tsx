@@ -118,6 +118,20 @@ function LazyTemplateMedia({
 // 100% Unique, Curated Professional Design Templates
 const templatesData: TemplateItem[] = [
   {
+    id: 'hero-indie-showcase',
+    num: '00',
+    title: 'Indie Showcase / Aetherfall',
+    category: 'hero',
+    categoryLabel: 'PROJETO VIP',
+    tag: 'Gaming & Parallax 3D',
+    desc: 'Template imersivo desenvolvido para o mercado de games e NFTs. Utiliza matemática de Parallax avançada (420svh) e galeria horizontal de alta performance.',
+    rating: '5.0 ★★★★★',
+    likes: 4890,
+    previewUrl: 'https://indie-showcase-56.aura.build/og-image.jpg',
+    videoPreview: '/indie_video.mp4',
+    features: ['Parallax Multilayer', 'Horizontal Scroll', 'Magnetic UI'],
+  },
+  {
     id: 'hero-caio',
     num: '00',
     title: 'Caio / 3D Portfolio',
