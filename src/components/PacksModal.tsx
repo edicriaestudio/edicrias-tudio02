@@ -44,7 +44,7 @@ const STUDIO_PACKS: StudioPack[] = [
       'Licença Comercial Vitalícia (Uso ilimitado em clientes)',
       'Atualizações gratuitas de novos componentes'
     ],
-    includes: ['Canva Edit�vel', 'Mídias 4K', 'Vídeos 60fps', 'Licença Comercial'],
+    includes: ['Canva Edit�vel', 'Mídias 4K', 'Vídeos 60fps', 'Licença Comercial'],
     bannerImage: 'https://images.unsplash.com/photo-1558655146-d09347e92766?w=800&auto=format&fit=crop&q=80'
   },
   {
