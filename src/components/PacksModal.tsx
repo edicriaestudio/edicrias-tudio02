@@ -46,7 +46,7 @@ const STUDIO_PACKS: StudioPack[] = [
       'Atualizações gratuitas de novos componentes'
     ],
     includes: ['Canva Editável', 'Mídias 4K', 'Vídeos 60fps', 'Licença Comercial'],
-    bannerImage: 'https://images.unsplash.com/photo-1558655146-d09347e92766?w=800&auto=format&fit=crop&q=80'
+    bannerImage: '/assets/packs/pack-convites.jpg'
   },
   {
     id: 'pack-combo-all-in-one',
@@ -87,7 +87,7 @@ const STUDIO_PACKS: StudioPack[] = [
       'Acesso ao método "Agência de um Homem Só"'
     ],
     includes: ['PDF Guia', 'Checklist', 'Acesso Imediato'],
-    bannerImage: 'https://images.unsplash.com/photo-1627398225081-24c8954d6c11?w=800&auto=format&fit=crop&q=80',
+    bannerImage: '/assets/packs/pack-curso.jpg',
     checkoutUrl: 'https://pay.kiwify.com.br/QzA6Opq',
   },
   {
@@ -107,7 +107,7 @@ const STUDIO_PACKS: StudioPack[] = [
       'Áudio sintetizador Web Audio API pronto para uso'
     ],
     includes: ['React/TS Source', 'Shaders GLSL', 'Exemplos Vforce'],
-    bannerImage: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&auto=format&fit=crop&q=80'
+    bannerImage: '/assets/packs/pack-motion-skills.jpg'
   },
   {
     id: 'pack-ai-prompts',
@@ -126,7 +126,7 @@ const STUDIO_PACKS: StudioPack[] = [
       'Guia de integração do MCP Design com IA'
     ],
     includes: ['PDF Guia', '85+ Prompts', 'Prompt Library'],
-    bannerImage: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&auto=format&fit=crop&q=80'
+    bannerImage: '/assets/packs/pack-ai-prompts.jpg'
   },
   {
     id: 'pack-design-system',
@@ -145,7 +145,7 @@ const STUDIO_PACKS: StudioPack[] = [
       'Checklist de validação estética contra AI-Slop'
     ],
     includes: ['Design Tokens', 'CSS Variables', 'Style Guide'],
-    bannerImage: 'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=800&auto=format&fit=crop&q=80'
+    bannerImage: '/assets/packs/pack-design-system.jpg'
   }
 ];
 
