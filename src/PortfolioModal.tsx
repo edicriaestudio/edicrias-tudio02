@@ -27,6 +27,7 @@ export interface TemplateItem {
   videoPreview?: string;
   features: string[];
   price?: string;
+  checkoutUrl?: string;
 }
 
 // Lazy Media Renderer that mounts video/image smoothly when in viewport
@@ -129,6 +130,7 @@ const templatesData: TemplateItem[] = [
     likes: 3890,
     previewUrl: 'https://kaltgrat-abfahrt-95.aura.build/og-image.jpg',
     videoPreview: '/kaltgrat_video.mp4',
+    checkoutUrl: 'https://pay.kiwify.com.br/Xxv438R',
     features: ['Tabular Layouts', 'High-Contrast UI', 'Parallax Overlap'],
   },
   {
@@ -143,6 +145,7 @@ const templatesData: TemplateItem[] = [
     likes: 6230,
     previewUrl: 'https://kairo-expedition.aura.build/og-image.jpg',
     videoPreview: '/kairo_video.mp4',
+    checkoutUrl: 'https://pay.kiwify.com.br/ShxJf3l',
     features: ['WebGL Volcanic Island', 'Day/Night Toggle', 'Lenis Scroll'],
   },
   {
@@ -157,6 +160,7 @@ const templatesData: TemplateItem[] = [
     likes: 5120,
     previewUrl: 'https://kurogane-artisanal.aura.build/og-image.jpg',
     videoPreview: '/kuro_video.mp4',
+    checkoutUrl: 'https://pay.kiwify.com.br/ANpG1Lr',
     features: ['WebGL Canvas 3D', 'Procedural Katana', 'Japanese Typography'],
   },
   {
@@ -171,6 +175,7 @@ const templatesData: TemplateItem[] = [
     likes: 4890,
     previewUrl: 'https://indie-showcase-56.aura.build/og-image.jpg',
     videoPreview: '/indie_video.mp4',
+    checkoutUrl: 'https://pay.kiwify.com.br/e5F2fY2',
     features: ['Parallax Multilayer', 'Horizontal Scroll', 'Magnetic UI'],
   },
   {
@@ -185,6 +190,7 @@ const templatesData: TemplateItem[] = [
     likes: 3120,
     previewUrl: 'https://site-tampletes-caio.vercel.app/og-image.jpg',
     videoPreview: '/caio_video.mp4',
+    checkoutUrl: 'https://pay.kiwify.com.br/zNkPqRr',
     features: ['3D Character', 'Brutalist Typography', 'Dark Mode Vibe'],
   },
   {
@@ -213,6 +219,7 @@ const templatesData: TemplateItem[] = [
     likes: 3010,
     previewUrl: 'https://est-dio-edi-cria-canvas-visual-h5lw.vercel.app/og-image.jpg',
     videoPreview: '/canvas_video.mp4',
+    checkoutUrl: 'https://pay.kiwify.com.br/RPNXzmk',
     features: ['Bioluminescent UI', 'Fantasy 3D', 'Canvas Layout'],
   },
   {
@@ -227,6 +234,7 @@ const templatesData: TemplateItem[] = [
     likes: 2890,
     previewUrl: 'https://nexus-prospector-r9k7.vercel.app/og-image.jpg',
     videoPreview: '/nexus_video.mp4',
+    checkoutUrl: 'https://pay.kiwify.com.br/P9U5Aj2',
     features: ['3D Fur Textures', 'Gradient Lighting', 'SaaS Layout'],
   },
   {
@@ -241,6 +249,7 @@ const templatesData: TemplateItem[] = [
     likes: 3120,
     previewUrl: 'https://akim-digital.vercel.app/og-image.jpg',
     videoPreview: '/akim_video.mp4',
+    checkoutUrl: 'https://pay.kiwify.com.br/NxapDjc',
     features: ['GSAP Animations', 'Cyberpunk UI', 'Mobile-First'],
   },
   {
@@ -1007,7 +1016,7 @@ export default function PortfolioModal({ isOpen, onClose, onSelectProjectForSite
                 <div className="pt-3 border-t border-white/10 flex flex-col gap-2">
                   {/* Primary Button */}
                   <button
-                    onClick={() => setCheckoutTemplate(item)}
+                    onClick={() => { if(item.checkoutUrl) { window.open(item.checkoutUrl, '_blank') } else { setCheckoutTemplate(item) } }}
                     className="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-cyan-400 via-cyan-300 to-white text-black hover:from-cyan-300 hover:to-cyan-100 text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(6,182,212,0.4)] active:scale-95"
                   >
                     <ShoppingBag size={15} className="text-black" />
@@ -1092,7 +1101,7 @@ export default function PortfolioModal({ isOpen, onClose, onSelectProjectForSite
                   onClick={() => {
                     const temp = selectedTemplate;
                     setSelectedTemplate(null);
-                    setCheckoutTemplate(temp);
+                    if(temp?.checkoutUrl) { window.open(temp.checkoutUrl, '_blank') } else { setCheckoutTemplate(temp) }
                   }}
                   width="w-full sm:w-[320px]"
                   height="h-[64px]"

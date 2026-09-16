@@ -24,6 +24,7 @@ export interface StudioPack {
   features: string[];
   includes: string[];
   bannerImage: string;
+  checkoutUrl?: string;
 }
 
 const STUDIO_PACKS: StudioPack[] = [
@@ -67,6 +68,27 @@ const STUDIO_PACKS: StudioPack[] = [
     ],
     includes: ['Todos os 5 Produtos', 'Acesso Vitalício', 'Suporte VIP', 'Comunidade'],
     bannerImage: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop&q=80'
+  },
+  
+  {
+    id: 'pack-curso-antigravity',
+    title: 'Do Design ao Site no Ar com Antigravity',
+    subtitle: 'Programe sites de elite na Vercel sem saber programação.',
+    badge: 'CURSO VIP',
+    badgeColor: 'bg-gradient-to-r from-orange-400 to-orange-300 text-black',
+    originalPrice: 'R$ 147,00',
+    price: 19.90,
+    installments: 'pagamento único',
+    description: 'Aprenda a usar a IA autônoma do Google (Antigravity) para construir, animar e hospedar landing pages de alto luxo em menos de 30 minutos.',
+    features: [
+      'Engenharia de Prompt para IA de Código',
+      'Integração com Vercel e GitHub passo a passo',
+      'Criação de sites de R$ 5.000 sem tocar em código',
+      'Acesso ao método "Agência de um Homem Só"'
+    ],
+    includes: ['PDF Guia', 'Checklist', 'Acesso Imediato'],
+    bannerImage: 'https://images.unsplash.com/photo-1627398225081-24c8954d6c11?w=800&auto=format&fit=crop&q=80',
+    checkoutUrl: 'https://pay.kiwify.com.br/QzA6Opq',
   },
   {
     id: 'pack-motion-skills',
@@ -265,7 +287,7 @@ export default function PacksModal({ isOpen, onClose }: PacksModalProps) {
                   </div>
 
                   <button
-                    onClick={() => setSelectedPackForCheckout(pack)}
+                    onClick={() => { if(pack.checkoutUrl) { window.open(pack.checkoutUrl, '_blank') } else { setSelectedPackForCheckout(pack) } }}
                     className="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-cyan-400 via-cyan-300 to-white text-black hover:from-cyan-300 hover:to-cyan-100 text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(6,182,212,0.4)] active:scale-95"
                   >
                     <ShoppingBag size={15} className="text-black" />
