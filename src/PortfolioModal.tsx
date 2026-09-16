@@ -677,7 +677,7 @@ export default function PortfolioModal({ isOpen, onClose, onSelectProjectForSite
             <div className="flex items-center gap-2 mb-1">
               <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
               <span className="font-mono text-xs uppercase tracking-[0.2em] text-cyan-300 font-medium">
-                EDCRIA STUDIO â€¢ {templatesData.length} PROJETOS & TEMPLATES PROFISSIONAIS
+                EDCRIA STUDIO • {templatesData.length} PROJETOS & TEMPLATES PROFISSIONAIS
               </span>
             </div>
             <h3 className="text-2xl sm:text-3xl font-display font-[450] tracking-tight text-white">
@@ -840,7 +840,7 @@ export default function PortfolioModal({ isOpen, onClose, onSelectProjectForSite
 
               <div className="flex items-center gap-3">
                 <span className="font-mono text-xs uppercase text-cyan-300 bg-cyan-950/80 px-3 py-1 rounded-full border border-cyan-500/40">
-                   â€¢ {selectedTemplate.categoryLabel}
+                   • {selectedTemplate.categoryLabel}
                 </span>
                 <span className="font-mono text-xs text-zinc-400">{selectedTemplate.rating}</span>
               </div>
@@ -878,7 +878,7 @@ export default function PortfolioModal({ isOpen, onClose, onSelectProjectForSite
               <div className="flex flex-wrap gap-2 pt-1">
                 {selectedTemplate.features.map((f, i) => (
                   <span key={i} className="px-3.5 py-1.5 rounded-full bg-cyan-950/80 border border-cyan-500/40 text-xs font-mono text-cyan-300">
-                    âœ“ {f}
+                    ✓ {f}
                   </span>
                 ))}
               </div>

@@ -107,6 +107,7 @@ const STUDIO_PACKS: StudioPack[] = [
       'Áudio sintetizador Web Audio API pronto para uso'
     ],
     includes: ['React/TS Source', 'Shaders GLSL', 'Exemplos Vforce'],
+    checkoutUrl: 'https://pay.kiwify.com.br/tBZJu0A',
     bannerImage: '/assets/packs/pack-motion-skills.jpg'
   },
   {
@@ -126,6 +127,7 @@ const STUDIO_PACKS: StudioPack[] = [
       'Guia de integração do MCP Design com IA'
     ],
     includes: ['PDF Guia', '85+ Prompts', 'Prompt Library'],
+    checkoutUrl: 'https://pay.kiwify.com.br/NvPQ2jH',
     bannerImage: '/assets/packs/pack-ai-prompts.jpg'
   },
   {
@@ -145,6 +147,7 @@ const STUDIO_PACKS: StudioPack[] = [
       'Checklist de validação estética contra AI-Slop'
     ],
     includes: ['Design Tokens', 'CSS Variables', 'Style Guide'],
+    checkoutUrl: 'https://pay.kiwify.com.br/JgH1kLD',
     bannerImage: '/assets/packs/pack-design-system.jpg'
   }
 ];
