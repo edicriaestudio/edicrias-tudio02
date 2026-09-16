@@ -5,7 +5,7 @@ import SoundtrackBar from './components/SoundtrackBar';
 import WebGLLiquidSurgeButton from './components/WebGLLiquidSurgeButton';
 import ModalLoadingFallback from './components/ModalLoadingFallback';
 
-const CheckoutModal = lazy(() => import('./CheckoutModal'));
+
 
 interface PortfolioModalProps {
   isOpen: boolean;
@@ -927,13 +927,7 @@ export default function PortfolioModal({ isOpen, onClose, onSelectProjectForSite
             />
           }
         >
-          <CheckoutModal
-            isOpen={Boolean(checkoutTemplate)}
-            onClose={() => setCheckoutTemplate(null)}
-            productName={`Template #${checkoutTemplate.num} Â· ${checkoutTemplate.title}`}
-            productPrice={66.90}
-            templateId={checkoutTemplate.id}
-          />
+          
         </Suspense>
       )}
     </div>

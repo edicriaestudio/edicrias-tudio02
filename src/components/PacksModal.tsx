@@ -9,7 +9,7 @@ import {
 } from 'lucide-react';
 import ModalLoadingFallback from './ModalLoadingFallback';
 
-const CheckoutModal = lazy(() => import('../CheckoutModal'));
+
 
 export interface StudioPack {
   id: string;
@@ -290,7 +290,13 @@ export default function PacksModal({ isOpen, onClose }: PacksModalProps) {
                   </div>
 
                   <button
-                    onClick={() => { if(pack.checkoutUrl) { window.open(pack.checkoutUrl, '_blank') } else { setSelectedPackForCheckout(pack) } }}
+                    onClick={() => { 
+                      if(pack.checkoutUrl) { 
+                        window.open(pack.checkoutUrl, '_blank'); 
+                      } else { 
+                        alert('Aguardando link oficial da Kiwify. Em breve!'); 
+                      } 
+                    }}
                     className="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-cyan-400 via-cyan-300 to-white text-black hover:from-cyan-300 hover:to-cyan-100 text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(6,182,212,0.4)] active:scale-95"
                   >
                     <ShoppingBag size={15} className="text-black" />
@@ -320,13 +326,7 @@ export default function PacksModal({ isOpen, onClose }: PacksModalProps) {
             />
           }
         >
-          <CheckoutModal
-            isOpen={Boolean(selectedPackForCheckout)}
-            onClose={() => setSelectedPackForCheckout(null)}
-            productName={selectedPackForCheckout.title}
-            productPrice={selectedPackForCheckout.price}
-            templateId={selectedPackForCheckout.id}
-          />
+          
         </Suspense>
       )}
     </div>
