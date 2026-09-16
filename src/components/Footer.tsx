@@ -37,54 +37,57 @@ export default function Footer({
           <div
             id="cta-diagnostic-card"
             ref={headerRef}
-            className="p-6 sm:p-10 lg:p-12 rounded-3xl bg-cyan-950/25 border border-cyan-400/50 backdrop-blur-3xl shadow-[0_0_60px_rgba(6,182,212,0.25)] space-y-8"
+            className="p-6 sm:p-8 rounded-3xl bg-cyan-950/25 border border-cyan-400/50 backdrop-blur-3xl shadow-[0_0_60px_rgba(6,182,212,0.25)] space-y-6"
           >
-            <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 sm:gap-8">
-              <div className="max-w-2xl space-y-3">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+              {/* Text Side */}
+              <div className="lg:col-span-7 space-y-4">
                 <ParallaxFloatingBadge speed={0.3} offsetY={6}>
                   <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-950/60 border border-cyan-500/40 text-xs font-mono uppercase text-cyan-300">
                     <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
-                    EDCRIA STUDIO • DIAGNÓSTICO ESTRATÉGICO
+                    EDCRIA STUDIO — DIAGNÓSTICO ESTRATÉGICO
                   </div>
                 </ParallaxFloatingBadge>
 
-                <h3 className="text-2xl sm:text-4xl md:text-5xl font-display font-[450] tracking-tight text-white leading-tight">
+                <h3 className="text-2xl sm:text-3xl md:text-4xl font-display font-[450] tracking-tight text-white leading-tight">
                   Vamos encontrar a melhor oportunidade para sua marca?
                 </h3>
 
-                <p className="text-xs sm:text-sm text-zinc-200 font-light leading-relaxed">
+                <p className="text-xs sm:text-sm text-zinc-300 font-light leading-relaxed max-w-lg">
                   Conte brevemente onde sua presença digital está hoje. A EdCria analisa o contexto e retorna com os próximos passos mais adequados para o seu negócio.
                 </p>
               </div>
 
-              {/* Action Buttons Hierarchy */}
-              <div className="flex flex-wrap items-center gap-3 sm:gap-4 shrink-0 w-full lg:w-auto">
+              {/* Action Buttons Side */}
+              <div className="lg:col-span-5 flex flex-col gap-3 w-full">
                 <WebGLLiquidSurgeButton
                   label={showInlineForm ? 'RECOLHER FORMULÁRIO' : 'SOLICITAR DIAGNÓSTICO INICIAL'}
                   onClick={() => setShowInlineForm(!showInlineForm)}
-                  width="w-full sm:w-[270px]"
-                  height="h-[56px] sm:h-[60px]"
+                  width="w-full"
+                  height="h-[52px]"
                 />
 
-                <button
-                  onClick={onOpenPacks}
-                  onMouseEnter={() => prefetchModal('packs')}
-                  onTouchStart={() => prefetchModal('packs')}
-                  className="w-full sm:w-auto px-5 py-3.5 sm:py-4 rounded-2xl border border-cyan-400/40 bg-cyan-950/40 text-cyan-200 text-xs font-mono uppercase tracking-wider hover:bg-cyan-900/50 hover:text-white transition-all flex items-center justify-center gap-2 shadow-lg active:scale-95"
-                >
-                  <PackageCheck size={14} className="text-cyan-300" />
-                  PACKS & OFERTAS
-                </button>
+                <div className="grid grid-cols-2 gap-3">
+                  <button
+                    onClick={onOpenPacks}
+                    onMouseEnter={() => prefetchModal('packs')}
+                    onTouchStart={() => prefetchModal('packs')}
+                    className="w-full px-4 py-3.5 rounded-2xl border border-cyan-400/40 bg-cyan-950/40 text-cyan-200 text-[11px] font-mono uppercase tracking-wider hover:bg-cyan-900/50 hover:text-white transition-all flex items-center justify-center gap-2 shadow-lg active:scale-95"
+                  >
+                    <PackageCheck size={14} className="text-cyan-300" />
+                    PACKS & OFERTAS
+                  </button>
 
-                <button
-                  onClick={onOpenPortfolio}
-                  onMouseEnter={() => prefetchModal('portfolio')}
-                  onTouchStart={() => prefetchModal('portfolio')}
-                  className="w-full sm:w-auto px-5 py-3.5 sm:py-4 rounded-2xl border border-white/10 bg-white/5 text-zinc-300 text-xs font-mono uppercase tracking-wider hover:bg-white/15 hover:text-white transition-all flex items-center justify-center gap-2 active:scale-95"
-                >
-                  <FolderKanban size={14} className="text-cyan-300" />
-                  TEMPLATES PREMIUM
-                </button>
+                  <button
+                    onClick={onOpenPortfolio}
+                    onMouseEnter={() => prefetchModal('portfolio')}
+                    onTouchStart={() => prefetchModal('portfolio')}
+                    className="w-full px-4 py-3.5 rounded-2xl border border-white/10 bg-white/5 text-zinc-300 text-[11px] font-mono uppercase tracking-wider hover:bg-white/15 hover:text-white transition-all flex items-center justify-center gap-2 active:scale-95"
+                  >
+                    <FolderKanban size={14} className="text-cyan-300" />
+                    TEMPLATES PREMIUM
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -144,8 +147,8 @@ export default function Footer({
             </p>
             <div className="pt-2 flex items-center gap-2 text-cyan-300 font-mono text-[11px]">
               <span>E-mail:</span>
-              <a href="mailto:edcriaestudiocriativo@gmail.com" className="text-white hover:text-cyan-300 underline underline-offset-4">
-                edcriaestudiocriativo@gmail.com
+              <a href="mailto:comercial@edicria.com.br" className="text-white hover:text-cyan-300 underline underline-offset-4">
+                comercial@edicria.com.br
               </a>
             </div>
           </div>
