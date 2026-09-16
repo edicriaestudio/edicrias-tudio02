@@ -35,8 +35,8 @@ const STUDIO_PACKS: StudioPack[] = [
     badge: 'MAIS VENDIDO',
     badgeColor: 'bg-gradient-to-r from-cyan-400 to-cyan-300 text-black',
     originalPrice: 'R$ 297,00',
-    price: 66.90,
-    installments: 'ou 3x de R$ 23,40 sem juros',
+    price: 97.00,
+    installments: 'ou 12x de R$ 9,74',
     description: 'Dezenas de templates Canva/Capcut (.fig) 100% editáveis com auto-layout rigoroso, mídias 4K em 60 FPS originais e licença comercial vitalícia.',
     features: [
       'Dezenas de templates Canva/Capcut (.fig) completos e organizados em camadas',
