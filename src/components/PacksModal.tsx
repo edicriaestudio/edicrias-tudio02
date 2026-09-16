@@ -46,6 +46,7 @@ const STUDIO_PACKS: StudioPack[] = [
       'Atualizações gratuitas de novos componentes'
     ],
     includes: ['Canva Editável', 'Mídias 4K', 'Vídeos 60fps', 'Licença Comercial'],
+    checkoutUrl: 'https://pay.kiwify.com.br/yG28pQZ',
     bannerImage: '/assets/packs/pack-convites.jpg'
   },
   {
