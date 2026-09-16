@@ -49,27 +49,6 @@ const STUDIO_PACKS: StudioPack[] = [
     checkoutUrl: 'https://pay.kiwify.com.br/yG28pQZ',
     bannerImage: '/assets/packs/pack-convites.jpg'
   },
-  {
-    id: 'pack-combo-all-in-one',
-    title: 'Super Combo VIP All-in-One 2026',
-    subtitle: 'Todos os packs, treinamentos, prompts IA e design system em um só pacote.',
-    badge: 'MELHOR VALOR • 73% OFF',
-    badgeColor: 'bg-gradient-to-r from-amber-400 to-amber-300 text-black',
-    originalPrice: 'R$ 497,00',
-    price: 97.00,
-    installments: 'ou 4x de R$ 25,60 sem juros',
-    description: 'O acervo completo da Edcria Studio: Pack 42 Templates + Curso Do Design ao Site + Kit 85 Prompts IA + Design System Blueprint + 15 Golden Skills Motion.',
-    features: [
-      'Pack Completo 42 Templates Premium 4K (R$ 66,90)',
-      'Curso Prático: Do Design ao Site no Ar (R$ 19,90)',
-      'Kit Sites Cinematográficos com IA (85+ Prompts) (R$ 14,90)',
-      'Design System Blueprint dos Sites Caros (R$ 14,90)',
-      '15 Golden Skills de Motion & Shaders (R$ 29,90)',
-      'Grupo VIP de Alunos & Suporte Prioritário'
-    ],
-    includes: ['Todos os 5 Produtos', 'Acesso Vitalício', 'Suporte VIP', 'Comunidade'],
-    bannerImage: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop&q=80'
-  },
   
   {
     id: 'pack-curso-antigravity',
@@ -88,7 +67,7 @@ const STUDIO_PACKS: StudioPack[] = [
       'Acesso ao método "Agência de um Homem Só"'
     ],
     includes: ['PDF Guia', 'Checklist', 'Acesso Imediato'],
-    bannerImage: '/assets/packs/pack-curso.jpg',
+    bannerImage: '/assets/packs/pack-maleta.jpg',
     checkoutUrl: 'https://pay.kiwify.com.br/QzA6Opq',
   },
   {
