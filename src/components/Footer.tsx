@@ -234,7 +234,7 @@ export default function Footer({
         {/* Footer Bottom Info */}
         <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4 text-xs font-mono text-zinc-400">
           <div>
-            © 2026 EDCRIA STUDIO. Todos os direitos reservados.
+            © 2027 EDCRIA STUDIO. Todos os direitos reservados.
           </div>
 
           <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950/60 border border-cyan-500/30 text-cyan-300 text-[11px]">
