@@ -1,4 +1,4 @@
-﻿import { useState, useRef, useEffect, lazy, Suspense } from 'react';
+import { useState, useRef, useEffect, Suspense } from 'react';
 import { createPortal } from 'react-dom';
 import { X, Filter, Layers, Layout, Grid, Maximize2, ShoppingBag, ArrowUpRight } from 'lucide-react';
 import SoundtrackBar from './components/SoundtrackBar';

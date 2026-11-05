@@ -8,6 +8,7 @@ import StickyProtocolStack from './components/StickyProtocolStack';
 import CommercialProcessSection from './components/CommercialProcessSection';
 import Footer from './components/Footer';
 import ModalLoadingFallback from './components/ModalLoadingFallback';
+import ScrollProgressBar from './components/ScrollProgressBar';
 import type { LegalTab } from './components/LegalModal';
 
 // Dynamically chunked heavy modals for optimal mobile first load and 0ms idle overhead
@@ -88,6 +89,9 @@ export default function App() {
 
   return (
     <div id="top" className="relative bg-[#080808] text-white selection:bg-white/20 selection:text-white overflow-x-hidden">
+      {/* Subtle slim scroll progress indicator pinned to top of viewport */}
+      <ScrollProgressBar />
+
       {/* Ambient Static Glows (Hardware-Accelerated CSS with 0 scroll CPU overhead) */}
       <div className="fixed inset-0 pointer-events-none z-[2] overflow-hidden">
         <div className="absolute top-[15%] left-[5%] w-[450px] h-[450px] rounded-full bg-cyan-500/10 blur-[130px] transform-gpu pointer-events-none" />
