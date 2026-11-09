@@ -6,7 +6,6 @@ const VIDEO_URL =
 export default function ScrollVideo() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const posterRef = useRef<HTMLImageElement>(null);
 
   const framesRef = useRef<ImageBitmap[]>([]);
   const framesReady = useRef(false);
@@ -18,7 +17,6 @@ export default function ScrollVideo() {
   // Cached canvas dimensions to avoid layout thrashing
   const cachedDims = useRef({ w: 0, h: 0, dpr: 1 });
 
-  const [posterVisible, setPosterVisible] = useState(true);
   const [videoVisible, setVideoVisible] = useState(false);
   const [canvasVisible, setCanvasVisible] = useState(false);
 
@@ -131,13 +129,11 @@ export default function ScrollVideo() {
         framesRef.current = frames;
         framesReady.current = true;
         setCanvasVisible(true);
-        setPosterVisible(false);
         setVideoVisible(false);
       }
     } catch (e) {
       console.warn('Offscreen frame extraction fallback to direct video scrubbing:', e);
       setVideoVisible(true);
-      setPosterVisible(false);
     }
   }, []);
 
@@ -198,7 +194,6 @@ export default function ScrollVideo() {
     const onLoaded = () => {
       durationRef.current = video.duration || 5;
       setVideoVisible(true);
-      setPosterVisible(false);
 
       // Rapid initialization
       const timer = setTimeout(() => {
@@ -238,14 +233,8 @@ export default function ScrollVideo() {
 
   return (
     <div className="fixed inset-0 z-0 overflow-hidden bg-[#080808] pointer-events-none transform-gpu">
-      {/* Layer 1: Poster */}
-      <img
-        ref={posterRef}
-        src="/figma/portfolio-hero-cover.webp"
-        alt=""
-        className="absolute inset-0 h-full w-full object-cover transition-opacity duration-700"
-        style={{ opacity: posterVisible ? 1 : 0 }}
-      />
+      {/* Layer 1: Seamless deep background canvas matching dark luxury theme */}
+      <div className="absolute inset-0 bg-[#080808]" />
 
       {/* Layer 2: Video (hardware-accelerated fallback seek for mobile & desktop) */}
       <video

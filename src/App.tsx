@@ -6,6 +6,7 @@ import SectionTwo from './SectionTwo';
 import PhilosophySection from './components/PhilosophySection';
 import StickyProtocolStack from './components/StickyProtocolStack';
 import CommercialProcessSection from './components/CommercialProcessSection';
+import PortfolioCalloutSection from './components/PortfolioCalloutSection';
 import Footer from './components/Footer';
 import ModalLoadingFallback from './components/ModalLoadingFallback';
 import ScrollProgressBar from './components/ScrollProgressBar';
@@ -137,6 +138,9 @@ export default function App() {
 
           {/* Commercial Journey Process Roadmap (6 Steps) */}
           <CommercialProcessSection onOpenContact={() => handleOpenContact()} />
+
+          {/* Visual Showcase Callout to External Portfolio */}
+          <PortfolioCalloutSection />
 
           {/* Studio Footer (With Direct Links to Legal LGPD, Packs, Blog, Portfolio) */}
           <Footer

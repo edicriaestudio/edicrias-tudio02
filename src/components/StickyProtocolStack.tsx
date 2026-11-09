@@ -213,8 +213,18 @@ export default function StickyProtocolStack({ onOpenContact, onOpenPortfolio }: 
             </h3>
           </div>
 
-          {/* Pillar Selector Tabs */}
-          <div className="flex flex-wrap gap-2">
+          {/* Secondary CTA & Pillar Selector Tabs */}
+          <div className="flex flex-wrap items-center gap-2.5 sm:gap-3">
+            <a
+              href="https://portfolio.edicria.com.br/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-4 py-2 sm:py-2.5 rounded-full font-mono text-xs border border-cyan-400/40 bg-cyan-950/40 text-cyan-200 hover:bg-cyan-900/50 hover:text-white transition-all flex items-center gap-1.5 shadow-[0_0_20px_rgba(6,182,212,0.15)] active:scale-95"
+            >
+              <span>Conheça nossos projetos</span>
+              <ArrowUpRight size={13} className="text-cyan-400" />
+            </a>
+
             {cards.map((_, idx) => (
               <button
                 key={idx}
@@ -267,6 +277,18 @@ export default function StickyProtocolStack({ onOpenContact, onOpenPortfolio }: 
                     <p className="text-sm sm:text-lg text-zinc-100 font-light leading-relaxed max-w-2xl pt-1 sm:pt-2">
                       {card.desc}
                     </p>
+
+                    <div className="pt-2">
+                      <a
+                        href="https://portfolio.edicria.com.br/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 text-xs font-mono uppercase tracking-wider text-cyan-300 hover:text-white underline underline-offset-4 decoration-cyan-500/40 transition-colors"
+                      >
+                        <span>Conheça nossos projetos</span>
+                        <ArrowUpRight size={13} className="text-cyan-400" />
+                      </a>
+                    </div>
                   </div>
 
                   {/* Right WebGL Interactive Graphic */}

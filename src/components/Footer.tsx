@@ -157,6 +157,14 @@ export default function Footer({
             <span className="text-[11px] uppercase tracking-widest text-cyan-300 font-bold block mb-1">
               PRODUTOS & ACERVO
             </span>
+            <a
+              href="https://portfolio.edicria.com.br/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block text-cyan-300 hover:text-white text-left transition-colors font-medium flex items-center gap-1"
+            >
+              • Portfólio de Projetos <ExternalLink size={10} className="text-cyan-400" />
+            </a>
             <button
               onClick={onOpenPortfolio}
               onMouseEnter={() => prefetchModal('portfolio')}

@@ -1,3 +1,4 @@
+import { ArrowUpRight } from 'lucide-react';
 import { useReveal } from './hooks';
 import { ProtocolScheduler } from './components/InteractiveArtifacts';
 import WebGLLiquidSurgeButton from './components/WebGLLiquidSurgeButton';
@@ -120,7 +121,7 @@ export default function SectionTwo({ onOpenContact, onOpenPortfolio: _onOpenPort
             <div
               onMouseEnter={() => prefetchModal('contact')}
               onTouchStart={() => prefetchModal('contact')}
-              className="pt-3 sm:pt-4 flex items-center justify-start"
+              className="pt-3 sm:pt-4 flex flex-wrap items-center gap-3 sm:gap-4 justify-start"
             >
               <WebGLLiquidSurgeButton
                 label="SOLICITAR DIAGNÓSTICO"
@@ -128,6 +129,16 @@ export default function SectionTwo({ onOpenContact, onOpenPortfolio: _onOpenPort
                 width="w-full sm:w-[280px]"
                 height="h-[60px] sm:h-[64px]"
               />
+
+              <a
+                href="https://portfolio.edicria.com.br/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full sm:w-auto px-5 sm:px-6 py-3.5 sm:py-4 rounded-2xl border border-cyan-400/40 bg-cyan-950/30 backdrop-blur-3xl text-xs sm:text-sm font-mono uppercase tracking-wider text-cyan-200 hover:bg-cyan-900/50 hover:text-white transition-all flex items-center justify-center gap-2 shadow-[0_0_25px_rgba(6,182,212,0.15)] active:scale-95"
+              >
+                <span>Conheça nossos projetos</span>
+                <ArrowUpRight size={14} className="text-cyan-400" />
+              </a>
             </div>
           </div>
         </div>
